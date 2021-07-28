@@ -13,7 +13,7 @@ const DEMO_TOKEN =
 
 const DEMO_USER: User = {
   id: "5b700c45639d2c0c54b354ba",
-  displayName: "Watson Joyce",
+  displayName: "",
   role: "SA",
 };
 // ================= you will get those data from server =======
