@@ -40,8 +40,8 @@ export class SigninComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit() {
     this.signinForm = new FormGroup({
-      username: new FormControl("Watson", Validators.required),
-      password: new FormControl("12345678", Validators.required),
+      username: new FormControl("", Validators.required),
+      password: new FormControl("", Validators.required),
       rememberMe: new FormControl(true),
     });
 
@@ -83,7 +83,7 @@ export class SigninComponent implements OnInit, AfterViewInit, OnDestroy {
       return;
     }
     this.egretLoader.open(
-      `Automatically Signing you in! \n Return url: ${this.jwtAuth.return.substring(
+      `Ingresando automaticamente en su Cuenta \n Retornando url: ${this.jwtAuth.return.substring(
         0,
         20
       )}...`,

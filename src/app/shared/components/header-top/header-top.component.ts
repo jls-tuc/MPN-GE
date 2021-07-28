@@ -11,6 +11,7 @@ import { JwtAuthService } from "app/shared/services/auth/jwt-auth.service";
   templateUrl: "./header-top.component.html",
 })
 export class HeaderTopComponent implements OnInit, OnDestroy {
+
   layoutConf: any;
   menuItems: any;
   menuItemSub: Subscription;
@@ -30,7 +31,7 @@ export class HeaderTopComponent implements OnInit, OnDestroy {
     public translate: TranslateService,
     private renderer: Renderer2,
     public jwtAuth: JwtAuthService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.layoutConf = this.layout.layoutConf;
