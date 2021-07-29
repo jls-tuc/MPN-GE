@@ -1,14 +1,21 @@
 import { Injectable } from "@angular/core";
-import { SessionStoreService } from "../session-store.service";
+import { LocalStoreService } from "../local-store.service";
 import { HttpClient } from "@angular/common/http";
 import { Router, ActivatedRoute } from "@angular/router";
 import { map, catchError, delay } from "rxjs/operators";
-import { UserModel } from "../../models/user.model";
-import { of, BehaviorSubject, throwError, Observable } from "rxjs";
+import { User } from "../../models/user.model";
+import { of, BehaviorSubject, throwError } from "rxjs";
 import { environment } from "environments/environment";
 const apiURL = environment.apiURL;
 // ================= only for demo purpose ===========
+const DEMO_TOKEN =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YjhkNDc4MDc4NmM3MjE3MjBkYzU1NzMiLCJlbWFpbCI6InJhZmkuYm9ncmFAZ21haWwuY29tIiwicm9sZSI6IlNBIiwiYWN0aXZlIjp0cnVlLCJpYXQiOjE1ODc3MTc2NTgsImV4cCI6MTU4ODMyMjQ1OH0.dXw0ySun5ex98dOzTEk0lkmXJvxg3Qgz4ed";
 
+const DEMO_USER: User = {
+  id: "5b700c45639d2c0c54b354ba",
+  displayName: "",
+  role: "SA",
+};
 // ================= you will get those data from server =======
 
 @Injectable({
@@ -16,37 +23,30 @@ const apiURL = environment.apiURL;
 })
 export class JwtAuthService {
   token;
-  user: UserModel;
   isAuthenticated: Boolean;
-  //user$ = new BehaviorSubject<UserModel>(this.user);
-  currentUserSubject: BehaviorSubject<UserModel>;
+  user: User = {};
+  user$ = new BehaviorSubject<User>(this.user);
   signingIn: Boolean;
   return: string;
-  JWT_TOKEN: string = "Token";
-  APP_USER: string = "APP-USER";
+  JWT_TOKEN = "JWT_TOKEN";
+  APP_USER = "EGRET_USER";
 
-  get currentUserValue(): UserModel {
-    return this.currentUserSubject.value;
-  }
   constructor(
-    private ls: SessionStoreService,
+    private ls: LocalStoreService,
     private http: HttpClient,
     private router: Router,
     private route: ActivatedRoute
   ) {
-    this.currentUserSubject = new BehaviorSubject<UserModel>(undefined);
     this.route.queryParams.subscribe(
       (params) => (this.return = params["return"] || "/")
     );
   }
 
   public signin(formUs) {
-    this.signingIn = true;
     return this.http.post(`${apiURL}/auth/login`, formUs).pipe(
       delay(1000),
       map((res: any) => {
-        // console.log("res", res);
-        this.setUserAndToken(res.token, res.ok);
+        this.setUserAndToken(res.token, res.user, !!res);
         this.signingIn = false;
         return res;
       }),
@@ -76,21 +76,23 @@ export class JwtAuthService {
     shared/components/layouts/admin-layout/admin-layout.component.ts
   */
   public checkTokenIsValid() {
-    /* return of(DEMO_USER).pipe(
+    return of(DEMO_USER).pipe(
       map((profile: User) => {
-        this.setUserAndToken(this.getJwtToken(), true);
+        this.setUserAndToken(this.getJwtToken(), profile, true);
         this.signingIn = false;
         return profile;
       }),
       catchError((error) => {
         return of(error);
       })
-    ); */
+    );
+
     /*
       The following code get user data and jwt token is assigned to
       Request header using token.interceptor
       This checks if the existing token is valid when app is reloaded
     */
+
     // return this.http.get(`${environment.apiURL}/api/users/profile`)
     //   .pipe(
     //     map((profile: User) => {
@@ -104,46 +106,28 @@ export class JwtAuthService {
     //   );
   }
 
-  public getUserDetails(dataToken: any): any {
-    const token = dataToken;
-    let payload;
-    if (token) {
-      payload = token.split(".")[1];
-      payload = window.atob(payload);
-      payload = JSON.parse(payload);
-      return payload;
-    } else {
-      return null;
-    }
-  }
-
   public signout() {
-    this.setUserAndToken(null, false);
-    this.ls.clear();
-    this.router.navigateByUrl("sessions/signin2");
+    this.setUserAndToken(null, null, false);
+    this.router.navigateByUrl("sessions/signin");
   }
 
   isLoggedIn(): Boolean {
     return !!this.getJwtToken();
   }
 
-  getJwtToken(): any {
+  getJwtToken() {
     return this.ls.getItem(this.JWT_TOKEN);
   }
   getUser() {
     return this.ls.getItem(this.APP_USER);
   }
 
-  setUserAndToken(token: String, isAuthenticated: Boolean) {
+  setUserAndToken(token: String, user: User, isAuthenticated: Boolean) {
     this.isAuthenticated = isAuthenticated;
     this.token = token;
-    this.user = this.getUserDetails(token);
-    //console.log("user", this.user);
-    this.currentUserSubject = new BehaviorSubject<UserModel>(this.user);
-
-    /* this.user = user;
-    this.user$.next(user); */
+    this.user = user;
+    this.user$.next(user);
     this.ls.setItem(this.JWT_TOKEN, token);
-    //this.ls.setItem(this.APP_USER, user);
+    this.ls.setItem(this.APP_USER, user);
   }
 }
