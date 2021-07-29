@@ -11,7 +11,7 @@ import { TranslateModule } from "@ngx-translate/core";
 // import { CommonDirectivesModule } from './sdirectives/common/common-directives.module';
 import { ForgotPasswordComponent } from "./forgot-password/forgot-password.component";
 import { LockscreenComponent } from "./lockscreen/lockscreen.component";
-
+import { SigninComponent } from "./signin/signin.component";
 import { SessionsRoutes } from "./sessions.routing";
 import { NotFoundComponent } from "./not-found/not-found.component";
 import { ErrorComponent } from "./error/error.component";
@@ -31,6 +31,7 @@ import { Signin2Component } from "./signin2/signin2.component";
   declarations: [
     ForgotPasswordComponent,
     LockscreenComponent,
+    SigninComponent,
     NotFoundComponent,
     ErrorComponent,
     Signin2Component,
