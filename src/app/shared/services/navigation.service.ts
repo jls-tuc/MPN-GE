@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { Injectable } from "@angular/core";
+import { BehaviorSubject } from "rxjs";
 
 interface IMenuItem {
   type: string; // Possible values: link/dropDown/icon/separator/extLink
@@ -16,7 +16,7 @@ interface IChildItem {
   type?: string;
   name: string; // Display text
   state?: string; // Router state
-  icon?: string;  // Material icon name
+  icon?: string; // Material icon name
   svgIcon?: string; // UI Lib icon name
   sub?: IChildItem[];
 }
@@ -30,392 +30,407 @@ interface IBadge {
 export class NavigationService {
   iconMenu: IMenuItem[] = [
     {
-      name: 'Blank',
-      type: 'link',
-      icon: 'blur_on',
-      state: 'others/blank'
+      name: "Referentes",
+      type: "dropDown",
+      tooltip: "Documentation",
+      icon: "person",
+      sub: [
+        { name: "Ver", state: "elecciones/referentes" },
+        { name: "Agregar", state: "loader" },
+      ],
     },
     {
-      name: 'DOC',
-      type: 'extLink',
-      tooltip: 'Documentation',
-      icon: 'library_books',
-      state: 'http://demos.ui-lib.com/egret-doc/'
-    }
+      name: "Responsables de Planillas",
+      type: "dropDown",
+      tooltip: "Dialogs",
+      icon: "filter_none",
+      state: "dialogs",
+      sub: [
+        { name: "CONFIRM", state: "confirm" },
+        { name: "LOADER", state: "loader" },
+      ],
+    },
+    {
+      name: "Estadisticas",
+      type: "link",
+      tooltip: "Charts",
+      icon: "show_chart",
+      state: "charts",
+    },
   ];
 
   separatorMenu: IMenuItem[] = [
     {
-      type: 'separator',
-      name: 'Custom components'
+      type: "separator",
+      name: "Custom components",
     },
     {
-      name: 'DASHBOARD',
-      type: 'link',
-      tooltip: 'Dashboard',
-      icon: 'dashboard',
-      state: 'dashboard'
+      name: "DASHBOARD",
+      type: "link",
+      tooltip: "Dashboard",
+      icon: "dashboard",
+      state: "dashboard",
     },
     {
-      name: 'INBOX',
-      type: 'link',
-      tooltip: 'Inbox',
-      icon: 'inbox',
-      state: 'inbox'
+      name: "INBOX",
+      type: "link",
+      tooltip: "Inbox",
+      icon: "inbox",
+      state: "inbox",
     },
     {
-      name: 'CHAT',
-      type: 'link',
-      tooltip: 'Chat',
-      icon: 'chat',
-      state: 'chat'
+      name: "CHAT",
+      type: "link",
+      tooltip: "Chat",
+      icon: "chat",
+      state: "chat",
     },
     {
-      name: 'CRUD Table',
-      type: 'link',
-      tooltip: 'CRUD Table',
-      icon: 'format_list_bulleted',
-      state: 'cruds/ngx-table'
+      name: "CRUD Table",
+      type: "link",
+      tooltip: "CRUD Table",
+      icon: "format_list_bulleted",
+      state: "cruds/ngx-table",
     },
     {
-      name: 'DIALOGS',
-      type: 'dropDown',
-      tooltip: 'Dialogs',
-      icon: 'filter_none',
-      state: 'dialogs',
+      name: "DIALOGS",
+      type: "dropDown",
+      tooltip: "Dialogs",
+      icon: "filter_none",
+      state: "dialogs",
       sub: [
-        { name: 'CONFIRM', state: 'confirm' },
-        { name: 'LOADER', state: 'loader' }
-      ]
+        { name: "CONFIRM", state: "confirm" },
+        { name: "LOADER", state: "loader" },
+      ],
     },
     {
-      name: 'PROFILE',
-      type: 'dropDown',
-      tooltip: 'Profile',
-      icon: 'person',
-      state: 'profile',
+      name: "PROFILE",
+      type: "dropDown",
+      tooltip: "Profile",
+      icon: "person",
+      state: "profile",
       sub: [
-        { name: 'OVERVIEW', state: 'overview' },
-        { name: 'SETTINGS', state: 'settings' },
-        { name: 'BLANK', state: 'blank' }
-      ]
+        { name: "OVERVIEW", state: "overview" },
+        { name: "SETTINGS", state: "settings" },
+        { name: "BLANK", state: "blank" },
+      ],
     },
     {
-      name: 'TOUR',
-      type: 'link',
-      tooltip: 'Tour',
-      icon: 'flight_takeoff',
-      state: 'tour'
+      name: "TOUR",
+      type: "link",
+      tooltip: "Tour",
+      icon: "flight_takeoff",
+      state: "tour",
     },
     {
-      type: 'separator',
-      name: 'Integrated components'
+      type: "separator",
+      name: "Integrated components",
     },
     {
-      name: 'CALENDAR',
-      type: 'link',
-      tooltip: 'Calendar',
-      icon: 'date_range',
-      state: 'calendar'
+      name: "CALENDAR",
+      type: "link",
+      tooltip: "Calendar",
+      icon: "date_range",
+      state: "calendar",
     },
     {
-      name: 'MATERIAL',
-      type: 'dropDown',
-      tooltip: 'Material',
-      icon: 'favorite',
-      state: 'material',
+      name: "MATERIAL",
+      type: "dropDown",
+      tooltip: "Material",
+      icon: "favorite",
+      state: "material",
       sub: [
-        { name: 'BUTTONS', state: 'buttons' },
-        { name: 'Button Toggle', state: 'button-toggle' },
-        { name: 'Buttons Loading', state: 'loading-buttons' },
-        { name: 'CARDS', state: 'cards' },
-        { name: 'GRIDS', state: 'grids' },
-        { name: 'LISTS', state: 'lists' },
-        { name: 'MENU', state: 'menu' },
-        { name: 'TABS', state: 'tabs' },
-        { name: 'SELECT', state: 'select' },
-        { name: 'RADIO', state: 'radio' },
-        { name: 'AUTOCOMPLETE', state: 'autocomplete' },
-        { name: 'SLIDER', state: 'slider' },
-        { name: 'PROGRESS', state: 'progress' },
-        { name: 'SNACKBAR', state: 'snackbar' }
-      ]
+        { name: "BUTTONS", state: "buttons" },
+        { name: "Button Toggle", state: "button-toggle" },
+        { name: "Buttons Loading", state: "loading-buttons" },
+        { name: "CARDS", state: "cards" },
+        { name: "GRIDS", state: "grids" },
+        { name: "LISTS", state: "lists" },
+        { name: "MENU", state: "menu" },
+        { name: "TABS", state: "tabs" },
+        { name: "SELECT", state: "select" },
+        { name: "RADIO", state: "radio" },
+        { name: "AUTOCOMPLETE", state: "autocomplete" },
+        { name: "SLIDER", state: "slider" },
+        { name: "PROGRESS", state: "progress" },
+        { name: "SNACKBAR", state: "snackbar" },
+      ],
     },
     {
-      name: 'FORMS',
-      type: 'dropDown',
-      tooltip: 'Forms',
-      icon: 'description',
-      state: 'forms',
+      name: "FORMS",
+      type: "dropDown",
+      tooltip: "Forms",
+      icon: "description",
+      state: "forms",
       sub: [
-        { name: 'BASIC', state: 'basic' },
-        { name: 'EDITOR', state: 'editor' },
-        { name: 'UPLOAD', state: 'upload' },
-        { name: 'WIZARD', state: 'wizard' }
-      ]
+        { name: "BASIC", state: "basic" },
+        { name: "EDITOR", state: "editor" },
+        { name: "UPLOAD", state: "upload" },
+        { name: "WIZARD", state: "wizard" },
+      ],
     },
     {
-      name: 'TABLES',
-      type: 'dropDown',
-      tooltip: 'Tables',
-      icon: 'format_line_spacing',
-      state: 'tables',
+      name: "TABLES",
+      type: "dropDown",
+      tooltip: "Tables",
+      icon: "format_line_spacing",
+      state: "tables",
       sub: [
-        { name: 'FULLSCREEN', state: 'fullscreen' },
-        { name: 'PAGING', state: 'paging' },
-        { name: 'FILTER', state: 'filter' }
-      ]
+        { name: "FULLSCREEN", state: "fullscreen" },
+        { name: "PAGING", state: "paging" },
+        { name: "FILTER", state: "filter" },
+      ],
     },
     {
-      name: 'MAP',
-      type: 'link',
-      tooltip: 'Map',
-      icon: 'add_location',
-      state: 'map'
+      name: "MAP",
+      type: "link",
+      tooltip: "Map",
+      icon: "add_location",
+      state: "map",
     },
     {
-      name: 'CHARTS',
-      type: 'link',
-      tooltip: 'Charts',
-      icon: 'show_chart',
-      state: 'charts'
+      name: "CHARTS",
+      type: "link",
+      tooltip: "Charts",
+      icon: "show_chart",
+      state: "charts",
     },
     {
-      name: 'DND',
-      type: 'link',
-      tooltip: 'Drag and Drop',
-      icon: 'adjust',
-      state: 'dragndrop'
+      name: "DND",
+      type: "link",
+      tooltip: "Drag and Drop",
+      icon: "adjust",
+      state: "dragndrop",
     },
     {
-      type: 'separator',
-      name: 'Other components'
+      type: "separator",
+      name: "Other components",
     },
     {
-      name: 'SESSIONS',
-      type: 'dropDown',
-      tooltip: 'Pages',
-      icon: 'view_carousel',
-      state: 'sessions',
+      name: "SESSIONS",
+      type: "dropDown",
+      tooltip: "Pages",
+      icon: "view_carousel",
+      state: "sessions",
       sub: [
-        { name: 'SIGNUP', state: 'signup' },
-        { name: 'SIGNIN', state: 'signin' },
-        { name: 'FORGOT', state: 'forgot-password' },
-        { name: 'LOCKSCREEN', state: 'lockscreen' },
-        { name: 'NOTFOUND', state: '404' },
-        { name: 'ERROR', state: 'error' }
-      ]
+        { name: "SIGNUP", state: "signup" },
+        { name: "SIGNIN", state: "signin" },
+        { name: "FORGOT", state: "forgot-password" },
+        { name: "LOCKSCREEN", state: "lockscreen" },
+        { name: "NOTFOUND", state: "404" },
+        { name: "ERROR", state: "error" },
+      ],
     },
     {
-      name: 'OTHERS',
-      type: 'dropDown',
-      tooltip: 'Others',
-      icon: 'blur_on',
-      state: 'others',
+      name: "OTHERS",
+      type: "dropDown",
+      tooltip: "Others",
+      icon: "blur_on",
+      state: "others",
       sub: [
-        { name: 'GALLERY', state: 'gallery' },
-        { name: 'PRICINGS', state: 'pricing' },
-        { name: 'USERS', state: 'users' },
-        { name: 'BLANK', state: 'blank' }
-      ]
+        { name: "GALLERY", state: "gallery" },
+        { name: "PRICINGS", state: "pricing" },
+        { name: "USERS", state: "users" },
+        { name: "BLANK", state: "blank" },
+      ],
     },
     {
-      name: 'MATICONS',
-      type: 'link',
-      tooltip: 'Material Icons',
-      icon: 'store',
-      state: 'icons'
+      name: "MATICONS",
+      type: "link",
+      tooltip: "Material Icons",
+      icon: "store",
+      state: "icons",
     },
     {
-      name: 'DOC',
-      type: 'extLink',
-      tooltip: 'Documentation',
-      icon: 'library_books',
-      state: 'http://demos.ui-lib.com/egret-doc/'
-    }
+      name: "DOC",
+      type: "extLink",
+      tooltip: "Documentation",
+      icon: "library_books",
+      state: "http://demos.ui-lib.com/egret-doc/",
+    },
   ];
 
   plainMenu: IMenuItem[] = [
     {
-      name: 'DASHBOARD',
-      type: 'link',
-      tooltip: 'Dashboard',
-      icon: 'dashboard',
-      state: 'dashboard'
+      name: "DASHBOARD",
+      type: "link",
+      tooltip: "Dashboard",
+      icon: "dashboard",
+      state: "dashboard",
     },
     {
-      name: 'INBOX',
-      type: 'link',
-      tooltip: 'Inbox',
-      icon: 'inbox',
-      state: 'inbox'
+      name: "INBOX",
+      type: "link",
+      tooltip: "Inbox",
+      icon: "inbox",
+      state: "inbox",
     },
     {
-      name: 'CHAT',
-      type: 'link',
-      tooltip: 'Chat',
-      icon: 'chat',
-      state: 'chat'
+      name: "CHAT",
+      type: "link",
+      tooltip: "Chat",
+      icon: "chat",
+      state: "chat",
     },
     {
-      name: 'CRUD Table',
-      type: 'link',
-      tooltip: 'CRUD Table',
-      icon: 'format_list_bulleted',
-      state: 'cruds/ngx-table'
+      name: "CRUD Table",
+      type: "link",
+      tooltip: "CRUD Table",
+      icon: "format_list_bulleted",
+      state: "cruds/ngx-table",
     },
     {
-      name: 'CALENDAR',
-      type: 'link',
-      tooltip: 'Calendar',
-      icon: 'date_range',
-      state: 'calendar'
+      name: "CALENDAR",
+      type: "link",
+      tooltip: "Calendar",
+      icon: "date_range",
+      state: "calendar",
     },
     {
-      name: 'DIALOGS',
-      type: 'dropDown',
-      tooltip: 'Dialogs',
-      icon: 'filter_none',
-      state: 'dialogs',
+      name: "DIALOGS",
+      type: "dropDown",
+      tooltip: "Dialogs",
+      icon: "filter_none",
+      state: "dialogs",
       sub: [
-        { name: 'CONFIRM', state: 'confirm' },
-        { name: 'LOADER', state: 'loader' }
-      ]
+        { name: "CONFIRM", state: "confirm" },
+        { name: "LOADER", state: "loader" },
+      ],
     },
     {
-      name: 'MATERIAL',
-      type: 'dropDown',
-      icon: 'favorite',
-      state: 'component',
+      name: "MATERIAL",
+      type: "dropDown",
+      icon: "favorite",
+      state: "component",
       sub: [
-        { name: 'BUTTONS', state: 'buttons' },
-        { name: 'Button Toggle', state: 'button-toggle' },
-        { name: 'Buttons Loading', state: 'loading-buttons' },
-        { name: 'CARDS', state: 'cards' },
-        { name: 'GRIDS', state: 'grids' },
-        { name: 'LISTS', state: 'lists' },
-        { name: 'MENU', state: 'menu' },
-        { name: 'TABS', state: 'tabs' },
-        { name: 'SELECT', state: 'select' },
-        { name: 'RADIO', state: 'radio' },
-        { name: 'AUTOCOMPLETE', state: 'autocomplete' },
-        { name: 'SLIDER', state: 'slider' },
-        { name: 'PROGRESS', state: 'progress' },
-        { name: 'SNACKBAR', state: 'snackbar' }
-      ]
+        { name: "BUTTONS", state: "buttons" },
+        { name: "Button Toggle", state: "button-toggle" },
+        { name: "Buttons Loading", state: "loading-buttons" },
+        { name: "CARDS", state: "cards" },
+        { name: "GRIDS", state: "grids" },
+        { name: "LISTS", state: "lists" },
+        { name: "MENU", state: "menu" },
+        { name: "TABS", state: "tabs" },
+        { name: "SELECT", state: "select" },
+        { name: "RADIO", state: "radio" },
+        { name: "AUTOCOMPLETE", state: "autocomplete" },
+        { name: "SLIDER", state: "slider" },
+        { name: "PROGRESS", state: "progress" },
+        { name: "SNACKBAR", state: "snackbar" },
+      ],
     },
     {
-      name: 'FORMS',
-      type: 'dropDown',
-      tooltip: 'Forms',
-      icon: 'description',
-      state: 'forms',
+      name: "FORMS",
+      type: "dropDown",
+      tooltip: "Forms",
+      icon: "description",
+      state: "forms",
       sub: [
-        { name: 'BASIC', state: 'basic' },
-        { name: 'EDITOR', state: 'editor' },
-        { name: 'UPLOAD', state: 'upload' },
-        { name: 'WIZARD', state: 'wizard' }
-      ]
+        { name: "BASIC", state: "basic" },
+        { name: "EDITOR", state: "editor" },
+        { name: "UPLOAD", state: "upload" },
+        { name: "WIZARD", state: "wizard" },
+      ],
     },
     {
-      name: 'TABLES',
-      type: 'dropDown',
-      tooltip: 'Tables',
-      icon: 'format_line_spacing',
-      state: 'tables',
+      name: "TABLES",
+      type: "dropDown",
+      tooltip: "Tables",
+      icon: "format_line_spacing",
+      state: "tables",
       sub: [
-        { name: 'FULLSCREEN', state: 'fullscreen' },
-        { name: 'PAGING', state: 'paging' },
-        { name: 'FILTER', state: 'filter' }
-      ]
+        { name: "FULLSCREEN", state: "fullscreen" },
+        { name: "PAGING", state: "paging" },
+        { name: "FILTER", state: "filter" },
+      ],
     },
     {
-      name: 'PROFILE',
-      type: 'dropDown',
-      tooltip: 'Profile',
-      icon: 'person',
-      state: 'profile',
+      name: "PROFILE",
+      type: "dropDown",
+      tooltip: "Profile",
+      icon: "person",
+      state: "profile",
       sub: [
-        { name: 'OVERVIEW', state: 'overview' },
-        { name: 'SETTINGS', state: 'settings' },
-        { name: 'BLANK', state: 'blank' }
-      ]
+        { name: "OVERVIEW", state: "overview" },
+        { name: "SETTINGS", state: "settings" },
+        { name: "BLANK", state: "blank" },
+      ],
     },
     {
-      name: 'TOUR',
-      type: 'link',
-      tooltip: 'Tour',
-      icon: 'flight_takeoff',
-      state: 'tour'
+      name: "TOUR",
+      type: "link",
+      tooltip: "Tour",
+      icon: "flight_takeoff",
+      state: "tour",
     },
     {
-      name: 'MAP',
-      type: 'link',
-      tooltip: 'Map',
-      icon: 'add_location',
-      state: 'map'
+      name: "MAP",
+      type: "link",
+      tooltip: "Map",
+      icon: "add_location",
+      state: "map",
     },
     {
-      name: 'CHARTS',
-      type: 'link',
-      tooltip: 'Charts',
-      icon: 'show_chart',
-      state: 'charts'
+      name: "CHARTS",
+      type: "link",
+      tooltip: "Charts",
+      icon: "show_chart",
+      state: "charts",
     },
     {
-      name: 'DND',
-      type: 'link',
-      tooltip: 'Drag and Drop',
-      icon: 'adjust',
-      state: 'dragndrop'
+      name: "DND",
+      type: "link",
+      tooltip: "Drag and Drop",
+      icon: "adjust",
+      state: "dragndrop",
     },
     {
-      name: 'SESSIONS',
-      type: 'dropDown',
-      tooltip: 'Pages',
-      icon: 'view_carousel',
-      state: 'sessions',
+      name: "SESSIONS",
+      type: "dropDown",
+      tooltip: "Pages",
+      icon: "view_carousel",
+      state: "sessions",
       sub: [
-        { name: 'SIGNUP', state: 'signup' },
-        { name: 'SIGNIN', state: 'signin' },
-        { name: 'FORGOT', state: 'forgot-password' },
-        { name: 'LOCKSCREEN', state: 'lockscreen' },
-        { name: 'NOTFOUND', state: '404' },
-        { name: 'ERROR', state: 'error' }
-      ]
+        { name: "SIGNUP", state: "signup" },
+        { name: "SIGNIN", state: "signin" },
+        { name: "FORGOT", state: "forgot-password" },
+        { name: "LOCKSCREEN", state: "lockscreen" },
+        { name: "NOTFOUND", state: "404" },
+        { name: "ERROR", state: "error" },
+      ],
     },
     {
-      name: 'OTHERS',
-      type: 'dropDown',
-      tooltip: 'Others',
-      icon: 'blur_on',
-      state: 'others',
+      name: "OTHERS",
+      type: "dropDown",
+      tooltip: "Others",
+      icon: "blur_on",
+      state: "others",
       sub: [
-        { name: 'GALLERY', state: 'gallery' },
-        { name: 'PRICINGS', state: 'pricing' },
-        { name: 'USERS', state: 'users' },
-        { name: 'BLANK', state: 'blank' }
-      ]
+        { name: "GALLERY", state: "gallery" },
+        { name: "PRICINGS", state: "pricing" },
+        { name: "USERS", state: "users" },
+        { name: "BLANK", state: "blank" },
+      ],
     },
     {
-      name: 'MATICONS',
-      type: 'link',
-      tooltip: 'Material Icons',
-      icon: 'store',
-      state: 'icons'
+      name: "MATICONS",
+      type: "link",
+      tooltip: "Material Icons",
+      icon: "store",
+      state: "icons",
     },
     {
-      name: 'DOC',
-      type: 'extLink',
-      tooltip: 'Documentation',
-      icon: 'library_books',
-      state: 'http://demos.ui-lib.com/egret-doc/'
-    }
+      name: "DOC",
+      type: "extLink",
+      tooltip: "Documentation",
+      icon: "library_books",
+      state: "http://demos.ui-lib.com/egret-doc/",
+    },
   ];
 
   // Icon menu TITLE at the very top of navigation.
   // This title will appear if any icon type item is present in menu.
-  iconTypeMenuTitle = 'Frequently Accessed';
+  iconTypeMenuTitle = "Frequently Accessed";
   // sets iconMenu as default;
   menuItems = new BehaviorSubject<IMenuItem[]>(this.iconMenu);
   // navigation component has subscribed to this Observable
@@ -428,10 +443,10 @@ export class NavigationService {
   // different user type.
   publishNavigationChange(menuType: string) {
     switch (menuType) {
-      case 'separator-menu':
+      case "separator-menu":
         this.menuItems.next(this.separatorMenu);
         break;
-      case 'icon-menu':
+      case "icon-menu":
         this.menuItems.next(this.iconMenu);
         break;
       default:

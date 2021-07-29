@@ -112,6 +112,6 @@ export class LayoutService {
     });
   }
   isSm() {
-    return window.matchMedia(`(max-width: 959px)`).matches;
+    return window.matchMedia(`(max-width: 1080px)`).matches;
   }
 }
