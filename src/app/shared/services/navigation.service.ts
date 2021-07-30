@@ -55,7 +55,7 @@ export class NavigationService {
       type: "link",
       tooltip: "Charts",
       icon: "show_chart",
-      state: "charts",
+      state: "elecciones/indicadores",
     },
     {
       name: "Padrones",
@@ -442,7 +442,7 @@ export class NavigationService {
   menuItems = new BehaviorSubject<IMenuItem[]>(this.iconMenu);
   // navigation component has subscribed to this Observable
   menuItems$ = this.menuItems.asObservable();
-  constructor() {}
+  constructor() { }
 
   // Customizer component uses this method to change menu.
   // You can remove this method and customizer component.
