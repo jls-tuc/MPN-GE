@@ -1,0 +1,49 @@
+.container-datos {
+  width: 500px;
+  display: flex;
+  align-items: center;
+}
+
+.card-title {
+  background-image: linear-gradient(#12478e, #1867d0);
+  color: #fff;
+}
+
+.grey-back {
+  background-color: #fafafa;
+}
+
+/* .item {
+	width: 100px;
+	padding-right: 10px;
+	display: inline-block;
+	vertical-align: middle;
+} */
+
+.radio-sexo {
+  padding-right: 8px !important;
+}
+
+.mat-datos-personales {
+  height: 235px;
+}
+
+.card-solicitudes {
+  background-color: #ffcc80;
+}
+
+.loader {
+  text-align: -webkit-center;
+}
+
+/* .mat-tab-group {
+	height: 300px;
+} */
+
+.img-foto {
+  width: 100%;
+}
+
+.capitalize {
+  text-transform: capitalize;
+}

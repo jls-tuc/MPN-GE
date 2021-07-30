@@ -57,6 +57,13 @@ export class NavigationService {
       icon: "show_chart",
       state: "charts",
     },
+    {
+      name: "Padrones",
+      type: "link",
+      tooltip: "Buscar",
+      icon: "list_alt",
+      state: "elecciones/padrones",
+    },
   ];
 
   separatorMenu: IMenuItem[] = [
