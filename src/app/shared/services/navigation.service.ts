@@ -36,10 +36,10 @@ export class NavigationService {
       icon: "person",
       sub: [
         { name: "Ver", state: "elecciones/referentes" },
-        { name: "Agregar", state: "loader" },
+        { name: "Agregar", state: "elecciones/referente" },
       ],
     },
-    {
+    /* {
       name: "Responsables de Planillas",
       type: "dropDown",
       tooltip: "Dialogs",
@@ -49,7 +49,7 @@ export class NavigationService {
         { name: "CONFIRM", state: "confirm" },
         { name: "LOADER", state: "loader" },
       ],
-    },
+    }, */
     {
       name: "Estadisticas",
       type: "link",
@@ -442,7 +442,7 @@ export class NavigationService {
   menuItems = new BehaviorSubject<IMenuItem[]>(this.iconMenu);
   // navigation component has subscribed to this Observable
   menuItems$ = this.menuItems.asObservable();
-  constructor() { }
+  constructor() {}
 
   // Customizer component uses this method to change menu.
   // You can remove this method and customizer component.

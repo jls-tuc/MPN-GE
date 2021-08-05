@@ -1,1 +1,214 @@
-<p>referente-popup works!</p>
+<mat-card class="p-0">
+    <mat-card-title class="">
+        <ng-container *ngIf="this.usuarioRol.role === 'user-ref'">
+            <div class="card-title-text">Cargar un Responsable de planilla</div>
+        </ng-container>
+        <ng-container *ngIf="this.usuarioRol.role === '!user-ref'">
+            <div class="card-title-text">Cargar un Referente</div>
+        </ng-container>
+        <mat-divider></mat-divider>
+    </mat-card-title>
+    <mat-card-content>
+        <mat-stepper linear #stepper>
+            <mat-step [stepControl]="secondFormGroup">
+                <form [formGroup]="secondFormGroup">
+                    <ng-template matStepLabel>Ingrese el numero de documento</ng-template>
+                    <div fxLayout="column">
+                        <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column">
+
+                            <div flexorder="1" fxFlex.xs="" fxFlex.sm="" fxflex.xs="" fxflex="33%">
+                                <ng-container *ngIf='!ocultarBusqueda'>
+                                    <mat-form-field class="example-full-width" appearance="fill">
+                                        <mat-label>Nro.Documento</mat-label>
+                                        <input type="text" class="form-control" matInput formControlName="dni"
+                                            placeholder="Ingrese el número de documento" required>
+                                    </mat-form-field>
+                                    <div fxLayout="row">
+                                        <div class="form-group">
+                                            <label>Seleccione Sexo</label>
+                                            <div class="radio-inline">
+                                                <mat-radio-group aria-labelledby="example-radio-group-label"
+                                                    class="example-full-width" appearance="fill" formControlName="sexo">
+                                                    <mat-radio-button *ngFor="let s of sexo" [value]="s" required>
+                                                        {{s}}
+                                                    </mat-radio-button>
+
+                                                </mat-radio-group>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </ng-container>
+
+
+                                <ng-container *ngIf='ocultarBusqueda'>
+                                    <ng-template matStepLabel>Datos personales</ng-template>
+                                    <div fxLayout="row">
+                                        <div class="col-xl-3 col-xs-3 col-sm-3 col-nombre padding-1">
+
+                                            <mat-form-field class="example-full-width" appearance="fill">
+                                                <mat-label>Nombre</mat-label>
+                                                <input type="text" class="form-control" matInput
+                                                    formControlName="nombres" placeholder="Nombre" required readonly>
+
+                                            </mat-form-field>
+                                        </div>
+                                        <span fxFlex="10px"></span>
+                                        <div class="col-xl-3 col-xs-3 col-sm-3 col-apellido padding-1">
+                                            <div class="">
+                                                <mat-form-field class="example-full-width" appearance="fill">
+                                                    <mat-label>Apellido</mat-label>
+                                                    <input type="text" class="form-control" matInput
+                                                        formControlName="apellido" placeholder="Apellido" readonly>
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                        <span fxFlex="10px"></span>
+                                        <div class="col-xl-3 col-xs-3 col-sm-3 col-apellido padding-1">
+                                            <div class="">
+                                                <mat-form-field class="example-full-width" appearance="fill">
+                                                    <mat-label>Provincia</mat-label>
+                                                    <mat-select formControlName="provincia" required>
+                                                        <mat-option *ngFor="let prov of provincia"
+                                                            (click)="provSelect(prov)" [value]="prov">
+                                                            {{ prov |titlecase}}
+                                                        </mat-option>
+                                                    </mat-select>
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                        <span fxFlex="10px"></span>
+
+                                        <div class="col-xl-3 col-xs-3 col-sm-3 col-apellido padding-1">
+                                            <div class="">
+                                                <mat-form-field class="example-full-width" appearance="fill">
+                                                    <mat-label>localidad</mat-label>
+                                                    <mat-select formControlName="localidad" required>
+                                                        <mat-option *ngFor="let localidad of localidades"
+                                                            [value]="localidad.localidad_nombre">
+                                                            {{localidad.localidad_nombre | titlecase}}
+                                                        </mat-option>
+                                                    </mat-select>
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </ng-container>
+                            </div>
+                        </div>
+                    </div>
+                    <ng-container *ngIf='ocultarBusqueda'>
+                        <ng-template matStepLabel>Datos personales</ng-template>
+                        <div fxLayout="row">
+                            <div class="col-xl-3 col-xs-3 col-sm-3 col-nombre padding-1">
+
+                                <mat-form-field class="example-full-width" appearance="fill">
+                                    <mat-label> Calle</mat-label>
+                                    <input class="form-control form-control-solid" matInput type="text"
+                                        formControlName="calle" name="calle" placeholder="" autocomplete="nope" />
+                                </mat-form-field>
+                            </div>
+
+                            <span fxFlex="10px"></span>
+                            <div class="col-xl-3 col-xs-3 col-sm-3 col-apellido padding-1">
+                                <div class="">
+                                    <mat-form-field class="example-full-width" appearance="fill">
+                                        <mat-label>Nro</mat-label>
+                                        <input class="form-control form-control-solid" matInput type="text"
+                                            formControlName="numero" name="numero" placeholder="" />
+                                    </mat-form-field>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </ng-container>
+                </form>
+                <div fxLayout="row">
+                    <ng-container *ngIf='!ocultarBusqueda'>
+                        <button mat-raised-button color="warn" type="button" (click)="buscarDNI()">Verificar
+                            datos</button>
+                    </ng-container>
+                    <ng-container *ngIf='ocultarBusqueda'>
+                        <button mat-raised-button color="warn" (click)="stepper.reset()">Cancelar</button>
+                        <span fxFlex="10px"></span>
+                        <button mat-raised-button color="primary" type="button" matStepperNext>Siguiente</button>
+                    </ng-container>
+                </div>
+            </mat-step>
+            <mat-step [stepControl]="secondFormGroup">
+                <form [formGroup]="secondFormGroup">
+                    <ng-template matStepLabel>Datos de Contacto</ng-template>
+                    <div fxLayout="row">
+                        <mat-form-field class="example-full-width" appearance="fill">
+                            <mat-label>Email</mat-label>
+                            <input type="email" class="form-control" matInput formControlName="email"
+                                placeholder="Ex. pat@example.com">
+                        </mat-form-field>
+                        <span fxFlex="8px"></span>
+                        <mat-form-field class="example-full-width" appearance="fill">
+                            <mat-label>Telefono</mat-label>
+                            <span matPrefix>+54 &nbsp;</span>
+                            <input type="tel" matInput class="form-control" formControlName="telefono"
+                                placeholder="299-475-1234">
+                            <mat-icon matSuffix>mode_edit</mat-icon>
+                        </mat-form-field>
+
+                    </div>
+                </form>
+                <div fxLayout="row">
+                    <button mat-raised-button color="accent" matStepperPrevious type="button">Volver</button>
+                    <span fxFlex="8px"></span>
+                    <button mat-raised-button color="primary" [disabled]="!secondFormGroup.valid "
+                        (click)="guardar()">Guardar</button>
+                    <span fxFlex="8px"></span>
+                    <button mat-raised-button color="warn" (click)="stepper.reset()">Cancelar</button>
+
+                </div>
+            </mat-step>
+            <!--  <mat-step [stepControl]="firstFormGroup">
+                <form [formGroup]="firstFormGroup">
+                    <ng-template matStepLabel>Seleccione el tipo de usuario</ng-template>
+                    <div fxLayout="row">
+
+                        <div class="col-xl-3 col-xs-3 col-sm-3 col-sexo padding-1">
+                            <div class="">
+                                <mat-form-field class="DP-full-width">
+                                    <mat-label>Tipo de usuario</mat-label>
+                                    <mat-select formControlName=role required>
+                                        <mat-option *ngFor="let tUser of tipoReferente" (click)="mostarRef(tUser.role)"
+                                            [value]="tUser.role">
+                                            {{tUser.tipo}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <ng-container *ngIf=cargarRef>
+                            <span fxFlex="8px"></span>
+                            <div class="">
+                                <mat-form-field class="DP-full-width">
+                                    <mat-label>Seleccionar Referente</mat-label>
+                                    <mat-select formControlName="idReferente">
+                                        <mat-option *ngFor="let ref of idReferentes" [value]="ref._id">
+                                            {{ref.datosPersonales.nombres|titlecase}}
+                                            {{ref.datosPersonales.apellido|titlecase}}
+
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                        </ng-container>
+                    </div>
+                    <div>
+
+                    </div>
+                </form>
+                
+            </mat-step> -->
+        </mat-stepper>
+
+
+    </mat-card-content>
+</mat-card>

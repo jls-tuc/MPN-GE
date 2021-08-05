@@ -2,7 +2,7 @@
   "rulesDirectory": ["node_modules/codelyzer"],
   "extends": ["tslint:recommended", "tslint-angular"],
   "rules": {
-    "quotemark": [true, "single", "avoid-escape"],
+    "quotemark": [true, "double", "avoid-escape"],
     "callable-types": true,
     "class-name": true,
     "deprecation": {
