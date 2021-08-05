@@ -4,7 +4,8 @@ import { MatDialog, MatDialogRef } from "@angular/material/dialog";
 
 import { ReferentePopupComponent } from "./popUp/referente-popup.component";
 import { ResponsablesPComponent } from "../responsablesPlanilla/responsables-p/responsables-p.component";
-import { filter } from 'rxjs/operators';
+import { filter } from "rxjs/operators";
+import { PlanillaComponent } from "../planilla/planilla/planilla.component";
 
 @Component({
   selector: "app-referentes",
@@ -17,15 +18,16 @@ export class ReferentesComponent implements OnInit {
     private referenteService: ReferentesService,
     public dialog: MatDialog,
     private cdr: ChangeDetectorRef
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.cargarReferentes();
   }
 
   openDialog(data?) {
-    console.log("data", data);
+    //  console.log("data", data);
     this.dialog.open(ReferentePopupComponent, {
+      width: "70%",
       data: { data },
     });
   }
@@ -35,7 +37,7 @@ export class ReferentesComponent implements OnInit {
     const dialogoRef: MatDialogRef<any> = this.dialog.open(
       ResponsablesPComponent,
       {
-        width: "50%",
+        width: "70%",
 
         disableClose: true,
         data: { title, payload: data },
@@ -54,10 +56,30 @@ export class ReferentesComponent implements OnInit {
     this.cdr.markForCheck();
   }
 
+  openCargarPlanilla(data?) {
+    const dialogoRef: MatDialogRef<any> = this.dialog.open(PlanillaComponent, {
+      width: "70%",
+
+      disableClose: true,
+      data: { data },
+    });
+    dialogoRef.keydownEvents().subscribe((event) => {
+      if (event.key === "Escape") {
+        this.ngOnInit();
+        dialogoRef.close();
+      }
+    });
+
+    dialogoRef.afterClosed().subscribe((res) => {
+      this.ngOnInit();
+    });
+    this.cdr.markForCheck();
+  }
+
   cargarReferentes() {
     this.referenteService.getReferente().subscribe((res: any) => {
-      this.users = res.data.filter(data => data.role === 'user-ref');
-      console.log("users", this.users);
+      this.users = res.data.filter((data) => data.role === "user-ref");
+      // console.log("users", this.users);
     });
   }
 }

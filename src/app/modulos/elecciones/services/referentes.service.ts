@@ -20,7 +20,7 @@ export class ReferentesService {
   }
 
   getResPById(id: any) {
-    console.log("ID", id);
+    //console.log("ID", id);
     let url = `${apiURL}/auth/usuario`;
     return this.http.get(url + `/?${id}`);
   }
