@@ -1,73 +1,58 @@
-<div class="d-flex flex-column-fluid">
-    <div class="container-fluid">
-        <div class="card card-custom">
-            <div class="card-header flex-wrap border-0 pt-6 pb-0">
-                <div class="card-title">
-                    <h3 class="card-label">Responsables de Planillas
-                        <span class="d-block text-muted pt-2 font-size-sm">Responsables asosiados al refente</span>
-                    </h3>
-                </div>
-            </div>
+<div class="card-header flex-wrap border-0 pt-6 pb-0">
+    <div class="card-title">
+        <h3 class="card-label">Responsables de Planillas
 
-            <div class="card-body">
-                <mat-form-field>
-                    <mat-label>
-
-                        Filtro de busqueda</mat-label>
-                    <input matInput (keyup)="applyFilter($event)" placeholder="Escriba aquí..." #input>
-                </mat-form-field>
-                <table mat-table [dataSource]="dataSource" matSort style="width: 100%;">
-                    <ng-container matColumnDef='dni'>
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Dni</th>
-                        <td mat-cell *matCellDef='let resPlanillas'>
-                            <div class="text-dark-75 font-weight-bolder font-size-lg mb-0">
-                                {{resPlanillas.datosPersonales?.dni}}
-                            </div>
-                        </td>
-                    </ng-container>
-
-                    <ng-container matColumnDef='apellido'>
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Apellido</th>
-                        <td mat-cell *matCellDef='let resPlanillas'>{{resPlanillas.datosPersonales.apellido |titlecase}}
-                        </td>
-                    </ng-container>
-
-                    <ng-container matColumnDef='nombre'>
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre</th>
-                        <td mat-cell *matCellDef='let resPlanillas'>{{resPlanillas.datosPersonales.nombres |titlecase}}
-                        </td>
-                    </ng-container>
-                    <ng-container matColumnDef="localidad">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Localidad</th>
-                        <td mat-cell *matCellDef='let resPlanillas'>{{resPlanillas.datosPersonales.localidad
-                            |titlecase}}</td>
-                    </ng-container>
-                    <ng-container matColumnDef="fecha registro">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha de Registro</th>
-                        <td mat-cell *matCellDef='let resPlanillas'>
-                            <div class="text-dark-75 font-weight-bolder font-size-lg mb-0">
-                                {{resPlanillas.fechaAltaUsuario}} </div>
-                        </td>
-                    </ng-container>
-
-                    <ng-container matColumnDef="acciones">
-                        <th mat-header-cell *matHeaderCellDef> Opciones </th>
-                        <td mat-cell *matCellDef="let resPlanillas">
-                            <a class="btn btn-sm btn-default btn-text-primary btn-hover-primary btn-icon mr-2 "
-                                (click)="cargarPlanilla()">
-                                <span class="fas fa-eye"></span>
-                            </a>
-
-
-                        </td>
-                    </ng-container>
-
-
-                    <tr mat-header-row *matHeaderRowDef="listaColumnas"></tr>
-                    <tr mat-row *matRowDef="let row; columns: listaColumnas;" class="table-row"></tr>
-                </table>
-                <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons></mat-paginator>
-            </div>
-        </div>
+        </h3>
     </div>
+</div>
+
+<mat-form-field>
+    <mat-label>
+        Filtro de busqueda</mat-label>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Escriba aquí..." #input>
+</mat-form-field>
+<div class="card-body">
+
+    <table mat-table [dataSource]="dataSource" matSort>
+        <ng-container matColumnDef='dni'>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Dni</th>
+            <td mat-cell *matCellDef='let resPlanillas'>
+                <div class="text-dark-75 font-weight-bolder font-size-lg mb-0">
+                    {{resPlanillas.datosPersonales?.dni}}
+                </div>
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef='apellido'>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Apellido</th>
+            <td mat-cell *matCellDef='let resPlanillas'>{{resPlanillas.datosPersonales.apellido |titlecase}}
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef='nombre'>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre</th>
+            <td mat-cell *matCellDef='let resPlanillas'>{{resPlanillas.datosPersonales.nombres |titlecase}}
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="localidad">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Localidad</th>
+            <td mat-cell *matCellDef='let resPlanillas'>{{resPlanillas.datosPersonales.localidad
+                |titlecase}}</td>
+        </ng-container>
+
+
+        <ng-container matColumnDef="acciones">
+            <th mat-header-cell *matHeaderCellDef> Opciones </th>
+            <td mat-cell *matCellDef="let resPlanillas">
+                <button mat-icon-button mat-sm-button color="primary" class="mr-16" (click)="cargarPlanilla()">
+                    <mat-icon>group_add</mat-icon>
+                </button>
+            </td>
+        </ng-container>
+
+
+        <tr mat-header-row *matHeaderRowDef="listaColumnas"></tr>
+        <tr mat-row *matRowDef="let row; columns: listaColumnas;" class="table-row"></tr>
+    </table>
+    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons></mat-paginator>
 </div>
