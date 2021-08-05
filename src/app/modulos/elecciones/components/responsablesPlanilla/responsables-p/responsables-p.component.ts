@@ -18,7 +18,7 @@ import Swal from "sweetalert2";
 @Component({
   selector: "app-responsables-p",
   templateUrl: "./responsables-p.component.html",
-  styleUrls: ["./responsables-p.component.scss"],
+  styleUrls: ["./responsables-p.component.css"],
 })
 export class ResponsablesPComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -30,7 +30,6 @@ export class ResponsablesPComponent implements OnInit {
     "apellido",
     "nombre",
     "localidad",
-    "fecha registro",
     "acciones",
   ];
   dataSource: MatTableDataSource<any>;
@@ -55,16 +54,15 @@ export class ResponsablesPComponent implements OnInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
   getResPlanillas() {
-    this.referenteService
-      .getResPById(this.datosReferente._id)
-      .subscribe((data: any) => {
-        this.resPlanillas = data.resp;
-        console.log("dataRESP", this.resPlanillas);
-        this.dataSource = new MatTableDataSource(data.resp);
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
-        this.cdr.markForCheck();
-      });
+    const idRef: {} = `id=${this.datosReferente._id}`;
+    this.referenteService.getResPById(idRef).subscribe((data: any) => {
+      this.resPlanillas = data.resp;
+      console.log("dataRESP", this.resPlanillas);
+      this.dataSource = new MatTableDataSource(data.resp);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+      this.cdr.markForCheck();
+    });
   }
   cargarPlanilla() {
     this.router.navigate(["/elecciones/planilla"]);

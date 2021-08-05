@@ -19,9 +19,9 @@ export class ReferentesService {
     return this.http.get(url);
   }
 
-  getResPById(id) {
+  getResPById(id: any) {
     console.log("ID", id);
     let url = `${apiURL}/auth/usuario`;
-    return this.http.get(url, id);
+    return this.http.get(url + `/?${id}`);
   }
 }
