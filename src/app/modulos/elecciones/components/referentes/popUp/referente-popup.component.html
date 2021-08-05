@@ -20,20 +20,20 @@
                                 <ng-container *ngIf='!ocultarBusqueda'>
                                     <mat-form-field class="example-full-width" appearance="fill">
                                         <mat-label>Nro.Documento</mat-label>
-                                        <input type="text" class="form-control" matInput formControlName="dni"
-                                            placeholder="Ingrese el número de documento" required>
+                                        <input type="text" class="form-control" matInput formControlName="dni" placeholder="Ingrese el número de documento" required>
                                     </mat-form-field>
-                                    <div fxLayout="row">
+                                    <div fxLayout="row padding-1">
                                         <div class="form-group">
                                             <label>Seleccione Sexo</label>
                                             <div class="radio-inline">
-                                                <mat-radio-group aria-labelledby="example-radio-group-label"
-                                                    class="example-full-width" appearance="fill" formControlName="sexo">
+                                                <mat-radio-group aria-labelledby="example-radio-group-label" class="example-full-width" appearance="fill" formControlName="sexo">
                                                     <mat-radio-button *ngFor="let s of sexo" [value]="s" required>
                                                         {{s}}
                                                     </mat-radio-button>
 
                                                 </mat-radio-group>
+
+
                                             </div>
                                         </div>
                                     </div>
@@ -43,12 +43,11 @@
                                 <ng-container *ngIf='ocultarBusqueda'>
                                     <ng-template matStepLabel>Datos personales</ng-template>
                                     <div fxLayout="row">
-                                        <div class="col-xl-3 col-xs-3 col-sm-3 col-nombre padding-1">
+                                        <div class="col-xl-3 col-xs-3 col-sm-3 col-nombre padding-10">
 
                                             <mat-form-field class="example-full-width" appearance="fill">
                                                 <mat-label>Nombre</mat-label>
-                                                <input type="text" class="form-control" matInput
-                                                    formControlName="nombres" placeholder="Nombre" required readonly>
+                                                <input type="text" class="form-control" matInput formControlName="nombres" placeholder="Nombre" required readonly>
 
                                             </mat-form-field>
                                         </div>
@@ -57,8 +56,7 @@
                                             <div class="">
                                                 <mat-form-field class="example-full-width" appearance="fill">
                                                     <mat-label>Apellido</mat-label>
-                                                    <input type="text" class="form-control" matInput
-                                                        formControlName="apellido" placeholder="Apellido" readonly>
+                                                    <input type="text" class="form-control" matInput formControlName="apellido" placeholder="Apellido" readonly>
                                                 </mat-form-field>
                                             </div>
                                         </div>
@@ -68,8 +66,7 @@
                                                 <mat-form-field class="example-full-width" appearance="fill">
                                                     <mat-label>Provincia</mat-label>
                                                     <mat-select formControlName="provincia" required>
-                                                        <mat-option *ngFor="let prov of provincia"
-                                                            (click)="provSelect(prov)" [value]="prov">
+                                                        <mat-option *ngFor="let prov of provincia" (click)="provSelect(prov)" [value]="prov">
                                                             {{ prov |titlecase}}
                                                         </mat-option>
                                                     </mat-select>
@@ -83,8 +80,7 @@
                                                 <mat-form-field class="example-full-width" appearance="fill">
                                                     <mat-label>localidad</mat-label>
                                                     <mat-select formControlName="localidad" required>
-                                                        <mat-option *ngFor="let localidad of localidades"
-                                                            [value]="localidad.localidad_nombre">
+                                                        <mat-option *ngFor="let localidad of localidades" [value]="localidad.localidad_nombre">
                                                             {{localidad.localidad_nombre | titlecase}}
                                                         </mat-option>
                                                     </mat-select>
@@ -105,8 +101,7 @@
 
                                 <mat-form-field class="example-full-width" appearance="fill">
                                     <mat-label> Calle</mat-label>
-                                    <input class="form-control form-control-solid" matInput type="text"
-                                        formControlName="calle" name="calle" placeholder="" autocomplete="nope" />
+                                    <input class="form-control form-control-solid" matInput type="text" formControlName="calle" name="calle" placeholder="" autocomplete="nope" />
                                 </mat-form-field>
                             </div>
 
@@ -115,8 +110,7 @@
                                 <div class="">
                                     <mat-form-field class="example-full-width" appearance="fill">
                                         <mat-label>Nro</mat-label>
-                                        <input class="form-control form-control-solid" matInput type="text"
-                                            formControlName="numero" name="numero" placeholder="" />
+                                        <input class="form-control form-control-solid" matInput type="text" formControlName="numero" name="numero" placeholder="" />
                                     </mat-form-field>
                                 </div>
                             </div>
@@ -125,7 +119,7 @@
 
                     </ng-container>
                 </form>
-                <div fxLayout="row">
+                <div fxLayout="row" fxLayoutGap="12px" [style.margin-top]="'12px'">
                     <ng-container *ngIf='!ocultarBusqueda'>
                         <button mat-raised-button color="warn" type="button" (click)="buscarDNI()">Verificar
                             datos</button>
@@ -143,25 +137,23 @@
                     <div fxLayout="row">
                         <mat-form-field class="example-full-width" appearance="fill">
                             <mat-label>Email</mat-label>
-                            <input type="email" class="form-control" matInput formControlName="email"
-                                placeholder="Ex. pat@example.com">
+                            <input type="email" class="form-control" matInput formControlName="email" placeholder="Ex. pat@example.com">
                         </mat-form-field>
                         <span fxFlex="8px"></span>
                         <mat-form-field class="example-full-width" appearance="fill">
                             <mat-label>Telefono</mat-label>
                             <span matPrefix>+54 &nbsp;</span>
-                            <input type="tel" matInput class="form-control" formControlName="telefono"
-                                placeholder="299-475-1234">
+                            <input type="tel" matInput class="form-control" formControlName="telefono" placeholder="299-475-1234">
                             <mat-icon matSuffix>mode_edit</mat-icon>
                         </mat-form-field>
 
                     </div>
                 </form>
-                <div fxLayout="row">
-                    <button mat-raised-button color="accent" matStepperPrevious type="button">Volver</button>
+
+                <div fxLayout="row" fxLayoutGap="12px" [style.margin-top]="'12px'">
+                    <button mat-raised-button class="pt-10" color="accent" matStepperPrevious type="button">Volver</button>
                     <span fxFlex="8px"></span>
-                    <button mat-raised-button color="primary" [disabled]="!secondFormGroup.valid "
-                        (click)="guardar()">Guardar</button>
+                    <button mat-raised-button color="primary" [disabled]="!secondFormGroup.valid " (click)="guardar()">Guardar</button>
                     <span fxFlex="8px"></span>
                     <button mat-raised-button color="warn" (click)="stepper.reset()">Cancelar</button>
 
