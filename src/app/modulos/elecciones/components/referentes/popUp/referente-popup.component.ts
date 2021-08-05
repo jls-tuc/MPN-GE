@@ -47,7 +47,7 @@ export class ReferentePopupComponent implements OnInit {
   public ocultarPaso: boolean = false;
 
   constructor(
-    // public dialogRef: MatDialogRef<ReferentePopupComponent>,
+    @Optional() public dialogRef: MatDialogRef<ReferentePopupComponent>,
     @Optional() @Inject(MAT_DIALOG_DATA) public data: any,
     private fb: FormBuilder,
     private cdr: ChangeDetectorRef,
@@ -139,6 +139,9 @@ export class ReferentePopupComponent implements OnInit {
   obtRef(e?) {
     this.firstFormGroup.patchValue({ idReferente: e });
   }
+  cerrarPopUP() {
+    this.dialogRef.close();
+  }
   async buscarDNI() {
     const params = `dni=${this.secondFormGroup.get("dni").value}&sexo=${
       this.secondFormGroup.get("sexo").value
@@ -218,7 +221,7 @@ export class ReferentePopupComponent implements OnInit {
             "Puede continuar",
             "success"
           );
-          this.router.navigate(["/elecciones/referente"]);
+          await this.dialogRef.close();
         } else {
           Swal.fire({
             position: "top-end",

@@ -7,13 +7,18 @@ import {
   ViewChild,
 } from "@angular/core";
 import { FormBuilder } from "@angular/forms";
-import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
+import {
+  MatDialog,
+  MatDialogRef,
+  MAT_DIALOG_DATA,
+} from "@angular/material/dialog";
 import { MatTableModule, MatTableDataSource } from "@angular/material/table";
 import { MatPaginator } from "@angular/material/paginator";
 import { MatSort } from "@angular/material/sort";
 import { Router } from "@angular/router";
 import { ReferentesService } from "app/modulos/elecciones/services/referentes.service";
 import Swal from "sweetalert2";
+import { PlanillaComponent } from "../../planilla/planilla/planilla.component";
 
 @Component({
   selector: "app-responsables-p",
@@ -30,11 +35,13 @@ export class ResponsablesPComponent implements OnInit {
     "apellido",
     "nombre",
     "localidad",
+    "telefono",
     "acciones",
   ];
   dataSource: MatTableDataSource<any>;
   sortedData: any[];
   constructor(
+    public dialog: MatDialog,
     public dialogRef: MatDialogRef<ResponsablesPComponent>,
     @Optional() @Inject(MAT_DIALOG_DATA) public data: any,
     private fb: FormBuilder,
@@ -57,14 +64,29 @@ export class ResponsablesPComponent implements OnInit {
     const idRef: {} = `id=${this.datosReferente._id}`;
     this.referenteService.getResPById(idRef).subscribe((data: any) => {
       this.resPlanillas = data.resp;
-      console.log("dataRESP", this.resPlanillas);
+      // console.log("dataRESP", this.resPlanillas);
       this.dataSource = new MatTableDataSource(data.resp);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
       this.cdr.markForCheck();
     });
   }
-  cargarPlanilla() {
-    this.router.navigate(["/elecciones/planilla"]);
+  cargarPlanilla(data?) {
+    const dialogoRef: MatDialogRef<any> = this.dialog.open(PlanillaComponent, {
+      width: "75%",
+      disableClose: true,
+      data: { data },
+    });
+    dialogoRef.keydownEvents().subscribe((event) => {
+      if (event.key === "Escape") {
+        this.ngOnInit();
+        dialogoRef.close();
+      }
+    });
+
+    dialogoRef.afterClosed().subscribe((res) => {
+      this.ngOnInit();
+    });
+    this.cdr.markForCheck();
   }
 }

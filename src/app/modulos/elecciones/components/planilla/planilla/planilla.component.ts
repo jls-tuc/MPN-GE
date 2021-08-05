@@ -1,8 +1,16 @@
-import { ChangeDetectorRef, Component, OnInit } from "@angular/core";
+import {
+  ChangeDetectorRef,
+  Component,
+  Inject,
+  OnInit,
+  Optional,
+} from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
+import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
+import { VotoProvService } from "app/modulos/elecciones/services/voto-prov.service";
 import { PadronesService } from "app/modulos/elecciones/services/padrones.service";
-import { ReferentesService } from "app/modulos/elecciones/services/referentes.service";
+import { IvotoADH } from "app/modulos/elecciones/interfaces/votosAdh";
 import Swal from "sweetalert2";
 @Component({
   selector: "app-planilla",
@@ -20,12 +28,15 @@ export class PlanillaComponent implements OnInit {
   sexo: string[] = ["F", "M"];
   datosPadronNqn: {};
   datosAfiliados: {};
-  votoAdH: {};
+  datosResPlanilla: any;
+  votoAdH: IvotoADH;
   constructor(
+    public dialogRef: MatDialogRef<PlanillaComponent>,
+    @Optional() @Inject(MAT_DIALOG_DATA) public data: any,
     private fb: FormBuilder,
     private cdr: ChangeDetectorRef,
     private router: Router,
-    private referenteService: ReferentesService,
+    private votoProvService: VotoProvService,
     private padronService: PadronesService
   ) {
     this.buildFirstForm();
@@ -33,7 +44,10 @@ export class PlanillaComponent implements OnInit {
     this.buildAfiliadoForm();
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.datosResPlanilla = this.data.data;
+    // console.log("datos", this.datosResPlanilla);
+  }
   buildFirstForm() {
     this.firstFormGroup = this.fb.group({
       dni: ["", Validators.required],
@@ -93,6 +107,46 @@ export class PlanillaComponent implements OnInit {
       }
     });
   }
+  cerrarPopUP() {
+    this.dialogRef.close();
+  }
+  guardar() {
+    this.votoAdH = {
+      dni: this.firstFormGroup.get("dni").value,
+      sexo: this.firstFormGroup.get("sexo").value,
+      nombreCompleto: this.secondFormGroup.get("nombreCompleto").value,
+      clase: this.secondFormGroup.get("clase").value,
+      genero: this.secondFormGroup.get("genero").value,
+      telefono: this.secondFormGroup.get("telefono").value,
+      tipo_voto: this.secondFormGroup.get("tipo_voto").value,
+      circuito: this.secondFormGroup.get("circuito").value,
+      afiliado: this.afiliadoFormGroup.get("afiliado").value,
+      fec_afiliacion: this.afiliadoFormGroup.get("fec_afiliacion").value,
+      resPlanilla: {
+        idResPlanilla: this.datosResPlanilla._id,
+      },
+    };
+    //console.log("voto", this.votoAdH);
 
-  guardar() {}
+    this.votoProvService
+      .postVotoProv(this.votoAdH)
+      .subscribe(async (data: any) => {
+        if (data.ok === true) {
+          await Swal.fire(
+            "El usuario fue cargado correctamente",
+            "Puede continuar",
+            "success"
+          );
+          await this.dialogRef.close();
+        } else {
+          Swal.fire({
+            position: "top-end",
+            icon: "warning",
+            title: `${data.msg}`,
+            showConfirmButton: false,
+            timer: 3500,
+          });
+        }
+      });
+  }
 }
