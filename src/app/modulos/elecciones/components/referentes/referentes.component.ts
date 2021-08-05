@@ -35,8 +35,8 @@ export class ReferentesComponent implements OnInit {
     const dialogoRef: MatDialogRef<any> = this.dialog.open(
       ResponsablesPComponent,
       {
-        width: "70%",
-        height: "90%",
+        width: "50%",
+
         disableClose: true,
         data: { title, payload: data },
       }
