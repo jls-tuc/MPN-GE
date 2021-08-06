@@ -78,8 +78,8 @@ export class ReferentesComponent implements OnInit {
 
   cargarReferentes() {
     this.referenteService.getReferente().subscribe((res: any) => {
-      this.users = res.data.filter((data) => data.role === "user-ref");
-      // console.log("users", this.users);
+      this.users = res.resp.filter((data) => data.role === "user-ref");
+      //  console.log("users", this.users);
     });
   }
 }
