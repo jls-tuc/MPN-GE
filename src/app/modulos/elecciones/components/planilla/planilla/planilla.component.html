@@ -3,7 +3,7 @@
         <div class="card-title-text">Planilla de Voto Adhesion de: {{datosResPlanilla.datosPersonales.apellido
             |titlecase}} {{datosResPlanilla.datosPersonales.nombres |titlecase}}</div>
         <mat-divider></mat-divider>
-    </mat-card-title>º
+    </mat-card-title>
     <mat-card-content>
         <mat-vertical-stepper [linear]="true" linear #stepper>
             <mat-step [stepControl]="firstFormGroup">
@@ -14,8 +14,8 @@
 
                             <div flexorder="1" fxFlex.xs="" fxFlex.sm="" fxflex.xs="" fxflex="33%">
                                 <ng-container *ngIf='!ocultarBusqueda'>
-                                    <mat-form-field class="example-full-width" appearance="fill">
-                                        <mat-label>Nro.Documento</mat-label>
+                                    <mat-form-field class="example-full-width mt-2" appearance="fill">
+                                        <mat-label>Nro. Documento</mat-label>
                                         <input type="text" class="form-control" matInput formControlName="dni"
                                             placeholder="Ingrese el número de documento" required>
                                     </mat-form-field>
@@ -25,7 +25,7 @@
                                             <div class="radio-inline">
                                                 <mat-radio-group aria-labelledby="example-radio-group-label"
                                                     class="example-full-width" appearance="fill" formControlName="sexo">
-                                                    <mat-radio-button *ngFor="let s of sexo" [value]="s" required>
+                                                    <mat-radio-button class="pr-1" *ngFor="let s of sexo" [value]="s" required>
                                                         {{s}}
                                                     </mat-radio-button>
 
@@ -40,11 +40,10 @@
                     </div>
 
                 </form>
-                <div fxLayout="row">
+                <div fxLayout="row" class="mt-1">
                     <ng-container *ngIf='!ocultarBusqueda'>
                         <button mat-raised-button color="warn" type="button" (click)="buscarDatos()"
-                            matStepperNext>Verificar
-                            datos </button>
+                            matStepperNext>Verificar Datos</button>
                     </ng-container>
                     <!-- <ng-container *ngIf='ocultarBusqueda'>
                         <button mat-raised-button color="warn" (click)="stepper.reset()"

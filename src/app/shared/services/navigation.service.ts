@@ -58,7 +58,7 @@ export class NavigationService {
       ],
     }, */
     {
-      name: "Estadisticas",
+      name: "Estadísticas",
       type: "link",
       tooltip: "Charts",
       icon: "show_chart",

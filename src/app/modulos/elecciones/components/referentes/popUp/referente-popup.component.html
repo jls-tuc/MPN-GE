@@ -1,10 +1,10 @@
 <mat-card class="p-0">
     <mat-card-title class="">
         <ng-container *ngIf="this.usuarioRol.role === 'user-ref'">
-            <div class="card-title-text">Cargar un Responsable de planilla</div>
+            <div class="card-title-text">Cargar Responsable de Planilla</div>
         </ng-container>
         <ng-container *ngIf="this.usuarioRol.role === '!user-ref'">
-            <div class="card-title-text">Cargar un Referente</div>
+            <div class="card-title-text">Cargar Referente</div>
         </ng-container>
         <mat-divider></mat-divider>
     </mat-card-title>
@@ -12,14 +12,14 @@
         <mat-stepper linear #stepper>
             <mat-step [stepControl]="secondFormGroup">
                 <form [formGroup]="secondFormGroup">
-                    <ng-template matStepLabel>Ingrese el numero de documento</ng-template>
+                    <ng-template matStepLabel>Ingrese el Número de Documento</ng-template>
                     <div fxLayout="column">
                         <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column">
 
                             <div flexorder="1" fxFlex.xs="" fxFlex.sm="" fxflex.xs="" fxflex="33%">
                                 <ng-container *ngIf='!ocultarBusqueda'>
-                                    <mat-form-field class="example-full-width" appearance="fill">
-                                        <mat-label>Nro.Documento</mat-label>
+                                    <mat-form-field class="example-full-width mt-2" appearance="fill">
+                                        <mat-label>Nro. Documento</mat-label>
                                         <input type="text" class="form-control" matInput formControlName="dni"
                                             placeholder="Ingrese el número de documento" required>
                                     </mat-form-field>
@@ -29,7 +29,7 @@
                                             <div class="radio-inline">
                                                 <mat-radio-group aria-labelledby="example-radio-group-label"
                                                     class="example-full-width" appearance="fill" formControlName="sexo">
-                                                    <mat-radio-button *ngFor="let s of sexo" [value]="s" required>
+                                                    <mat-radio-button class="pr-1" *ngFor="let s of sexo" [value]="s" required>
                                                         {{s}}
                                                     </mat-radio-button>
 
@@ -169,7 +169,7 @@
                 </form>
 
                 <div fxLayout="row" fxLayoutGap="12px" [style.margin-top]="'12px'">
-                    <button mat-raised-button class="pt-10" color="accent" matStepperPrevious
+                    <button mat-raised-button class="pt-10 color-texto-blanco" color="accent" matStepperPrevious
                         type="button">Volver</button>
                     <span fxFlex="8px"></span>
                     <button mat-raised-button color="primary" [disabled]="!secondFormGroup.valid "

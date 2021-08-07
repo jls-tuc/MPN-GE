@@ -1,7 +1,7 @@
 <mat-card class="p-10">
     <mat-card-title class="">
         <div class="card-title-text">
-            <span>Informacion sobre padron electoral Provincial y del Partido</span>
+            <span>Información sobre el Padrón Electoral Provincial y del Partido</span>
         </div>
         <mat-divider></mat-divider>
     </mat-card-title>
@@ -9,13 +9,13 @@
 
         <form class="m-4" [formGroup]="itemForm" autocomplete="off">
             <div class="row">
-                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-3">
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
                     <mat-form-field class="DP-full-width">
-                        <mat-label>Nro.Documento</mat-label>
+                        <mat-label>Nro. Documento</mat-label>
                         <input type="text" class="form-control" matInput formControlName="dni"
                             [class.is-invalid]='dniNoValido' placeholder="Ingrese el número de dni">
                         <mat-error *ngIf='dniNoValido' class="text-danger col-lg-6">
-                            <strong> Es necesario completar el campo.</strong>
+                            <strong>Es necesario completar el campo.</strong>
                         </mat-error>
                     </mat-form-field>
                     <div class="form-group">
@@ -23,25 +23,23 @@
                         <div class="radio-inline">
                             <mat-radio-group aria-labelledby="example-radio-group-label" class="radio radio-lg"
                                 formControlName="sexo">
-                                <mat-radio-button *ngFor="let s of sexo" [value]="s" [class.is-invalid]='sexoNoValido'>
+                                <mat-radio-button class="pr-1" *ngFor="let s of sexo" [value]="s" [class.is-invalid]='sexoNoValido'>
                                     {{s}}
                                 </mat-radio-button>
                                 <mat-error *ngIf='sexoNoValido' class="text-danger col-lg-6">
-                                    <strong>Seleccioná el sexo como
-                                        figura en el dni</strong>
+                                    <strong>Seleccioná el sexo como figura en el DNI</strong>
                                 </mat-error>
                             </mat-radio-group>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-3">
+                    <div class="row mt-2">
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                             <button class="mat-primary mb-16 mr-8" [disabled]="!itemForm.valid " mat-raised-button
-                                (click)="validarDNI()" color="primary">Buscar </button>
+                                (click)="validarDNI()" color="primary">Buscar</button>
 
                             <button mat-raised-button color="warn" mat-button [routerLink]="['/']">Cancelar</button>
                         </div>
                     </div>
-                    >
                 </div>
             </div>
         </form>
@@ -52,7 +50,7 @@
         <mat-card class="user-card p-0">
             <mat-card-title>
                 <div class="card-title-text">
-                    <a href="" class="toolbar-avatar md mr-16"><img [src]="assets/images/escudoNQN" alt=""></a>
+                    <a href="" class="toolbar-avatar md mr-16"><img src="assets/images/logos/logo_prov.png" alt=""></a>
                     <span>{{data.apellido |titlecase}} {{data.nombre |titlecase}}</span>
                     <span fxFlex></span>
                 </div>

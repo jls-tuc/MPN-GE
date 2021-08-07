@@ -21,7 +21,7 @@ export class Signin2Component implements OnInit {
     private fb: FormBuilder,
     private authService: JwtAuthService,
     private router: Router
-  ) {}
+  ) { }
 
   ngOnInit() {
     const password = new FormControl("", Validators.required);
@@ -40,7 +40,7 @@ export class Signin2Component implements OnInit {
   onSubmit() {
     if (!this.signupForm.invalid) {
       // do what you wnat with your data
-      console.log(this.signupForm.value);
+      /* console.log(this.signupForm.value); */
       this.authService.signin(this.signupForm.value).subscribe((resp) => {
         this.router.navigateByUrl(this.authService.return);
       });
