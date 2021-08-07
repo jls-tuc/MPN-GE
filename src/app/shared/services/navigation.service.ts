@@ -30,6 +30,13 @@ interface IBadge {
 export class NavigationService {
   iconMenu: IMenuItem[] = [
     {
+      name: "Coordinador",
+      type: "dropDown",
+      tooltip: "Documentation",
+      icon: "person",
+      sub: [{ name: "Agregar", state: "elecciones/coordinador" }],
+    },
+    {
       name: "Referentes",
       type: "dropDown",
       tooltip: "Documentation",

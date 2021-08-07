@@ -1,30 +1,17 @@
-import {
-  ChangeDetectorRef,
-  Component,
-  Inject,
-  OnInit,
-  Optional,
-} from "@angular/core";
+import { ChangeDetectorRef, Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { Router } from "@angular/router";
 import { Iusuario } from "app/modulos/elecciones/interfaces/usuario.interfaces";
 import { ReferentesService } from "app/modulos/elecciones/services/referentes.service";
-import { UserModel } from "app/shared/models/user.model";
-import { JwtAuthService } from "app/shared/services/auth/jwt-auth.service";
 import { ProvLocService } from "app/shared/services/prov-loc.service";
 import { ValidarPersonaService } from "app/shared/services/renaper/validar.persona.service";
-import { Observable } from "rxjs";
 import Swal from "sweetalert2";
-
 @Component({
-  selector: "app-referente-popup",
-  templateUrl: "./referente-popup.component.html",
-  styleUrls: ["./referente-popup.component.scss"],
+  selector: "app-pop-up-coor",
+  templateUrl: "./pop-up-coor.component.html",
+  styleUrls: ["./pop-up-coor.component.scss"],
 })
-export class ReferentePopupComponent implements OnInit {
-  user$: Observable<UserModel>;
-  usurioLog: any;
+export class PopUpCoorComponent implements OnInit {
   edata: string = "referente";
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
@@ -32,8 +19,8 @@ export class ReferentePopupComponent implements OnInit {
   tipoReferente = [
     { tipo: "Referente", role: "USER-REF" },
     { tipo: "Responsable de planilla", role: "USER-RESP" },
+    { tipo: "Coordinador", role: "USER-COORD" },
   ];
-  idCorrd: String;
   idReferente: string;
   role: string;
   idReferentes: any[] = [];
@@ -51,27 +38,19 @@ export class ReferentePopupComponent implements OnInit {
   public ocultarPaso: boolean = false;
 
   constructor(
-    @Optional() public dialogRef: MatDialogRef<ReferentePopupComponent>,
-    @Optional() @Inject(MAT_DIALOG_DATA) public data: any,
     private fb: FormBuilder,
     private cdr: ChangeDetectorRef,
     private router: Router,
-    private auth: JwtAuthService,
     private ValidarPersona: ValidarPersonaService,
     private provLocService: ProvLocService,
     private referenteService: ReferentesService
   ) {
     this.dataPForm();
     this.userForm();
-    this.user$ = this.auth.currentUserSubject.asObservable();
-    this.usurioLog = this.user$;
-    // console.log(`this.usurioLog`, this.usurioLog.source._value);
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.obtProvLoc();
-    this.cargarReferentes();
-    this.usuarioRol = this.data.data;
   }
 
   dataPForm(data?) {
@@ -99,24 +78,15 @@ export class ReferentePopupComponent implements OnInit {
   userForm(data?) {
     this.firstFormGroup = this.fb.group({
       usuario: [data ? data.dni : ""],
-      password: [data ? this.getPassword(data.dni.toLowerCase()) : ""],
+      password: [data ? this.getPassword(data.nombres.toLowerCase()) : ""],
       activo: [true],
       fechaAltaUsuario: [""],
-      fechaBajaUsuario: [""],
+      fechaBajaUsuario: [null],
       lastLogin: [""],
       role: ["", [Validators.required]],
       idReferente: [{ value: "", disabled: true }],
     });
   }
-
-  cargarReferentes() {
-    /*  this.referenteService.getReferente().subscribe((res: any) => {
-      let usuarios = res.data;
-      this.idReferentes = usuarios.filter((res) => res.role === "user-ref");
-      //  console.log("res", this.idReferentes);
-    }); */
-  }
-
   obtProvLoc() {
     this.provLocService.getProvLocalidades().subscribe((data: any) => {
       this.provLoc = data.data;
@@ -148,9 +118,7 @@ export class ReferentePopupComponent implements OnInit {
   obtRef(e?) {
     this.firstFormGroup.patchValue({ idReferente: e });
   }
-  cerrarPopUP() {
-    this.dialogRef.close();
-  }
+
   async buscarDNI() {
     const params = `dni=${this.secondFormGroup.get("dni").value}&sexo=${
       this.secondFormGroup.get("sexo").value
@@ -178,17 +146,9 @@ export class ReferentePopupComponent implements OnInit {
       }
     );
   }
-
   guardar() {
-    console.log(this.usurioLog.source._value.role);
-    if (this.usurioLog.source._value.role === "user-ref") {
-      this.idReferente = this.usurioLog.source._value.id;
-      this.role = "USER-RESP";
-      this.idCorrd = this.usuarioRol.idCoordinador;
-    } else {
-      this.role = "USER-REF";
-      this.idCorrd = this.usurioLog.source._value.id;
-    }
+    this.role = "USER-COORD";
+
     this.referenteForm = {
       usuario: this.firstFormGroup.get("usuario").value,
       password: this.firstFormGroup.get("password").value,
@@ -197,7 +157,7 @@ export class ReferentePopupComponent implements OnInit {
       fechaBajaUsuario: this.firstFormGroup.get("fechaBajaUsuario").value,
       lastLogin: this.firstFormGroup.get("lastLogin").value,
       role: this.role,
-      idCoordinador: this.idCorrd,
+      idCoordinador: "",
       idReferente: this.idReferente,
       datosPersonales: {
         nombres: this.secondFormGroup.get("nombres").value,
@@ -235,7 +195,7 @@ export class ReferentePopupComponent implements OnInit {
             "Puede continuar",
             "success"
           );
-          await this.dialogRef.close();
+          await this.router.navigateByUrl("/elecciones/referente");
         } else {
           Swal.fire({
             position: "top-end",
@@ -248,17 +208,11 @@ export class ReferentePopupComponent implements OnInit {
       });
   }
 
-  getPassword(dni: string) {
-    let newPass = dni + "mpn2021";
+  getPassword(nombre: string) {
+    let pass: any = nombre.split(" ");
+    let newPass = pass[1] + "Eleccion2021";
     return newPass;
   }
-  /* get dniNoValido() {
-    return (
-      this.secondFormGroup.get("dni").invalid &&
-      this.secondFormGroup.get("dni").touched
-    );
-  } */
-
   get sexoNoValido() {
     return (
       this.secondFormGroup.get("sexo").invalid &&

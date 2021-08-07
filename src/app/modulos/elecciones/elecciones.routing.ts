@@ -4,6 +4,7 @@ import { PadronesComponent } from "./components/padrones/padrones.component";
 import { IndicadoresComponent } from "./components/indicadores/indicadores.component";
 import { ReferentePopupComponent } from "./components/referentes/popUp/referente-popup.component";
 import { PlanillaComponent } from "./components/planilla/planilla/planilla.component";
+import { PopUpCoorComponent } from "./components/coordinador/pop-up-coor/pop-up-coor.component";
 
 export const EleccionesRoutes: Routes = [
   {
@@ -33,6 +34,11 @@ export const EleccionesRoutes: Routes = [
         path: "planilla",
         component: PlanillaComponent,
         data: { title: "Planillas", breadcrumb: "PLANILLAS" },
+      },
+      {
+        path: "coordinador",
+        component: PopUpCoorComponent,
+        data: { title: "Coordinador", breadcrumb: "COORDINADOR" },
       },
     ],
   },

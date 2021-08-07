@@ -64,7 +64,7 @@ export class ResponsablesPComponent implements OnInit {
     const idRef: {} = `id=${this.datosReferente._id}`;
     this.referenteService.getResPById(idRef).subscribe((data: any) => {
       this.resPlanillas = data.resp;
-      // console.log("dataRESP", this.resPlanillas);
+      console.log("dataRESP", this.resPlanillas);
       this.dataSource = new MatTableDataSource(data.resp);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;

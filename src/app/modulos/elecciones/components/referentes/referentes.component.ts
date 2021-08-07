@@ -6,6 +6,9 @@ import { ReferentePopupComponent } from "./popUp/referente-popup.component";
 import { ResponsablesPComponent } from "../responsablesPlanilla/responsables-p/responsables-p.component";
 import { filter } from "rxjs/operators";
 import { PlanillaComponent } from "../planilla/planilla/planilla.component";
+import { Observable } from "rxjs";
+import { UserModel } from "app/shared/models/user.model";
+import { JwtAuthService } from "app/shared/services/auth/jwt-auth.service";
 
 @Component({
   selector: "app-referentes",
@@ -13,15 +16,26 @@ import { PlanillaComponent } from "../planilla/planilla/planilla.component";
   styleUrls: ["./referentes.component.scss"],
 })
 export class ReferentesComponent implements OnInit {
+  user$: Observable<UserModel>;
   users = [];
+  usurioLog: any;
+  usLogRole: any;
   constructor(
     private referenteService: ReferentesService,
+    private auth: JwtAuthService,
     public dialog: MatDialog,
     private cdr: ChangeDetectorRef
-  ) {}
+  ) {
+    this.user$ = this.auth.currentUserSubject.asObservable();
+    this.usurioLog = this.user$;
+    this.usLogRole = this.usurioLog.source._value.role;
+    console.log(`this.usurioLog`, this.usurioLog.source._value);
+    console.log(`this.role`, this.usLogRole);
+  }
 
   ngOnInit(): void {
-    this.cargarReferentes();
+    // this.cargarReferentes();
+    this.mostarCard();
   }
 
   openDialog(data?) {
@@ -76,10 +90,40 @@ export class ReferentesComponent implements OnInit {
     this.cdr.markForCheck();
   }
 
+  mostarCard() {
+    console.log(`Estoy cardddp`);
+    if (this.usurioLog.source._value.role === "user-coord") {
+      this.cargarReferentes();
+    } else if (this.usurioLog.source._value.role === "user-ref") {
+      console.log(`Estoy resp`);
+      this.cargarResponsables();
+    } else {
+      console.log(`Estoy planilla`);
+      this.cargarPlanillero();
+    }
+  }
+
   cargarReferentes() {
     this.referenteService.getReferente().subscribe((res: any) => {
-      this.users = res.resp.filter((data) => data.role === "user-ref");
+      this.users = res.resp.filter(
+        (data) => data.idCoordinador === this.usurioLog.source._value.id
+      );
       //  console.log("users", this.users);
+    });
+  }
+  cargarResponsables() {
+    this.referenteService.getReferente().subscribe((res: any) => {
+      this.users = res.resp.filter(
+        (data) => data.idReferente === this.usurioLog.source._value.id
+      );
+    });
+  }
+  cargarPlanillero() {
+    this.referenteService.getReferente().subscribe((res: any) => {
+      console.log(res);
+      this.users = res.resp.filter(
+        (data) => data._id === this.usurioLog.source._value.id
+      );
     });
   }
 }

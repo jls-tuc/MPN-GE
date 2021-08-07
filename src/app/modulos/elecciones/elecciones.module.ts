@@ -17,9 +17,10 @@ import { NgApexchartsModule } from "ng-apexcharts";
 import * as echarts from "echarts";
 import { NgxDatatableModule } from "@swimlane/ngx-datatable";
 import { SharedPipesModule } from "app/shared/pipes/shared-pipes.module";
-import { RespPopUpComponent } from './components/responsablesPlanilla/resp-pop-up/resp-pop-up.component';
-import { PlanillaComponent } from './components/planilla/planilla/planilla.component';
-import { ResponsablesPComponent } from './components/responsablesPlanilla/responsables-p/responsables-p.component';
+import { RespPopUpComponent } from "./components/responsablesPlanilla/resp-pop-up/resp-pop-up.component";
+import { PlanillaComponent } from "./components/planilla/planilla/planilla.component";
+import { ResponsablesPComponent } from "./components/responsablesPlanilla/responsables-p/responsables-p.component";
+import { PopUpCoorComponent } from "./components/coordinador/pop-up-coor/pop-up-coor.component";
 
 @NgModule({
   imports: [
@@ -48,6 +49,7 @@ import { ResponsablesPComponent } from './components/responsablesPlanilla/respon
     RespPopUpComponent,
     PlanillaComponent,
     ResponsablesPComponent,
+    PopUpCoorComponent,
   ],
 })
 export class EleccionesModule {}

@@ -6,7 +6,8 @@ export interface Iusuario {
   fechaBajaUsuario: String;
   lastLogin: String;
   role: String;
-  referentes: { idReferente: String };
+  idCoordinador: String;
+  idReferente: String;
   datosPersonales: {
     nombres: String;
     apellido: String;
@@ -19,5 +20,6 @@ export interface Iusuario {
     localidad: String;
     email: String;
     telefono: String;
+    areaResponsable: String;
   };
 }

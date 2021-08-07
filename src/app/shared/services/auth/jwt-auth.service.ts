@@ -46,7 +46,7 @@ export class JwtAuthService {
       delay(1000),
       map((res: any) => {
         // console.log("res", res);
-        this.setUserAndToken(res.token, res.ok);
+        this.setUserAndToken(res.token, res.ok, res.foto);
         this.signingIn = false;
         return res;
       }),
@@ -118,7 +118,7 @@ export class JwtAuthService {
   }
 
   public signout() {
-    this.setUserAndToken(null, false);
+    this.setUserAndToken(null, false, null);
     this.ls.clear();
     this.router.navigateByUrl("sessions/signin2");
   }
@@ -134,10 +134,11 @@ export class JwtAuthService {
     return this.ls.getItem(this.APP_USER);
   }
 
-  setUserAndToken(token: String, isAuthenticated: Boolean) {
+  setUserAndToken(token: String, isAuthenticated: Boolean, foto: string) {
     this.isAuthenticated = isAuthenticated;
     this.token = token;
     this.user = this.getUserDetails(token);
+    sessionStorage.setItem("FOTO", foto);
     //console.log("user", this.user);
     this.currentUserSubject = new BehaviorSubject<UserModel>(this.user);
 
