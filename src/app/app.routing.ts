@@ -19,7 +19,7 @@ export const rootRouterConfig: Routes = [
           import("./views/sessions/sessions.module").then(
             (m) => m.SessionsModule
           ),
-        data: { title: "Session" },
+        data: { title: "Ingreso" },
       },
     ],
   },

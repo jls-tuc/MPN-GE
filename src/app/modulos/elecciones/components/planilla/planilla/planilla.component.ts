@@ -98,7 +98,7 @@ export class PlanillaComponent implements OnInit {
         });
       } else {
         Swal.fire({
-          position: "top-end",
+          position: "center",
           icon: "warning",
           title: `${res.msg}`,
           showConfirmButton: false,
@@ -140,7 +140,7 @@ export class PlanillaComponent implements OnInit {
           await this.dialogRef.close();
         } else {
           Swal.fire({
-            position: "top-end",
+            position: "center",
             icon: "warning",
             title: `${data.msg}`,
             showConfirmButton: false,
