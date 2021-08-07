@@ -12,7 +12,7 @@ export const SessionsRoutes: Routes = [
       {
         path: "signin2",
         component: Signin2Component,
-        data: { title: "Signin2" },
+        data: { title: "Sistema" },
       },
 
       {

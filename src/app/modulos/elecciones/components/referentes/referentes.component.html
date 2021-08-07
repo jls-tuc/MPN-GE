@@ -10,14 +10,14 @@
                             |titlecase}}</span>
                         <span fxFlex></span>
                         <button mat-icon-button [matMenuTriggerFor]="userMenu" class="">
-                            <mat-icon class="">more_vert</mat-icon>
+                            <mat-icon class="color-texto-primario size-texto-30">add_circle</mat-icon>
                         </button>
                         <mat-menu #userMenu="matMenu">
                             <button mat-menu-item (click)="openDialog(user)">Agregar responsable de planilla</button>
                             <button mat-menu-item (click)="openDialogResPlanillas(user)">Responsables de
                                 planillas</button>
                             <button mat-menu-item (click)="openCargarPlanilla(user)">Cargar Planilla</button>
-                            <button mat-menu-item>Estadisticas</button>
+                            <button mat-menu-item>Estadísticas</button>
                         </mat-menu>
                     </div>
                     <mat-divider></mat-divider>

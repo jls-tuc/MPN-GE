@@ -159,7 +159,7 @@ export class ReferentePopupComponent implements OnInit {
           this.userForm(data);
         } else {
           Swal.fire({
-            position: "top-end",
+            position: "center",
             icon: "warning",
             title: "Por favor, verifique los datos ingresados.",
             showConfirmButton: false,
@@ -224,7 +224,7 @@ export class ReferentePopupComponent implements OnInit {
           await this.dialogRef.close();
         } else {
           Swal.fire({
-            position: "top-end",
+            position: "center",
             icon: "warning",
             title: `${data.msg}`,
             showConfirmButton: false,
