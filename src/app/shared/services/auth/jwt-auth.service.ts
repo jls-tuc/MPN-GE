@@ -6,6 +6,7 @@ import { map, catchError, delay } from "rxjs/operators";
 import { UserModel } from "../../models/user.model";
 import { of, BehaviorSubject, throwError, Observable } from "rxjs";
 import { environment } from "environments/environment";
+import Swal from "sweetalert2";
 const apiURL = environment.apiURL;
 // ================= only for demo purpose ===========
 
@@ -45,12 +46,19 @@ export class JwtAuthService {
     return this.http.post(`${apiURL}/auth/login`, formUs).pipe(
       delay(1000),
       map((res: any) => {
-        // console.log("res", res);
+        //console.log("res", res);
         this.setUserAndToken(res.token, res.ok, res.foto);
         this.signingIn = false;
         return res;
       }),
       catchError((error) => {
+        Swal.fire({
+          position: "center",
+          icon: "warning",
+          title: `${error.error.msg}`,
+          showConfirmButton: false,
+          timer: 3500,
+        });
         return throwError(error);
       })
     );

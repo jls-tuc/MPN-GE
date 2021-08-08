@@ -13,6 +13,7 @@ import { Subject } from "rxjs";
 import { takeUntil } from "rxjs/operators";
 import { AppLoaderService } from "../../../shared/services/app-loader/app-loader.service";
 import { JwtAuthService } from "../../../shared/services/auth/jwt-auth.service";
+import Swal from "sweetalert2";
 
 @Component({
   selector: "app-signin",
@@ -72,7 +73,15 @@ export class SigninComponent implements OnInit, AfterViewInit, OnDestroy {
       (err) => {
         this.submitButton.disabled = false;
         this.progressBar.mode = "determinate";
-        this.errorMsg = err.message;
+        Swal.fire({
+          position: "center",
+          icon: "warning",
+          title: `${err.message}`,
+          showConfirmButton: false,
+          timer: 3500,
+        });
+
+        //   this.errorMsg = err.message;
         // console.log(err);
       }
     );

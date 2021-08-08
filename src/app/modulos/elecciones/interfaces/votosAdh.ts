@@ -11,5 +11,7 @@ export interface IvotoADH {
   fec_afiliacion: String;
   resPlanilla: {
     idResPlanilla: String;
+    idCoordinador: String;
+    idReferente: String;
   };
 }

@@ -17,8 +17,9 @@ import { MatPaginator } from "@angular/material/paginator";
 import { MatSort } from "@angular/material/sort";
 import { Router } from "@angular/router";
 import { ReferentesService } from "app/modulos/elecciones/services/referentes.service";
-import Swal from "sweetalert2";
 import { PlanillaComponent } from "../../planilla/planilla/planilla.component";
+import { VerPlanillaComponent } from "../../planilla/ver-planilla/ver-planilla.component";
+import Swal from "sweetalert2";
 
 @Component({
   selector: "app-responsables-p",
@@ -64,7 +65,7 @@ export class ResponsablesPComponent implements OnInit {
     const idRef: {} = `id=${this.datosReferente._id}`;
     this.referenteService.getResPById(idRef).subscribe((data: any) => {
       this.resPlanillas = data.resp;
-      //      console.log("dataRESP", this.resPlanillas);
+      //console.log("dataRESP", this.resPlanillas);
       this.dataSource = new MatTableDataSource(data.resp);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
@@ -77,6 +78,28 @@ export class ResponsablesPComponent implements OnInit {
       disableClose: true,
       data: { data },
     });
+    dialogoRef.keydownEvents().subscribe((event) => {
+      if (event.key === "Escape") {
+        this.ngOnInit();
+        dialogoRef.close();
+      }
+    });
+
+    dialogoRef.afterClosed().subscribe((res) => {
+      this.ngOnInit();
+    });
+    this.cdr.markForCheck();
+  }
+
+  verVotos(data?) {
+    const dialogoRef: MatDialogRef<any> = this.dialog.open(
+      VerPlanillaComponent,
+      {
+        width: "75%",
+        disableClose: true,
+        data: { data },
+      }
+    );
     dialogoRef.keydownEvents().subscribe((event) => {
       if (event.key === "Escape") {
         this.ngOnInit();

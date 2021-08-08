@@ -12,4 +12,9 @@ export class VotoProvService {
     let url = `${apiURL}/votoProv`;
     return this.http.post(url, data);
   }
+
+  getVotosById(id) {
+    let url = `${apiURL}/votoProv`;
+    return this.http.get(url + `/id?${id}`);
+  }
 }

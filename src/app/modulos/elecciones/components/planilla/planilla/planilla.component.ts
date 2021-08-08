@@ -46,7 +46,7 @@ export class PlanillaComponent implements OnInit {
 
   ngOnInit(): void {
     this.datosResPlanilla = this.data.data;
-    // console.log("datos", this.datosResPlanilla);
+    //  console.log("datos", this.datosResPlanilla);
   }
   buildFirstForm() {
     this.firstFormGroup = this.fb.group({
@@ -124,6 +124,8 @@ export class PlanillaComponent implements OnInit {
       fec_afiliacion: this.afiliadoFormGroup.get("fec_afiliacion").value,
       resPlanilla: {
         idResPlanilla: this.datosResPlanilla._id,
+        idCoordinador: this.datosResPlanilla.idCoordinador,
+        idReferente: this.datosResPlanilla.idReferente,
       },
     };
     //console.log("voto", this.votoAdH);
@@ -133,7 +135,7 @@ export class PlanillaComponent implements OnInit {
       .subscribe(async (data: any) => {
         if (data.ok === true) {
           await Swal.fire(
-            "El usuario fue cargado correctamente",
+            "El voto fue cargado correctamente",
             "Puede continuar",
             "success"
           );

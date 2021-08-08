@@ -20,6 +20,9 @@
                                 planillas</button>
                         </ng-container>
                         <button mat-menu-item (click)="openCargarPlanilla(user)">Cargar Planilla</button>
+                        <ng-container *ngIf="usLogRole !== 'user-coord'">
+                            <button mat-menu-item (click)="verPlanillas(user)">Ver planilla Adhesion</button>
+                        </ng-container>
                         <button mat-menu-item>Estadisticas</button>
                     </mat-menu>
                 </div>
