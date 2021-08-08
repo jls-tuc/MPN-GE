@@ -29,8 +29,8 @@ export class ReferentesComponent implements OnInit {
     this.user$ = this.auth.currentUserSubject.asObservable();
     this.usurioLog = this.user$;
     this.usLogRole = this.usurioLog.source._value.role;
-    console.log(`this.usurioLog`, this.usurioLog.source._value);
-    console.log(`this.role`, this.usLogRole);
+    // console.log(`this.usurioLog`, this.usurioLog.source._value);
+    //console.log(`this.role`, this.usLogRole);
   }
 
   ngOnInit(): void {
@@ -91,14 +91,14 @@ export class ReferentesComponent implements OnInit {
   }
 
   mostarCard() {
-    console.log(`Estoy cardddp`);
+    //console.log(`Estoy cardddp`);
     if (this.usurioLog.source._value.role === "user-coord") {
       this.cargarReferentes();
     } else if (this.usurioLog.source._value.role === "user-ref") {
-      console.log(`Estoy resp`);
+      //console.log(`Estoy resp`);
       this.cargarResponsables();
     } else {
-      console.log(`Estoy planilla`);
+      // console.log(`Estoy planilla`);
       this.cargarPlanillero();
     }
   }
@@ -120,7 +120,7 @@ export class ReferentesComponent implements OnInit {
   }
   cargarPlanillero() {
     this.referenteService.getReferente().subscribe((res: any) => {
-      console.log(res);
+      //      console.log(res);
       this.users = res.resp.filter(
         (data) => data._id === this.usurioLog.source._value.id
       );

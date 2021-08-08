@@ -72,6 +72,7 @@ export class ReferentePopupComponent implements OnInit {
     this.obtProvLoc();
     this.cargarReferentes();
     this.usuarioRol = this.data.data;
+    //console.log("resss", this.usuarioRol);
   }
 
   dataPForm(data?) {
@@ -180,9 +181,12 @@ export class ReferentePopupComponent implements OnInit {
   }
 
   guardar() {
-    console.log(this.usurioLog.source._value.role);
     if (this.usurioLog.source._value.role === "user-ref") {
       this.idReferente = this.usurioLog.source._value.id;
+      this.role = "USER-RESP";
+      this.idCorrd = this.usuarioRol.idCoordinador;
+    } else if (this.usuarioRol.role === "user-ref") {
+      this.idReferente = this.usuarioRol._id;
       this.role = "USER-RESP";
       this.idCorrd = this.usuarioRol.idCoordinador;
     } else {
@@ -214,7 +218,7 @@ export class ReferentePopupComponent implements OnInit {
         areaResponsable: this.secondFormGroup.get("areaResponsable").value,
       },
     };
-    console.log(`this.referenteForm`, this.referenteForm);
+    //console.log(`this.referenteForm`, this.referenteForm);
 
     /* this.pacienteForm.patchValue({
         direccion: `${
