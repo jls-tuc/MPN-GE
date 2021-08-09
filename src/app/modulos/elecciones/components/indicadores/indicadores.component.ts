@@ -3,6 +3,7 @@ import { egretAnimations } from 'app/shared/animations/egret-animations';
 import { LayoutService } from 'app/shared/services/layout.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { VotoProvService } from '../../services/voto-prov.service';
+import { JwtAuthService } from '../../../../shared/services/auth/jwt-auth.service';
 import {
   ApexNonAxisChartSeries,
   ApexResponsive,
@@ -11,6 +12,8 @@ import {
   ApexPlotOptions,
   ApexDataLabels
 } from "ng-apexcharts";
+import { ReferentesService } from '../../services/referentes.service';
+import { filter } from 'rxjs/operators';
 export type ChartOptions = {
   series: ApexNonAxisChartSeries;
   chart: ApexChart;
@@ -66,11 +69,14 @@ export class IndicadoresComponent implements OnInit {
   na_colorsThemeLight = '';
   na_symbolCSSClasses = '';
   na_svgCSSClasses = '';
-
+  public coordinadores: any;
+  public referentes: any;
+  public responsables: any;
   constructor(
     private layout: LayoutService,
     private snack: MatSnackBar,
     private votoServ: VotoProvService,
+    private usuarios: ReferentesService,
     private cdr: ChangeDetectorRef,
   ) {
 
@@ -97,10 +103,12 @@ export class IndicadoresComponent implements OnInit {
     this.a_svgCSSClasses = `svg-icon svg-icon-xl svg-icon-"#1A8383"`;
     this.na_symbolCSSClasses = `symbol "symbol-circle" symbol-50 symbol-light-"#1A8383" mr-2`;
     this.na_svgCSSClasses = `svg-icon svg-icon-xl svg-icon-"#1A8383"`;
+    this.buscarCoordinadores();
     this.votoServ.getVotos().subscribe((res: any) => {
       this.afiliados = this.buscarAfiliados(res.data);
-      console.log(`res.data`, res.data)
+
       this.votosTotal = res.data.length;
+
       this.femenino = this.buscarGenero(res.data);
       this.masculino = this.votosTotal - this.femenino;
       this.afiliados = this.buscarAfiliados(res.data);
@@ -122,6 +130,16 @@ export class IndicadoresComponent implements OnInit {
     this.cdr.detectChanges();
 
   }
+  buscarCoordinadores() {
+    let coord = this.usuarios.getReferente().subscribe((res: any) => {
+      this.coordinadores = res.resp.filter((datos: any) => datos.role === "user-coord").length;
+      this.referentes = res.resp.filter((datos: any) => datos.role === "user-ref").length;
+      this.responsables = res.resp.filter((datos: any) => datos.role === "user-resp").length
+
+    }
+    );
+  }
+
   cargarGrafica(data: any) {
     this.graficaVotos = {
       baseColor: "#1a3a83",
@@ -590,12 +608,12 @@ export class IndicadoresComponent implements OnInit {
   }
   buscarAfiliados(data: any) {
     let afiliados = data.filter((datos: any) => datos.afiliado === "Es afiliado al MPN").length;
-    console.log(`afiliados`, afiliados)
+
     return afiliados;
   }
   buscarGenero(data: any) {
     let femenino = data.filter((datos: any) => datos.genero === "M").length;
-    console.log(`Genero`, femenino)
+
     return femenino;
   }
 

@@ -78,7 +78,7 @@
 </div>
 
 <div fxLayout="row wrap">
-    <div fxFlex="100" fxFlex.gt-sm="33" fxFlex.sm="50">
+    <div fxFlex="100" fxFlex.gt-sm="50" fxFlex.sm="50">
         <mat-card class="p-0 " [@animate]="{ value: '*', params: { opacity: '0', y: '40px', delay: '300ms' } }">
             <!-- Body -->
             <div class="card-body p-0">
@@ -90,5 +90,38 @@
             </div>
         </mat-card>
     </div>
+    <div fxFlex="100" fxFlex.gt-sm="50" fxFlex.sm="50">
+        <mat-card class="p-0 " [@animate]="{ value: '*', params: { opacity: '0', y: '40px', delay: '300ms' } }">
+            <!-- Body -->
+            <div class="card-body p-0">
+                <div class="d-flex align-items-center justify-content-between card-spacer flex-grow-1">
+
+
+
+                    <div class="d-flex flex-column text-right mr-2 mt-1 ml-2">
+                        <p class="font-weight-bolder font-nro">{{this.coordinadores}}</p>
+                        <span class="text-muted font-weight-bold"> Coordinadores</span>
+                    </div>
+                    <div class="d-flex flex-column text-right mr-2 mt-1">
+                        <p class="font-weight-bolder font-nro">{{this.referentes}}</p>
+                        <span class="text-muted font-weight-bold">Referentes</span>
+                    </div>
+                    <div class="d-flex flex-column text-right mr-2 mt-1">
+                        <p class="font-weight-bolder font-nro">{{this.responsables}}</p>
+                        <span class="text-muted font-weight-bold">Responsables</span>
+                    </div>
+                </div>
+                <!--begin::Chart-->
+                <div id="kt_stats_widget_11_chart" class="card-rounded-bottom" [style.height]="'120px'">
+                    <apx-chart [series]="a_chartOptions.series" [chart]="a_chartOptions.chart" [xaxis]="a_chartOptions.xaxis" [yaxis]="a_chartOptions.yaxis" [dataLabels]="a_chartOptions.dataLabels" [stroke]="a_chartOptions.stroke" [legend]="a_chartOptions.legend" [fill]="a_chartOptions.fill"
+                        [states]="a_chartOptions.states" [tooltip]="a_chartOptions.tooltip" [colors]="a_chartOptions.colors" [markers]="a_chartOptions.markers" [plotOptions]="a_chartOptions.plotOptions">
+                    </apx-chart>
+                </div>
+                <!--end::Chart-->
+                <!--end::Stats-->
+            </div>
+        </mat-card>
+    </div>
+
 
 </div>
