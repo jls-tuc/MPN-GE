@@ -65,7 +65,7 @@ export class HeaderTopComponent implements OnInit, OnDestroy {
     this.usurioLog = this.userData$;
     this.datosUsuarios = this.usurioLog.source._value;
     this.fotoUsuario = sessionStorage.getItem("FOTO");
-    console.log(this.fotoUsuario);
+    
   }
   ngOnDestroy() {
     this.menuItemSub.unsubscribe();

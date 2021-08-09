@@ -1,7 +1,27 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef, AfterViewInit, ViewChild } from '@angular/core';
 import { egretAnimations } from 'app/shared/animations/egret-animations';
 import { LayoutService } from 'app/shared/services/layout.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { VotoProvService } from '../../services/voto-prov.service';
+import { JwtAuthService } from '../../../../shared/services/auth/jwt-auth.service';
+import {
+  ApexNonAxisChartSeries,
+  ApexResponsive,
+  ApexChart,
+  ChartComponent,
+  ApexPlotOptions,
+  ApexDataLabels
+} from "ng-apexcharts";
+import { ReferentesService } from '../../services/referentes.service';
+import { filter } from 'rxjs/operators';
+export type ChartOptions = {
+  series: ApexNonAxisChartSeries;
+  chart: ApexChart;
+  plotOptions: ApexPlotOptions;
+  dataLabels: ApexDataLabels;
+  responsive: ApexResponsive[];
+  labels: any;
+};
 @Component({
   selector: 'app-indicadores',
   templateUrl: './indicadores.component.html',
@@ -9,498 +29,592 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   animations: egretAnimations
 })
 export class IndicadoresComponent implements OnInit {
-  dailyTrafficChartBar: any;
-  monthlyTrafficChartBar: any;
-  dailyBandwithUsage: any;
-  trafficGrowthChart: any;
-  countryTrafficStats = [
-    {
-      country: "US",
-      visitor: 14040,
-      pageView: 10000,
-      download: 1000,
-      bounceRate: 30,
-      flag: "flag-icon-us"
-    },
-    {
-      country: "India",
-      visitor: 12500,
-      pageView: 10000,
-      download: 1000,
-      bounceRate: 45,
-      flag: "flag-icon-in"
-    },
-    {
-      country: "UK",
-      visitor: 11000,
-      pageView: 10000,
-      download: 1000,
-      bounceRate: 50,
-      flag: "flag-icon-gb"
-    },
-    {
-      country: "Brazil",
-      visitor: 4000,
-      pageView: 10000,
-      download: 1000,
-      bounceRate: 30,
-      flag: "flag-icon-br"
-    },
-    {
-      country: "Spain",
-      visitor: 4000,
-      pageView: 10000,
-      download: 1000,
-      bounceRate: 45,
-      flag: "flag-icon-es"
-    },
-    {
-      country: "Mexico",
-      visitor: 4000,
-      pageView: 10000,
-      download: 1000,
-      bounceRate: 70,
-      flag: "flag-icon-mx"
-    },
-    {
-      country: "Russia",
-      visitor: 4000,
-      pageView: 10000,
-      download: 1000,
-      bounceRate: 40,
-      flag: "flag-icon-ru"
-    }
-  ];
+  @ViewChild("chart") chart: ChartComponent;
+  public chartOptions: Partial<ChartOptions>;
+  public graficaVotos;
+  public graficaAfiliados;
+  public graficaNoafiliados;
+  public v_chartOptions;
+  public a_chartOptions;
+  public na_chartOptions;
 
+  public total: number;
+  public votosTotal;
+  public afiliados;
+  public femenino;
+  public masculino;
+  public noafiliados;
+  public v_datosData;
+  public v_labelsData;
+  public v_total;
+  public a_datosData;
+  public a_labelsData;
+  public a_total;
+  public na_datosData;
+  public na_labelsData;
+  public na_total;
+  fontFamily = '';
+  colorsGrayGray500 = '';
+  colorsGrayGray200 = '';
+  colorsGrayGray300 = '';
+  v_colorsThemeBase = '';
+  v_colorsThemeLight = '';
+  v_symbolCSSClasses = '';
+  v_svgCSSClasses = '';
+  a_colorsThemeBase = '';
+  a_colorsThemeLight = '';
+  a_symbolCSSClasses = '';
+  a_svgCSSClasses = '';
+  na_colorsThemeBase = '';
+  na_colorsThemeLight = '';
+  na_symbolCSSClasses = '';
+  na_svgCSSClasses = '';
+  public coordinadores: any;
+  public referentes: any;
+  public responsables: any;
   constructor(
     private layout: LayoutService,
-    private snack: MatSnackBar
+    private snack: MatSnackBar,
+    private votoServ: VotoProvService,
+    private usuarios: ReferentesService,
+    private cdr: ChangeDetectorRef,
   ) {
 
   }
+  loadLayoutView() {
+    this.fontFamily = '';
+    this.colorsGrayGray500 = '';
+    this.colorsGrayGray200 = '';
+    this.colorsGrayGray300 = '';
+    this.v_colorsThemeBase = "#1a3a83";
+    this.v_colorsThemeLight = "#DEE8FF";
+    this.na_colorsThemeBase = "#831A2D";
+    this.na_colorsThemeLight = "#FFE1E7";
+    this.a_colorsThemeBase = "#1A8383";
+    this.a_colorsThemeLight = "#DEFFFF";
+  }
 
-  ngOnInit() {
-    setTimeout(() => {
-      // this.layout.publishLayoutChange({sidebarColor: 'dark-blue', topbarColor: 'dark-blue', footerColor: 'dark-blue', matTheme: "egret-navy-dark"});
-      // this.snack.open('Layout option changed to {sidebarColor: "dark-blue", topbarColor: "dark-blue", matTheme: "egret-navy-dark"};', 'OK', {duration: 6000})
+  async ngOnInit() {
+
+    this.loadLayoutView();
+    this.v_symbolCSSClasses = `symbol "symbol-circle" symbol-50 symbol-light-"#1A8383" mr-2`;
+    this.v_svgCSSClasses = `svg-icon svg-icon-xl svg-icon-"#1A8383"`;
+    this.a_symbolCSSClasses = `symbol "symbol-circle" symbol-50 symbol-light-"#1A8383" mr-2`;
+    this.a_svgCSSClasses = `svg-icon svg-icon-xl svg-icon-"#1A8383"`;
+    this.na_symbolCSSClasses = `symbol "symbol-circle" symbol-50 symbol-light-"#1A8383" mr-2`;
+    this.na_svgCSSClasses = `svg-icon svg-icon-xl svg-icon-"#1A8383"`;
+    this.buscarCoordinadores();
+    this.votoServ.getVotos().subscribe((res: any) => {
+      this.afiliados = this.buscarAfiliados(res.data);
+
+      this.votosTotal = res.data.length;
+
+      this.femenino = this.buscarGenero(res.data);
+      this.masculino = this.votosTotal - this.femenino;
+      this.afiliados = this.buscarAfiliados(res.data);
+      this.noafiliados = this.votosTotal - this.afiliados;
+      let data = {
+        v_datosData: [1, 34],
+        v_labelsData: ['08 Agosto', '09 Agosto'],
+        v_total: this.votosTotal,
+        a_datosData: [1, 34],
+        a_labelsData: ['08 Agosto', '09 Agosto'],
+        a_total: this.afiliados,
+        na_datosData: [1, 34],
+        na_labelsData: ['08 Agosto', '09 Agosto'],
+        na_total: this.noafiliados,
+      }
+      this.cargarGrafica(data);
     });
+    console.log(`this.votosTotal`, this.votosTotal);
+    this.cdr.detectChanges();
 
-    this.dailyTrafficChartBar = {
+  }
+  buscarCoordinadores() {
+    let coord = this.usuarios.getReferente().subscribe((res: any) => {
+      this.coordinadores = res.resp.filter((datos: any) => datos.role === "user-coord").length;
+      this.referentes = res.resp.filter((datos: any) => datos.role === "user-ref").length;
+      this.responsables = res.resp.filter((datos: any) => datos.role === "user-resp").length
+
+    }
+    );
+  }
+
+  cargarGrafica(data: any) {
+    this.graficaVotos = {
+      baseColor: "#1a3a83",
+      lightColor: "#DEE8FF",
+      tituloData: "Votos Cargados",
+      logoData: "assets/images/mpn/votos.png",
+      cssClass: "gutter-b",
+      symbolShape: "symbol-circle",
+      datosData: data.v_datosData,
+      labelsData: data.v_labelsData,
+      total: data.v_total,
+    };
+    this.v_chartOptions = {
+      series: [{
+        name: 'Net Profit',
+        data: this.graficaVotos.datosData,
+      }],
+      chart: {
+        type: 'area',
+        height: 120,
+        toolbar: {
+          show: false
+        },
+        zoom: {
+          enabled: false
+        },
+        sparkline: {
+          enabled: true
+        }
+      },
+      plotOptions: {},
       legend: {
         show: false
       },
-      grid: {
-        left: "8px",
-        right: "8px",
-        bottom: "0",
-        top: "0",
-        containLabel: true
+      dataLabels: {
+        enabled: false
       },
-      tooltip: {
+      fill: {
+        type: 'solid',
+        opacity: 1
+      },
+      stroke: {
+        curve: 'smooth',
         show: true,
-        backgroundColor: "rgba(0, 0, 0, .8)"
+        width: 3,
+        colors: [this.v_colorsThemeBase]
       },
-      xAxis: [
-        {
-          type: "category",
-          // data: ['Sat', 'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
-          data: ["1", "2", "3", "4", "5", "6", "7"],
-          axisTick: {
-            show: false
-          },
-          splitLine: {
-            show: false
-          },
-          axisLine: {
-            show: false
-          },
-          axisLabel: {
-            color: "#fff"
-          }
-        }
-      ],
-      yAxis: [
-        {
-          type: "value",
-          axisLabel: {
-            show: false,
-            formatter: "${value}"
-          },
-          min: 0,
-          max: 100000,
-          interval: 25000,
-          axisTick: {
-            show: false
-          },
-          axisLine: {
-            show: false
-          },
-          splitLine: {
-            show: false,
-            interval: "auto"
-          }
-        }
-      ],
-
-      series: [
-        {
-          name: "Online",
-          data: [35000, 69000, 22500, 60000, 50000, 50000, 30000],
-          label: { show: false, color: "#0168c1" },
-          type: "bar",
-          barWidth: "8",
-          color: "#f6be1a",
-          smooth: true,
-          itemStyle: {
-            barBorderRadius: 10
-          }
-        }
-      ]
-    };
-    this.monthlyTrafficChartBar = {
-      tooltip: {
-        trigger: "axis",
-
-        axisPointer: {
-          animation: true
-        }
-      },
-      grid: {
-        left: "0",
-        top: "4%",
-        right: "0",
-        bottom: "0"
-      },
-      xAxis: {
-        type: "category",
-        boundaryGap: false,
-        data: [
-          "Jan",
-          "Feb",
-          "Mar",
-          "Apr",
-          "May",
-          "Jun",
-          "Jul",
-          "Aug",
-          "Sept",
-          "Oct",
-          "Nov",
-          "Dec"
-        ],
-        axisLabel: {
+      xaxis: {
+        categories: this.graficaVotos.labelsData,
+        axisBorder: {
+          show: false,
+        },
+        axisTicks: {
           show: false
         },
-        axisLine: {
-          lineStyle: {
-            show: false
+        labels: {
+          show: false,
+          style: {
+            colors: this.colorsGrayGray500,
+            fontSize: '12px',
+            fontFamily: this.fontFamily
           }
         },
-        axisTick: {
-          show: false
+        crosshairs: {
+          show: false,
+          position: 'front',
+          stroke: {
+            color: this.colorsGrayGray300,
+            width: 1,
+            dashArray: 3
+          }
         },
-        splitLine: {
-          show: false
+        tooltip: {
+          enabled: true,
+          formatter: undefined,
+          offsetY: 0,
+          style: {
+            fontSize: '12px',
+            fontFamily: this.fontFamily
+          }
         }
       },
-      yAxis: {
-        type: "value",
+      yaxis: {
         min: 0,
-        max: 200,
-        interval: 50,
-        axisLabel: {
-          show: false
-        },
-        axisLine: {
-          show: false
-        },
-        axisTick: {
-          show: false
-        },
-        splitLine: {
-          show: false
-        }
-      },
-      series: [
-        {
-          name: "Visit",
-          type: "line",
-          smooth: true,
-          data: [
-            140,
-            135,
-            95,
-            115,
-            95,
-            126,
-            93,
-            145,
-            115,
-            140,
-            135,
-            95,
-            115,
-            95,
-            126,
-            125,
-            145,
-            115,
-            140,
-            135,
-            95,
-            115,
-            95,
-            126,
-            93,
-            145,
-            115,
-            140,
-            135,
-            95
-          ],
-          symbolSize: 8,
-          showSymbol: false,
-          lineStyle: {
-            opacity: 0,
-            width: 0
-          },
-          itemStyle: {
-            borderColor: "#f6be1a"
-          },
-          areaStyle: {
-            color: "#f6be1a",
-            opacity: 1
-          }
-        },
-        {
-          name: "Sales",
-          type: "line",
-          smooth: true,
-          data: [
-            50,
-            70,
-            65,
-            84,
-            75,
-            80,
-            70,
-            50,
-            70,
-            65,
-            104,
-            75,
-            80,
-            70,
-            50,
-            70,
-            65,
-            94,
-            75,
-            80,
-            70,
-            50,
-            70,
-            65,
-            86,
-            75,
-            80,
-            70,
-            50,
-            70
-          ],
-          symbolSize: 8,
-          showSymbol: false,
-          lineStyle: {
-            opacity: 0,
-            width: 0
-          },
-          itemStyle: {
-            borderColor: "#e91f63"
-          },
-          areaStyle: {
-            color: "#e91f63",
-            opacity: 1
+        max: 55,
+        labels: {
+          show: false,
+          style: {
+            colors: this.colorsGrayGray500,
+            fontSize: '12px',
+            fontFamily: this.fontFamily
           }
         }
-      ]
-    };
-
-    this.dailyBandwithUsage = {
-      grid: {
-        left: "3%",
-        right: "4%",
-        bottom: "3%",
-        containLabel: true
       },
-      color: ["#fcc02e", "#e91f63", "#f44336"],
+      states: {
+        normal: {
+          filter: {
+            type: 'none',
+            value: 0
+          }
+        },
+        hover: {
+          filter: {
+            type: 'none',
+            value: 0
+          }
+        },
+        active: {
+          allowMultipleDataPointsSelection: false,
+          filter: {
+            type: 'none',
+            value: 0
+          }
+        }
+      },
       tooltip: {
-        show: false,
-        trigger: "item",
-        formatter: "{a} <br/>{b}: {c} ({d}%)"
+        style: {
+          fontSize: '12px',
+          fontFamily: this.fontFamily
+        },
+        y: {
+          formatter: (val) => {
+            return `$ ${val} thousands`;
+          }
+        }
       },
-      xAxis: [
-        {
-          axisLine: {
-            show: false
-          },
-          splitLine: {
-            show: false
-          }
-        }
-      ],
-      yAxis: [
-        {
-          axisLine: {
-            show: false
-          },
-          splitLine: {
-            show: false
-          }
-        }
-      ],
-
-      series: [
-        {
-          name: "Sessions",
-          type: "pie",
-          radius: ["50%", "85%"],
-          center: ["50%", "50%"],
-          avoidLabelOverlap: false,
-          hoverOffset: 5,
-          stillShowZeroSum: false,
-          label: {
-            normal: {
-              show: false,
-              position: "center",
-              textStyle: {
-                fontSize: "13",
-                fontWeight: "normal"
-              },
-              formatter: "{a}"
-            },
-            emphasis: {
-              show: true,
-              textStyle: {
-                fontSize: "15",
-                fontWeight: "normal",
-                color: "white"
-              },
-              formatter: "{b} \n{c} ({d}%)"
-            }
-          },
-          labelLine: {
-            normal: {
-              show: false
-            }
-          },
-          data: [
-            {
-              value: 335,
-              name: "Direct"
-            },
-            {
-              value: 310,
-              name: "Search Eng."
-            },
-            { value: 148, name: "Social" }
-          ],
-          itemStyle: {
-            emphasis: {
-              shadowBlur: 10,
-              shadowOffsetX: 0,
-              shadowColor: "rgba(0, 0, 0, 0.5)"
-            }
-          }
-        }
-      ]
+      colors: [this.v_colorsThemeLight],
+      markers: {
+        colors: [this.v_colorsThemeLight],
+        strokeColor: [this.v_colorsThemeBase],
+        strokeWidth: 3
+      }
     };
-
-    this.trafficGrowthChart = {
-      tooltip: {
-        trigger: "axis",
-
-        axisPointer: {
-          animation: true
-        }
-      },
-      grid: {
-        left: "0",
-        top: "0",
-        right: "0",
-        bottom: "0"
-      },
-      xAxis: {
-        type: "category",
-        boundaryGap: false,
-        data: [
-          "0",
-          "1",
-          "2",
-          "3",
-          "4",
-
-        ],
-        axisLabel: {
+    this.graficaAfiliados = {
+      baseColor: "#1A8383",
+      lightColor: "#DEFFFF",
+      tituloData: "Afiliados",
+      logoData: "assets/images/mpn/afiliado.png", cssClass: "gutter-b",
+      symbolShape: "symbol-circle",
+      datosData: data.a_datosData,
+      labelsData: data.a_labelsData,
+      total: data.a_total,
+    };
+    this.a_chartOptions = {
+      series: [{
+        name: 'Afiliados',
+        data: this.graficaAfiliados.datosData,
+      }],
+      chart: {
+        type: 'area',
+        height: 120,
+        toolbar: {
           show: false
         },
-        axisLine: {
-          lineStyle: {
-            show: false
+        zoom: {
+          enabled: false
+        },
+        sparkline: {
+          enabled: true
+        }
+      },
+      plotOptions: {},
+      legend: {
+        show: false
+      },
+      dataLabels: {
+        enabled: false
+      },
+      fill: {
+        type: 'solid',
+        opacity: 1
+      },
+      stroke: {
+        curve: 'smooth',
+        show: true,
+        width: 3,
+        colors: [this.a_colorsThemeBase]
+      },
+      xaxis: {
+        categories: this.graficaAfiliados.labelsData,
+        axisBorder: {
+          show: false,
+        },
+        axisTicks: {
+          show: false
+        },
+        labels: {
+          show: false,
+          style: {
+            colors: this.colorsGrayGray500,
+            fontSize: '12px',
+            fontFamily: this.fontFamily
           }
         },
-        axisTick: {
-          show: false
+        crosshairs: {
+          show: false,
+          position: 'front',
+          stroke: {
+            color: this.colorsGrayGray300,
+            width: 1,
+            dashArray: 3
+          }
         },
-        splitLine: {
-          show: false
+        tooltip: {
+          enabled: true,
+          formatter: undefined,
+          offsetY: 0,
+          style: {
+            fontSize: '12px',
+            fontFamily: this.fontFamily
+          }
         }
       },
-      yAxis: {
-        type: "value",
+      yaxis: {
         min: 0,
-        max: 200,
-        interval: 50,
-        axisLabel: {
-          show: false
-        },
-        axisLine: {
-          show: false
-        },
-        axisTick: {
-          show: false
-        },
-        splitLine: {
-          show: false
+        max: 55,
+        labels: {
+          show: false,
+          style: {
+            colors: this.colorsGrayGray500,
+            fontSize: '12px',
+            fontFamily: this.fontFamily
+          }
         }
       },
-      series: [
+      states: {
+        normal: {
+          filter: {
+            type: 'none',
+            value: 0
+          }
+        },
+        hover: {
+          filter: {
+            type: 'none',
+            value: 0
+          }
+        },
+        active: {
+          allowMultipleDataPointsSelection: false,
+          filter: {
+            type: 'none',
+            value: 0
+          }
+        }
+      },
+      tooltip: {
+        style: {
+          fontSize: '12px',
+          fontFamily: this.fontFamily
+        },
+        y: {
+          formatter: (val) => {
+            return `$ ${val} thousands`;
+          }
+        }
+      },
+      colors: [this.a_colorsThemeLight],
+      markers: {
+        colors: [this.a_colorsThemeLight],
+        strokeColor: [this.a_colorsThemeBase],
+        strokeWidth: 3
+      }
+    };
+    this.graficaNoafiliados = {
+      baseColor: "#831A2D",
+      lightColor: "#FFE1E7",
+      tituloData: "No Afiliados",
+      logoData: "assets/images/mpn/no_afiliado.png", cssClass: "gutter-b",
+      symbolShape: "symbol-circle",
+      datosData: data.na_datosData,
+      labelsData: data.na_labelsData,
+      total: data.na_total,
+    };
+    this.na_chartOptions = {
+      series: [{
+        name: 'Net Profit',
+        data: this.graficaNoafiliados.datosData,
+      }],
+      chart: {
+        type: 'area',
+        height: 120,
+        toolbar: {
+          show: false
+        },
+        zoom: {
+          enabled: false
+        },
+        sparkline: {
+          enabled: true
+        }
+      },
+      plotOptions: {},
+      legend: {
+        show: false
+      },
+      dataLabels: {
+        enabled: false
+      },
+      fill: {
+        type: 'solid',
+        opacity: 1
+      },
+      stroke: {
+        curve: 'smooth',
+        show: true,
+        width: 3,
+        colors: [this.na_colorsThemeBase]
+      },
+      xaxis: {
+        categories: this.graficaNoafiliados.labelsData,
+        axisBorder: {
+          show: false,
+        },
+        axisTicks: {
+          show: false
+        },
+        labels: {
+          show: false,
+          style: {
+            colors: this.colorsGrayGray500,
+            fontSize: '12px',
+            fontFamily: this.fontFamily
+          }
+        },
+        crosshairs: {
+          show: false,
+          position: 'front',
+          stroke: {
+            color: this.colorsGrayGray300,
+            width: 1,
+            dashArray: 3
+          }
+        },
+        tooltip: {
+          enabled: true,
+          formatter: undefined,
+          offsetY: 0,
+          style: {
+            fontSize: '12px',
+            fontFamily: this.fontFamily
+          }
+        }
+      },
+      yaxis: {
+        min: 0,
+        max: 55,
+        labels: {
+          show: false,
+          style: {
+            colors: this.colorsGrayGray500,
+            fontSize: '12px',
+            fontFamily: this.fontFamily
+          }
+        }
+      },
+      states: {
+        normal: {
+          filter: {
+            type: 'none',
+            value: 0
+          }
+        },
+        hover: {
+          filter: {
+            type: 'none',
+            value: 0
+          }
+        },
+        active: {
+          allowMultipleDataPointsSelection: false,
+          filter: {
+            type: 'none',
+            value: 0
+          }
+        }
+      },
+      tooltip: {
+        style: {
+          fontSize: '12px',
+          fontFamily: this.fontFamily
+        },
+        y: {
+          formatter: (val) => {
+            return `$ ${val} thousands`;
+          }
+        }
+      },
+      colors: [this.na_colorsThemeLight],
+      markers: {
+        colors: [this.na_colorsThemeLight],
+        strokeColor: [this.na_colorsThemeBase],
+        strokeWidth: 3
+      }
+    };
+    this.chartOptions = {
+      series: [this.femenino, this.masculino],
+
+      chart: {
+        width: 380,
+        type: "pie"
+      },
+      plotOptions: {
+        pie: {
+          customScale: 0.8
+        }
+      },
+      dataLabels: {
+        enabled: true,
+        enabledOnSeries: undefined,
+
+        textAnchor: 'middle',
+        distributed: false,
+        offsetX: 0,
+        offsetY: 0,
+        style: {
+          fontSize: '24px',
+          fontFamily: 'Helvetica, Arial, sans-serif',
+          fontWeight: 'bold',
+          colors: undefined
+        },
+        background: {
+          enabled: true,
+          foreColor: '#fff',
+          padding: 4,
+          borderRadius: 2,
+          borderWidth: 1,
+          borderColor: '#fff',
+          opacity: 0.9,
+          dropShadow: {
+            enabled: false,
+            top: 1,
+            left: 1,
+            blur: 1,
+            color: '#000',
+            opacity: 0.45
+          }
+        },
+        dropShadow: {
+          enabled: false,
+          top: 1,
+          left: 1,
+          blur: 1,
+          color: '#000',
+          opacity: 0.45
+        }
+      },
+
+      labels: ["Femenino", "Masculino"],
+      responsive: [
         {
-          name: "Visit",
-          type: "line",
-          smooth: false,
-          data: [0, 40, 140, 90, 160],
-          symbolSize: 8,
-          showSymbol: false,
-          lineStyle: {
-            opacity: 0,
-            width: 0
-          },
-          itemStyle: {
-            borderColor: "#fcc02e"
-          },
-          areaStyle: {
-            color: '#f44336',
-            opacity: 1
+
+          breakpoint: 480,
+          options: {
+            chart: {
+              width: 250
+            },
+            legend: {
+              position: 'top',
+              labels: ["Femenino", "Masculino"],
+            }
           }
         }
       ]
     };
   }
-  ngOnDestroy() {
-    setTimeout(() => {
-      // this.layout.publishLayoutChange({sidebarColor: 'slate', topbarColor: 'white', footerColor: 'slate', matTheme: "egret-navy"});
-      // this.snack.open('Layout option changed {sidebarColor: "black", topbarColor: "white"};', 'OK', {duration: 6000})
+  buscarAfiliados(data: any) {
+    let afiliados = data.filter((datos: any) => datos.afiliado === "Es afiliado al MPN").length;
 
-    });
+    return afiliados;
   }
+  buscarGenero(data: any) {
+    let femenino = data.filter((datos: any) => datos.genero === "M").length;
+
+    return femenino;
+  }
+
 }

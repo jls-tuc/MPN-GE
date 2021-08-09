@@ -33,6 +33,7 @@ export class ReferentePopupComponent implements OnInit {
     { tipo: "Referente", role: "USER-REF" },
     { tipo: "Responsable de planilla", role: "USER-RESP" },
   ];
+  cargando: boolean=false;
   idCorrd: String;
   idReferente: string;
   role: string;
@@ -153,6 +154,7 @@ export class ReferentePopupComponent implements OnInit {
     this.dialogRef.close();
   }
   async buscarDNI() {
+    this.cargando=true;
     const params = `dni=${this.secondFormGroup.get("dni").value}&sexo=${
       this.secondFormGroup.get("sexo").value
     }`;
@@ -167,7 +169,9 @@ export class ReferentePopupComponent implements OnInit {
           console.log("data", data);
           this.dataPForm(data);
           this.userForm(data);
+          this.cargando=false;
         } else {
+          this.cargando=false;
           Swal.fire({
             position: "center",
             icon: "warning",
