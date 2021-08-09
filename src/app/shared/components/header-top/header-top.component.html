@@ -85,14 +85,14 @@
 
             <!-- Top left user menu -->
 
-            <p class="m-0">Organización</p>
+            <p class="m-0">{{datosUsuarios.areaResponsable|titlecase}}</p>
             <p class="m-0 px-0-5">|</p>
-            <p class="m-0">Nombre_Apellido</p>
+            <p class="m-0">{{datosUsuarios.apellido|titlecase}} {{datosUsuarios.nombres|titlecase}}</p>
 
             <button mat-icon-button [matMenuTriggerFor]="accountMenu" class="topbar-button-right mr-16 img-button">
-                <img src="assets/images/face-7.jpg" alt="">
+                <img src="{{fotoUsuario}}" alt="">
             </button>
-            
+
             <mat-menu #accountMenu="matMenu">
                 <!-- <button mat-menu-item [routerLink]="['/profile/overview']">
                 <mat-icon>account_box</mat-icon>
