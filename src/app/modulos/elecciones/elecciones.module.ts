@@ -9,7 +9,6 @@ import { PadronesComponent } from "./components/padrones/padrones.component";
 import { ReferentePopupComponent } from "./components/referentes/popUp/referente-popup.component";
 import { SharedMaterialModule } from "app/shared/shared-material.module";
 import { IndicadoresComponent } from "./components/indicadores/indicadores.component";
-import { GraficasComponent } from "./components/graficas/graficas.component";
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { ChartsModule } from "ng2-charts";
 import { NgxEchartsModule } from "ngx-echarts";
@@ -45,11 +44,10 @@ import { PopUpCoorComponent } from "./components/coordinador/pop-up-coor/pop-up-
     PadronesComponent,
     ReferentePopupComponent,
     IndicadoresComponent,
-    GraficasComponent,
     RespPopUpComponent,
     PlanillaComponent,
     ResponsablesPComponent,
     PopUpCoorComponent,
   ],
 })
-export class EleccionesModule {}
+export class EleccionesModule { }
