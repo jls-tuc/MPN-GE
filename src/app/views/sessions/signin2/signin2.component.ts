@@ -8,7 +8,7 @@ import {
 import { Router } from "@angular/router";
 import { CustomValidators } from "ngx-custom-validators";
 import { JwtAuthService } from "../../../shared/services/auth/jwt-auth.service";
-
+import Swal from "sweetalert2";
 @Component({
   selector: "app-signin2",
   templateUrl: "./signin2.component.html",
@@ -21,7 +21,7 @@ export class Signin2Component implements OnInit {
     private fb: FormBuilder,
     private authService: JwtAuthService,
     private router: Router
-  ) { }
+  ) {}
 
   ngOnInit() {
     const password = new FormControl("", Validators.required);
@@ -42,6 +42,8 @@ export class Signin2Component implements OnInit {
       // do what you wnat with your data
       /* console.log(this.signupForm.value); */
       this.authService.signin(this.signupForm.value).subscribe((resp) => {
+        // console.log(`resp`, resp);
+
         this.router.navigateByUrl(this.authService.return);
       });
     }

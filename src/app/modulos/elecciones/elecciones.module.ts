@@ -20,6 +20,7 @@ import { RespPopUpComponent } from "./components/responsablesPlanilla/resp-pop-u
 import { PlanillaComponent } from "./components/planilla/planilla/planilla.component";
 import { ResponsablesPComponent } from "./components/responsablesPlanilla/responsables-p/responsables-p.component";
 import { PopUpCoorComponent } from "./components/coordinador/pop-up-coor/pop-up-coor.component";
+import { VerPlanillaComponent } from './components/planilla/ver-planilla/ver-planilla.component';
 
 @NgModule({
   imports: [
@@ -48,6 +49,7 @@ import { PopUpCoorComponent } from "./components/coordinador/pop-up-coor/pop-up-
     PlanillaComponent,
     ResponsablesPComponent,
     PopUpCoorComponent,
+    VerPlanillaComponent,
   ],
 })
 export class EleccionesModule { }

@@ -9,6 +9,7 @@ import { PlanillaComponent } from "../planilla/planilla/planilla.component";
 import { Observable } from "rxjs";
 import { UserModel } from "app/shared/models/user.model";
 import { JwtAuthService } from "app/shared/services/auth/jwt-auth.service";
+import { VerPlanillaComponent } from "../planilla/ver-planilla/ver-planilla.component";
 
 @Component({
   selector: "app-referentes",
@@ -51,7 +52,7 @@ export class ReferentesComponent implements OnInit {
     const dialogoRef: MatDialogRef<any> = this.dialog.open(
       ResponsablesPComponent,
       {
-        width: "70%",
+        width: "75%",
 
         disableClose: true,
         data: { title, payload: data },
@@ -90,6 +91,28 @@ export class ReferentesComponent implements OnInit {
     this.cdr.markForCheck();
   }
 
+  verPlanillas(data?) {
+    const dialogoRef: MatDialogRef<any> = this.dialog.open(
+      VerPlanillaComponent,
+      {
+        width: "75%",
+        disableClose: true,
+        data: { data },
+      }
+    );
+    dialogoRef.keydownEvents().subscribe((event) => {
+      if (event.key === "Escape") {
+        this.ngOnInit();
+        dialogoRef.close();
+      }
+    });
+
+    dialogoRef.afterClosed().subscribe((res) => {
+      this.ngOnInit();
+    });
+    this.cdr.markForCheck();
+  }
+
   mostarCard() {
     //console.log(`Estoy cardddp`);
     if (this.usurioLog.source._value.role === "user-coord") {
@@ -106,7 +129,9 @@ export class ReferentesComponent implements OnInit {
   cargarReferentes() {
     this.referenteService.getReferente().subscribe((res: any) => {
       this.users = res.resp.filter(
-        (data) => data.idCoordinador === this.usurioLog.source._value.id
+        (data) =>
+          data.idCoordinador === this.usurioLog.source._value.id &&
+          data.role === "user-ref"
       );
       //  console.log("users", this.users);
     });

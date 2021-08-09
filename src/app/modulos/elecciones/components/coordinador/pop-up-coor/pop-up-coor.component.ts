@@ -174,7 +174,7 @@ export class PopUpCoorComponent implements OnInit {
         areaResponsable: this.secondFormGroup.get("areaResponsable").value,
       },
     };
-    console.log(`this.referenteForm`, this.referenteForm);
+    // console.log(`this.referenteForm`, this.referenteForm);
 
     /* this.pacienteForm.patchValue({
         direccion: `${
@@ -210,7 +210,7 @@ export class PopUpCoorComponent implements OnInit {
 
   getPassword(nombre: string) {
     let pass: any = nombre.split(" ");
-    let newPass = pass[1] + "Eleccion2021";
+    let newPass = "nqnEleccion2021";
     return newPass;
   }
   get sexoNoValido() {
