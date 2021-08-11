@@ -129,8 +129,9 @@
                 </form>
                 <div fxLayout="row" fxLayoutGap="12px" [style.margin-top]="'12px'">
                     <ng-container *ngIf='!ocultarBusqueda'>
-                        <button mat-raised-button color="warn" type="button" (click)="buscarDNI()">Verificar
-                            datos</button><div *ngIf='cargando===true' class="loader">Loading...</div>
+                        <button mat-raised-button color="warn" type="button" (click)="buscarDNI()">Verificar datos</button>
+                        
+                        <div *ngIf='cargando===true' class="loader">Cargando...</div>
                     </ng-container>
                     <ng-container *ngIf='ocultarBusqueda'>
                         <button mat-raised-button color="warn" (click)="stepper.reset()">Cancelar</button>

@@ -121,8 +121,8 @@
                 </form>
                 <div fxLayout="row" fxLayoutGap="12px" [style.margin-top]="'12px'">
                     <ng-container *ngIf='!ocultarBusqueda'>
-                        <button mat-raised-button color="warn" type="button" (click)="buscarDNI()">Verificar
-                            datos</button>
+                        <button mat-raised-button color="warn" type="button" (click)="buscarDNI()">Verificar datos</button>
+                        <div *ngIf='cargando===true' class="loader">Cargando...</div>
                     </ng-container>
                     <ng-container *ngIf='ocultarBusqueda'>
                         <button mat-raised-button color="warn" (click)="stepper.reset()">Cancelar</button>
@@ -161,14 +161,11 @@
                 </form>
 
                 <div fxLayout="row" fxLayoutGap="12px" [style.margin-top]="'12px'">
-                    <button mat-raised-button class="pt-10" color="accent" matStepperPrevious
-                        type="button">Volver</button>
-                    <span fxFlex="8px"></span>
-                    <button mat-raised-button color="primary" [disabled]="!secondFormGroup.valid "
-                        (click)="guardar()">Guardar</button>
-                    <span fxFlex="8px"></span>
                     <button mat-raised-button color="warn" [routerLink]="['/elecciones']">Cancelar</button>
-
+                    <span fxFlex="8px"></span>
+                    <button mat-raised-button color="primary" [disabled]="!secondFormGroup.valid " (click)="guardar()">Guardar</button>
+                    <span fxFlex="8px"></span>
+                    <button mat-raised-button class="pt-10 color-texto-blanco" color="accent" matStepperPrevious type="button">Volver</button>
                 </div>
             </mat-step>
             <!--  <mat-step [stepControl]="firstFormGroup">

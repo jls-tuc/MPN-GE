@@ -35,6 +35,7 @@ export class PlanillaComponent implements OnInit {
   datosAfiliados: {};
   datosResPlanilla: any;
   votoAdH: IvotoADH;
+  cargando: boolean = false;
   constructor(
     @Optional() public dialogRef: MatDialogRef<PlanillaComponent>,
     @Optional() @Inject(MAT_DIALOG_DATA) public data: any,
@@ -110,12 +111,14 @@ export class PlanillaComponent implements OnInit {
   }
 
   buscarDatos() {
+    this.cargando = true;
     const params: {} = `documento=${
       this.firstFormGroup.get("dni").value
     }&sexo=${this.firstFormGroup.get("sexo").value}`;
 
     this.padronService.getPadronProv(params).subscribe((res: any) => {
       if (res.ok) {
+        this.cargando = false;
         this.ocultarBusqueda = true;
         this.datosPadronNqn = res.data;
         this.buildSecondForm(this.datosPadronNqn);
@@ -134,6 +137,7 @@ export class PlanillaComponent implements OnInit {
           }
         });
       } else {
+        this.cargando = false;
         Swal.fire({
           position: "center",
           icon: "warning",
