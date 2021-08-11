@@ -162,6 +162,7 @@ export class ReferentePopupComponent implements OnInit {
     this.ValidarPersona.getPersonaRenaper(params).subscribe(
       async (data: any) => {
         if (data.ID_TRAMITE_PRINCIPAL !== 0) {
+          this.cargando = false;
           this.ocultarBusqueda = true;
           this.datosRenaper = data;
           data.dni = this.secondFormGroup.get("dni").value;
@@ -169,7 +170,6 @@ export class ReferentePopupComponent implements OnInit {
           console.log("data", data);
           this.dataPForm(data);
           this.userForm(data);
-          this.cargando = false;
         } else {
           this.cargando = false;
           Swal.fire({
