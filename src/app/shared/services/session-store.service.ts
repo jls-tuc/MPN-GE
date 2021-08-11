@@ -4,7 +4,7 @@ import { Injectable } from "@angular/core";
   providedIn: "root",
 })
 export class SessionStoreService {
-  private ls = window.sessionStorage;
+  private ls = sessionStorage;
 
   constructor() {}
 

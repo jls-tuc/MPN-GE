@@ -11,16 +11,42 @@ const apiURL = environment.apiURL;
 // ================= only for demo purpose ===========
 
 // ================= you will get those data from server =======
+interface IMenuItem {
+  type: string; // Possible values: link/dropDown/icon/separator/extLink
+  name?: string; // Used as display text for item and title for separator type
+  state?: string; // Router state
+  icon?: string; // Material icon name
+  svgIcon?: string; // UI Lib icon name
+  tooltip?: string; // Tooltip text
+  disabled?: boolean; // If true, item will not be appeared in sidenav.
+  sub?: IChildItem[]; // Dropdown items
+  badges?: IBadge[];
+}
+interface IChildItem {
+  type?: string;
+  name: string; // Display text
+  state?: string; // Router state
+  icon?: string; // Material icon name
+  svgIcon?: string; // UI Lib icon name
+  sub?: IChildItem[];
+}
+
+interface IBadge {
+  color: string; // primary/accent/warn/hex color codes(#fff000)
+  value: string; // Display text
+}
 
 @Injectable({
   providedIn: "root",
 })
 export class JwtAuthService {
   token;
+
   user: UserModel;
   isAuthenticated: Boolean;
   //user$ = new BehaviorSubject<UserModel>(this.user);
   currentUserSubject: BehaviorSubject<UserModel>;
+
   signingIn: Boolean;
   return: string;
   JWT_TOKEN: string = "Token";
@@ -112,7 +138,7 @@ export class JwtAuthService {
     //   );
   }
 
-  public getUserDetails(dataToken: any): any {
+  public getUserDetails(dataToken?: any): any {
     const token = dataToken;
     let payload;
     if (token) {

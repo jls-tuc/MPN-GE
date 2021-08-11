@@ -1,7 +1,15 @@
 <mat-card class="p-0">
     <mat-card-title class="">
-        <div class="card-title-text">Planilla de Voto Adhesion de: {{datosResPlanilla.datosPersonales.apellido
-            |titlecase}} {{datosResPlanilla.datosPersonales.nombres |titlecase}}</div>
+
+        <div *ngIf="cargar_datos" class="card-title-text">Planilla de Voto Adhesion de:
+            {{datosResPlanilla.apellido
+            |titlecase}} {{datosResPlanilla.nombres |titlecase}}</div>
+
+        <ng-container *ngIf="!cargar_datos">
+            <div class="card-title-text">Planilla de Voto Adhesion de: {{datosResPlanilla.apellido
+                |titlecase}} {{datosResPlanilla.nombres |titlecase}}</div>
+        </ng-container>
+
         <mat-divider></mat-divider>
     </mat-card-title>
     <mat-card-content>
@@ -25,7 +33,8 @@
                                             <div class="radio-inline">
                                                 <mat-radio-group aria-labelledby="example-radio-group-label"
                                                     class="example-full-width" appearance="fill" formControlName="sexo">
-                                                    <mat-radio-button class="pr-1" *ngFor="let s of sexo" [value]="s" required>
+                                                    <mat-radio-button class="pr-1" *ngFor="let s of sexo" [value]="s"
+                                                        required>
                                                         {{s}}
                                                     </mat-radio-button>
 

@@ -21,6 +21,7 @@ import { ThemeService } from "../../../services/theme.service";
 import { LayoutService } from "../../../services/layout.service";
 import { filter } from "rxjs/operators";
 import { JwtAuthService } from "../../../services/auth/jwt-auth.service";
+import { NavigationService } from "app/shared/services/navigation.service";
 
 @Component({
   selector: "app-admin-layout",
@@ -40,8 +41,10 @@ export class AdminLayoutComponent implements OnInit, AfterViewInit {
     private router: Router,
     public translate: TranslateService,
     public themeService: ThemeService,
+    public navService: NavigationService,
     private layout: LayoutService,
     private cdr: ChangeDetectorRef,
+
     private jwtAuth: JwtAuthService
   ) {
     // Check Auth Token is valid
@@ -65,10 +68,11 @@ export class AdminLayoutComponent implements OnInit, AfterViewInit {
     this.layoutConfSub = this.layout.layoutConf$.subscribe((layoutConf) => {
       this.layoutConf = layoutConf;
       // console.log(this.layoutConf);
-
       this.adminContainerClasses = this.updateAdminContainerClasses(
         this.layoutConf
       );
+
+      //this.navService.getMenuRole();
       this.cdr.markForCheck();
     });
 

@@ -12,7 +12,7 @@ import {
   MatDialogRef,
   MAT_DIALOG_DATA,
 } from "@angular/material/dialog";
-import { MatTableModule, MatTableDataSource } from "@angular/material/table";
+import { MatTableDataSource } from "@angular/material/table";
 import { MatPaginator } from "@angular/material/paginator";
 import { MatSort } from "@angular/material/sort";
 import { Router } from "@angular/router";
@@ -30,7 +30,7 @@ export class ResponsablesPComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   datosReferente: any = {};
-  resPlanillas: {};
+  resPlanillas: any = {};
   listaColumnas: string[] = [
     "dni",
     "apellido",
@@ -39,39 +39,40 @@ export class ResponsablesPComponent implements OnInit {
     "telefono",
     "acciones",
   ];
-  dataSource: MatTableDataSource<any>;
+  dataSource: any;
   sortedData: any[];
   constructor(
     public dialog: MatDialog,
-    public dialogRef: MatDialogRef<ResponsablesPComponent>,
+    @Optional() public dialogRef: MatDialogRef<ResponsablesPComponent>,
     @Optional() @Inject(MAT_DIALOG_DATA) public data: any,
-    private fb: FormBuilder,
     private cdr: ChangeDetectorRef,
-    private router: Router,
     private referenteService: ReferentesService
   ) {}
 
   ngOnInit(): void {
-    this.datosReferente = this.data.payload;
     //console.log("datosRef", this.datosReferente);
     this.getResPlanillas();
   }
 
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-  }
   getResPlanillas() {
+    this.datosReferente = this.data.payload;
     const idRef: {} = `id=${this.datosReferente._id}`;
     this.referenteService.getResPById(idRef).subscribe((data: any) => {
       this.resPlanillas = data.resp;
-      //console.log("dataRESP", this.resPlanillas);
-      this.dataSource = new MatTableDataSource(data.resp);
+      this.dataSource = new MatTableDataSource();
+      this.dataSource.data = this.resPlanillas;
+
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
       this.cdr.markForCheck();
     });
   }
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+    //console.log(this.dataSource.filter);
+  }
+
   cargarPlanilla(data?) {
     const dialogoRef: MatDialogRef<any> = this.dialog.open(PlanillaComponent, {
       width: "75%",

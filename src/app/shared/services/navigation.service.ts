@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
-import { BehaviorSubject } from "rxjs";
+import { BehaviorSubject, Observable } from "rxjs";
+import { JwtAuthService } from "app/shared/services/auth/jwt-auth.service";
 
 interface IMenuItem {
   type: string; // Possible values: link/dropDown/icon/separator/extLink
@@ -28,51 +29,9 @@ interface IBadge {
 
 @Injectable()
 export class NavigationService {
-  iconMenu: IMenuItem[] = [
-    {
-      name: "Coordinador",
-      type: "dropDown",
-      tooltip: "Documentation",
-      icon: "person",
-      sub: [{ name: "Agregar", state: "elecciones/coordinador" }],
-    },
-    {
-      name: "Referentes",
-      type: "dropDown",
-      tooltip: "Documentation",
-      icon: "person",
-      sub: [
-        { name: "Ver", state: "elecciones/referentes" },
-        { name: "Agregar", state: "elecciones/referente" },
-      ],
-    },
-    /* {
-      name: "Responsables de Planillas",
-      type: "dropDown",
-      tooltip: "Dialogs",
-      icon: "filter_none",
-      state: "dialogs",
-      sub: [
-        { name: "CONFIRM", state: "confirm" },
-        { name: "LOADER", state: "loader" },
-      ],
-    }, */
-    {
-      name: "Estadísticas",
-      type: "link",
-      tooltip: "Charts",
-      icon: "show_chart",
-      state: "elecciones/indicadores",
-    },
-    {
-      name: "Padrones",
-      type: "link",
-      tooltip: "Buscar",
-      icon: "list_alt",
-      state: "elecciones/padrones",
-    },
-  ];
-
+  menuVacio: IMenuItem[] = [];
+  menuUse$: Observable<any>;
+  menuUse: any;
   separatorMenu: IMenuItem[] = [
     {
       type: "separator",
@@ -446,11 +405,19 @@ export class NavigationService {
   // This title will appear if any icon type item is present in menu.
   iconTypeMenuTitle = "Frequently Accessed";
   // sets iconMenu as default;
-  menuItems = new BehaviorSubject<IMenuItem[]>(this.iconMenu);
+  menuItems = new BehaviorSubject<IMenuItem[]>(this.menuVacio);
   // navigation component has subscribed to this Observable
   menuItems$ = this.menuItems.asObservable();
-  constructor() {}
 
+  constructor(public authService: JwtAuthService) {
+    this.menuUse$ = this.authService.currentUserSubject.asObservable();
+    this.menuUse = this.menuUse$;
+    this.menuVacio = this.menuUse.source._value.role;
+  }
+
+  getMenuRole() {
+    this.menuVacio;
+  }
   // Customizer component uses this method to change menu.
   // You can remove this method and customizer component.
   // Or you can customize this method to supply different menu for
@@ -461,7 +428,7 @@ export class NavigationService {
         this.menuItems.next(this.separatorMenu);
         break;
       case "icon-menu":
-        this.menuItems.next(this.iconMenu);
+        this.menuItems.next(this.menuVacio);
         break;
       default:
         this.menuItems.next(this.plainMenu);
