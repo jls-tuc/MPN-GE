@@ -12,12 +12,17 @@ import { VotoProvService } from "app/modulos/elecciones/services/voto-prov.servi
 import { PadronesService } from "app/modulos/elecciones/services/padrones.service";
 import { IvotoADH } from "app/modulos/elecciones/interfaces/votosAdh";
 import Swal from "sweetalert2";
+import { JwtAuthService } from "app/shared/services/auth/jwt-auth.service";
+import { Observable } from "rxjs";
+import { UserModel } from "app/shared/models/user.model";
 @Component({
   selector: "app-planilla",
   templateUrl: "./planilla.component.html",
   styleUrls: ["./planilla.component.scss"],
 })
 export class PlanillaComponent implements OnInit {
+  userData$: Observable<UserModel>;
+  datosUser: any;
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
   afiliadoFormGroup: FormGroup;
@@ -31,23 +36,55 @@ export class PlanillaComponent implements OnInit {
   datosResPlanilla: any;
   votoAdH: IvotoADH;
   constructor(
-    public dialogRef: MatDialogRef<PlanillaComponent>,
+    @Optional() public dialogRef: MatDialogRef<PlanillaComponent>,
     @Optional() @Inject(MAT_DIALOG_DATA) public data: any,
+
+    public auhService: JwtAuthService,
     private fb: FormBuilder,
     private cdr: ChangeDetectorRef,
     private router: Router,
     private votoProvService: VotoProvService,
     private padronService: PadronesService
   ) {
+    (this.userData$ = this.auhService.currentUserSubject.asObservable()),
+      (this.datosUser = this.userData$);
     this.buildFirstForm();
     this.buildSecondForm();
     this.buildAfiliadoForm();
   }
 
   ngOnInit(): void {
-    this.datosResPlanilla = this.data.data;
+    this.cargarDatosUs();
     //  console.log("datos", this.datosResPlanilla);
   }
+
+  cargarDatosUs() {
+    if (this.data != null) {
+      this.cargar_datos = true;
+      this.datosResPlanilla = this.data.data;
+    } else {
+      if (this.datosUser.source._value.role === "user-ref") {
+        this.datosResPlanilla = {
+          _id: "",
+          idCoordinador: this.datosUser.source._value.idCoordinador,
+          idReferente: this.datosUser.source._value.id,
+          nombres: this.datosUser.source._value.nombres,
+          apellido: this.datosUser.source._value.apellido,
+          localidad: this.datosUser.source._value.localidad,
+        };
+      } else if (this.datosUser.source._value.role === "user-coord") {
+        this.datosResPlanilla = {
+          _id: "",
+          idCoordinador: this.datosUser.source._value.id,
+          idReferente: "",
+          nombres: this.datosUser.source._value.nombres,
+          apellido: this.datosUser.source._value.apellido,
+          localidad: this.datosUser.source._value.localidad,
+        };
+      }
+    }
+  }
+
   buildFirstForm() {
     this.firstFormGroup = this.fb.group({
       dni: ["", Validators.required],
@@ -108,7 +145,11 @@ export class PlanillaComponent implements OnInit {
     });
   }
   cerrarPopUP() {
-    this.dialogRef.close();
+    if (this.data != null) {
+      this.dialogRef.close();
+    } else {
+      window.location.reload();
+    }
   }
   guardar() {
     this.votoAdH = {
@@ -128,9 +169,9 @@ export class PlanillaComponent implements OnInit {
         idReferente: this.datosResPlanilla.idReferente,
       },
     };
-    //console.log("voto", this.votoAdH);
+    console.log("voto", this.votoAdH);
 
-    this.votoProvService
+    /*  this.votoProvService
       .postVotoProv(this.votoAdH)
       .subscribe(async (data: any) => {
         if (data.ok === true) {
@@ -139,7 +180,7 @@ export class PlanillaComponent implements OnInit {
             "Puede continuar",
             "success"
           );
-          await this.dialogRef.close();
+          await this.cerrarPopUP();
         } else {
           Swal.fire({
             position: "center",
@@ -149,6 +190,6 @@ export class PlanillaComponent implements OnInit {
             timer: 3500,
           });
         }
-      });
+      });*/
   }
 }

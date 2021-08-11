@@ -18,12 +18,18 @@ import { MatSort } from "@angular/material/sort";
 import { Router } from "@angular/router";
 import { VotoProvService } from "../../../services/voto-prov.service";
 import Swal from "sweetalert2";
+import { UserModel } from "app/shared/models/user.model";
+import { Observable } from "rxjs";
+import { JwtAuthService } from "app/shared/services/auth/jwt-auth.service";
+
 @Component({
   selector: "app-ver-planilla",
   templateUrl: "./ver-planilla.component.html",
   styleUrls: ["./ver-planilla.component.css"],
 })
 export class VerPlanillaComponent implements OnInit {
+  userData$: Observable<UserModel>;
+  datosUser: any;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   votosCargados: any = {};
@@ -32,28 +38,67 @@ export class VerPlanillaComponent implements OnInit {
   listaColumnas: string[] = ["dni", "nombreCompleto", "localidad", "telefono"];
   dataSource: MatTableDataSource<any>;
   sortedData: any[];
+  public cargar_datos: boolean = false;
   constructor(
-    public dialogRef: MatDialogRef<VerPlanillaComponent>,
+    @Optional() public dialogRef: MatDialogRef<VerPlanillaComponent>,
     @Optional() @Inject(MAT_DIALOG_DATA) public data: any,
+    public auhService: JwtAuthService,
     public dialog: MatDialog,
     private fb: FormBuilder,
     private cdr: ChangeDetectorRef,
     private votoService: VotoProvService,
     private router: Router
-  ) {}
+  ) {
+    (this.userData$ = this.auhService.currentUserSubject.asObservable()),
+      (this.datosUser = this.userData$);
+  }
 
   ngOnInit(): void {
-    this.resPlanillas = this.data.data;
-    this.cargarPlanilla(this.resPlanillas);
+    this.cargarDatosUs();
   }
+  cargarDatosUs() {
+    if (this.data != null) {
+      this.cargar_datos = true;
+      this.resPlanillas = this.data.data;
+      const consulta: any = `consulta=${"Resplanilla"}&valor=${
+        this.resPlanillas._id
+      }`;
+      this.cargarPlanilla(consulta);
+    } else {
+      if (this.datosUser.source._value.role === "user-ref") {
+        this.resPlanillas = {
+          _id: this.datosUser.source._value.id,
+          nombres: this.datosUser.source._value.nombres,
+          apellido: this.datosUser.source._value.apellido,
+          localidad: this.datosUser.source._value.localidad,
+        };
+        const consulta: {} = `consulta=${"Referente"}&valor=${
+          this.resPlanillas._id
+        }`;
+        this.cargarPlanilla(consulta);
+      } else if (this.datosUser.source._value.role === "user-coord") {
+        this.resPlanillas = {
+          _id: this.datosUser.source._value.id,
+          nombres: this.datosUser.source._value.nombres,
+          apellido: this.datosUser.source._value.apellido,
+          localidad: this.datosUser.source._value.localidad,
+        };
+        const consulta: {} = `consulta=${"Coord"}&valor=${
+          this.resPlanillas._id
+        }`;
+        this.cargarPlanilla(consulta);
+      }
+    }
+  }
+
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
   cargarPlanilla(data?) {
-    let id = `id=${data._id}`;
-    this.votoService.getVotosById(id).subscribe((res: any) => {
+    this.votoService.getVotosById(data).subscribe((res: any) => {
       if (res.ok) {
+        console.log(res);
         this.votosCargados = res.votosUnicos;
         this.totalVotos = res.totalV;
         this.dataSource = new MatTableDataSource(this.votosCargados);

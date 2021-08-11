@@ -43,7 +43,6 @@ export class PadronesComponent implements OnInit {
     const params: {} = `documento=${this.itemForm.get("dni").value}&sexo=${
       this.itemForm.get("sexo").value
     }`;
-
     this.padronService.getPadronNqn(params).subscribe((res: any) => {
       let padronNqn = {
         documento: res.data.documento,

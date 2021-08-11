@@ -408,6 +408,7 @@ export class NavigationService {
   menuItems = new BehaviorSubject<IMenuItem[]>(this.menuVacio);
   // navigation component has subscribed to this Observable
   menuItems$ = this.menuItems.asObservable();
+
   constructor(public authService: JwtAuthService) {
     this.menuUse$ = this.authService.currentUserSubject.asObservable();
     this.menuUse = this.menuUse$;

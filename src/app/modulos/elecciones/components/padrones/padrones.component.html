@@ -23,7 +23,8 @@
                         <div class="radio-inline">
                             <mat-radio-group aria-labelledby="example-radio-group-label" class="radio radio-lg"
                                 formControlName="sexo">
-                                <mat-radio-button class="pr-1" *ngFor="let s of sexo" [value]="s" [class.is-invalid]='sexoNoValido'>
+                                <mat-radio-button class="pr-1" *ngFor="let s of sexo" [value]="s"
+                                    [class.is-invalid]='sexoNoValido'>
                                     {{s}}
                                 </mat-radio-button>
                                 <mat-error *ngIf='sexoNoValido' class="text-danger col-lg-6">

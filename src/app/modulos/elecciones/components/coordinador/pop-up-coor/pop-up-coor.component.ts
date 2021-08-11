@@ -210,7 +210,8 @@ export class PopUpCoorComponent implements OnInit {
 
   getPassword(nombre: string) {
     let pass: any = nombre.split(" ");
-    let newPass = "nqnEleccion2021";
+    let newPass = pass[0] + "2021nqnCapital";
+    console.log("newPass", newPass);
     return newPass;
   }
   get sexoNoValido() {

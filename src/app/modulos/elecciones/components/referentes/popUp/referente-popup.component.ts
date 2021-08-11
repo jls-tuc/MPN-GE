@@ -33,7 +33,7 @@ export class ReferentePopupComponent implements OnInit {
     { tipo: "Referente", role: "USER-REF" },
     { tipo: "Responsable de planilla", role: "USER-RESP" },
   ];
-  cargando: boolean=false;
+  cargando: boolean = false;
   idCorrd: String;
   idReferente: string;
   role: string;
@@ -73,7 +73,7 @@ export class ReferentePopupComponent implements OnInit {
     this.obtProvLoc();
     this.cargarReferentes();
     this.usuarioRol = this.data.data;
-    //console.log("resss", this.usuarioRol);
+    // console.log("resss", this.usuarioRol);
   }
 
   dataPForm(data?) {
@@ -154,7 +154,7 @@ export class ReferentePopupComponent implements OnInit {
     this.dialogRef.close();
   }
   async buscarDNI() {
-    this.cargando=true;
+    this.cargando = true;
     const params = `dni=${this.secondFormGroup.get("dni").value}&sexo=${
       this.secondFormGroup.get("sexo").value
     }`;
@@ -169,9 +169,9 @@ export class ReferentePopupComponent implements OnInit {
           console.log("data", data);
           this.dataPForm(data);
           this.userForm(data);
-          this.cargando=false;
+          this.cargando = false;
         } else {
-          this.cargando=false;
+          this.cargando = false;
           Swal.fire({
             position: "center",
             icon: "warning",
@@ -185,14 +185,18 @@ export class ReferentePopupComponent implements OnInit {
   }
 
   guardar() {
+    //cuando carga el usuario desde el Referente no usa el popUP
     if (this.usurioLog.source._value.role === "user-ref") {
       this.idReferente = this.usurioLog.source._value.id;
       this.role = "USER-RESP";
-      this.idCorrd = this.usuarioRol.idCoordinador;
+      this.idCorrd = this.usurioLog.source._value.idCoordinador;
+      //cuando se carga un usuario resP desde un coord, se usa el popUP
     } else if (this.usuarioRol.role === "user-ref") {
+      //console.log(this.usuarioRol);
       this.idReferente = this.usuarioRol._id;
       this.role = "USER-RESP";
       this.idCorrd = this.usuarioRol.idCoordinador;
+      //Solo cuando el coord crea el us ref por el popUP
     } else {
       this.role = "USER-REF";
       this.idCorrd = this.usurioLog.source._value.id;
@@ -222,18 +226,8 @@ export class ReferentePopupComponent implements OnInit {
         areaResponsable: this.secondFormGroup.get("areaResponsable").value,
       },
     };
-    //console.log(`this.referenteForm`, this.referenteForm);
+    // console.log(`this.referenteForm`, this.referenteForm);
 
-    /* this.pacienteForm.patchValue({
-        direccion: `${
-          this.pacienteForm.get("datos_Seguimiento.numero").value
-        } ${this.pacienteForm.get("datos_Seguimiento.calle").value} ${
-          this.pacienteForm.get("datos_Seguimiento.localidad").value
-        } Neuquen`,
-      }); */
-    //TODO:Para cargar la Geo Location
-    /*  const datos = this.referenteForm.value;
-      console.log("datos", datos); */
     this.referenteService
       .crearRefernte(this.referenteForm)
       .subscribe(async (data: any) => {

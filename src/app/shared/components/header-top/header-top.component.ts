@@ -30,7 +30,7 @@ export class HeaderTopComponent implements OnInit, OnDestroy {
   @Input() notificPanel;
   constructor(
     private layout: LayoutService,
-    private navService: NavigationService,
+    public navService: NavigationService,
     public themeService: ThemeService,
     public translate: TranslateService,
     private renderer: Renderer2,
@@ -40,7 +40,7 @@ export class HeaderTopComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.layoutConf = this.layout.layoutConf;
     this.egretThemes = this.themeService.egretThemes;
-    this.menuItemSub = this.navService.menuUse$.subscribe((res) => {
+    /* this.menuItemSub = this.navService.menuUse$.subscribe((res) => {
       //  console.log(res.menu);
       res = res.menu.filter(
         (item) => item.type !== "icon" && item.type !== "separator"
@@ -60,15 +60,15 @@ export class HeaderTopComponent implements OnInit, OnDestroy {
       });
       this.menuItems = res;
       // console.log(this.menuItems);
-    });
+    }); */
     this.userData$ = this.jwtAuth.currentUserSubject.asObservable();
     this.usurioLog = this.userData$;
     this.datosUsuarios = this.usurioLog.source._value;
+    this.menuItems = this.usurioLog.source._value.menu;
     this.fotoUsuario = sessionStorage.getItem("FOTO");
-    
   }
   ngOnDestroy() {
-    this.menuItemSub.unsubscribe();
+    //this.menuItemSub.unsubscribe();
   }
   setLang() {
     this.translate.use(this.currentLang);

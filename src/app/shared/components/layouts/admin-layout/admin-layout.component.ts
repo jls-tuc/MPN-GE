@@ -72,7 +72,7 @@ export class AdminLayoutComponent implements OnInit, AfterViewInit {
         this.layoutConf
       );
 
-      this.navService.getMenuRole();
+      //this.navService.getMenuRole();
       this.cdr.markForCheck();
     });
 
