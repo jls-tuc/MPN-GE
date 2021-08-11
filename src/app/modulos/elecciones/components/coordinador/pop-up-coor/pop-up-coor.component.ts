@@ -25,6 +25,7 @@ export class PopUpCoorComponent implements OnInit {
   role: string;
   idReferentes: any[] = [];
   referentes: string[];
+  cargando: boolean = false;
   datosRenaper: {};
   referenteForm: Iusuario;
   usuarioRol: any = {};
@@ -120,12 +121,17 @@ export class PopUpCoorComponent implements OnInit {
   }
 
   async buscarDNI() {
-    const params = `dni=${this.secondFormGroup.get("dni").value}&sexo=${this.secondFormGroup.get("sexo").value
-      }`;
+
+    this.cargando = true;
+    const params = `dni=${this.secondFormGroup.get("dni").value}&sexo=${
+      this.secondFormGroup.get("sexo").value
+    }`;
+
 
     this.ValidarPersona.getPersonaRenaper(params).subscribe(
       async (data: any) => {
         if (data.ID_TRAMITE_PRINCIPAL !== 0) {
+          this.cargando = false;
           this.ocultarBusqueda = true;
           this.datosRenaper = data;
           data.dni = this.secondFormGroup.get("dni").value;
@@ -134,6 +140,7 @@ export class PopUpCoorComponent implements OnInit {
           this.dataPForm(data);
           this.userForm(data);
         } else {
+          this.cargando = false;
           Swal.fire({
             position: "top-end",
             icon: "warning",
