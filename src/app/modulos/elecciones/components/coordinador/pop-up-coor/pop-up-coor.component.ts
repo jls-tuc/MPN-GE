@@ -120,9 +120,8 @@ export class PopUpCoorComponent implements OnInit {
   }
 
   async buscarDNI() {
-    const params = `dni=${this.secondFormGroup.get("dni").value}&sexo=${
-      this.secondFormGroup.get("sexo").value
-    }`;
+    const params = `dni=${this.secondFormGroup.get("dni").value}&sexo=${this.secondFormGroup.get("sexo").value
+      }`;
 
     this.ValidarPersona.getPersonaRenaper(params).subscribe(
       async (data: any) => {
@@ -131,7 +130,7 @@ export class PopUpCoorComponent implements OnInit {
           this.datosRenaper = data;
           data.dni = this.secondFormGroup.get("dni").value;
           data.sexo = this.secondFormGroup.get("sexo").value;
-          console.log("data", data);
+          // console.log("data", data);
           this.dataPForm(data);
           this.userForm(data);
         } else {
@@ -211,7 +210,7 @@ export class PopUpCoorComponent implements OnInit {
   getPassword(nombre: string) {
     let pass: any = nombre.split(" ");
     let newPass = pass[0] + "2021nqnCapital";
-    console.log("newPass", newPass);
+    //console.log("newPass", newPass);
     return newPass;
   }
   get sexoNoValido() {
