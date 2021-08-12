@@ -5,6 +5,7 @@ import {
   Inject,
   Optional,
   ViewChild,
+  ElementRef,
 } from "@angular/core";
 import { FormBuilder } from "@angular/forms";
 import {
@@ -23,6 +24,12 @@ import { Observable } from "rxjs";
 import { JwtAuthService } from "app/shared/services/auth/jwt-auth.service";
 import { GraficaService } from "../../../services/grafica.service";
 import { Sort } from "@angular/material/sort";
+import jsPDF from "jspdf";
+import pdfMake from "pdfmake/build/pdfmake";
+import pdfFonts from "pdfmake/build/vfs_fonts";
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
+import htmlToPdfmake from "html-to-pdfmake";
+
 @Component({
   selector: "app-datacoord",
   templateUrl: "./datacoord.component.html",
@@ -48,6 +55,7 @@ export class DatacoordComponent implements OnInit {
   dataSource: MatTableDataSource<any>;
   sortedData: any[];
   public cargar_datos: boolean = false;
+  @ViewChild("pdfTable") pdfTable: ElementRef;
   constructor(
     public auhService: JwtAuthService,
     public dialog: MatDialog,
@@ -56,9 +64,20 @@ export class DatacoordComponent implements OnInit {
     private grafCalc: GraficaService,
     private router: Router
   ) {}
+  title = "htmltopdf";
 
   ngOnInit(): void {
     this.cargarDatosUs();
+  }
+  public downloadAsPDF() {
+    const doc = new jsPDF();
+
+    const pdfTable = this.pdfTable.nativeElement;
+
+    var html = htmlToPdfmake(pdfTable.innerHTML);
+
+    const documentDefinition = { content: html };
+    pdfMake.createPdf(documentDefinition).open();
   }
   cargarDatosUs() {
     this.grafCalc.getvotosCalculoTotal().subscribe((res: any) => {
@@ -92,7 +111,7 @@ export class DatacoordComponent implements OnInit {
         console.log(res);
         this.votosCargados = res.votosUnicos;
         this.totalVotos = res.totalV;
-        this.dataSource = new MatTableDataSource(this.votosCargados);
+        this.dataSource = new MatTableDataSource(this.votosCoordinadores);
         this.dataSource.paginator = this.paginator;
 
         this.cdr.markForCheck();
@@ -109,7 +128,7 @@ export class DatacoordComponent implements OnInit {
   }
 
   sortData(sort: Sort) {
-    const data = this.votosCargados.slice();
+    const data = this.votosCoordinadores.slice();
     if (!sort.active || sort.direction === "") {
       this.sortedData = data;
       return;
