@@ -14,6 +14,10 @@ import {
 } from "ng-apexcharts";
 import { ReferentesService } from '../../services/referentes.service';
 import { filter } from 'rxjs/operators';
+import { UserModel } from '../../../../shared/models/user.model';
+import { Observable } from 'rxjs';
+import { GraficaService } from '../../services/grafica.service';
+import { number } from 'ngx-custom-validators/src/app/number/validator';
 export type ChartOptions = {
   series: ApexNonAxisChartSeries;
   chart: ApexChart;
@@ -29,30 +33,37 @@ export type ChartOptions = {
   animations: egretAnimations
 })
 export class IndicadoresComponent implements OnInit {
+  //Variables Usuario
+  userLog$: Observable<UserModel>;
+  usuarioRol: any;
   @ViewChild("chart") chart: ChartComponent;
   public chartOptions: Partial<ChartOptions>;
   public graficaVotos;
   public graficaAfiliados;
   public graficaNoafiliados;
+  public graficaMasculino;
+  public graficaFemenino;
   public v_chartOptions;
   public a_chartOptions;
   public na_chartOptions;
+  public f_chartOptions;
+  public m_chartOptions;
 
   public total: number;
-  public votosTotal;
-  public afiliados;
-  public femenino;
-  public masculino;
-  public noafiliados;
-  public v_datosData;
-  public v_labelsData;
-  public v_total;
-  public a_datosData;
-  public a_labelsData;
-  public a_total;
-  public na_datosData;
-  public na_labelsData;
-  public na_total;
+  public votosTotal: number = 0;
+  public afiliados: number = 0;
+  public femenino: number = 0;
+  public masculino: number = 0;
+  public noafiliados: number = 0;
+  public v_datosData: number[];
+  public v_labelsData: string[];
+  public v_total: number = 0;
+  public a_datosData: number[];
+  public a_labelsData: string[];
+  public a_total: number = 0;
+  public na_datosData: string[];
+  public na_labelsData: number[];
+  public na_total: number = 0;
   fontFamily = '';
   colorsGrayGray500 = '';
   colorsGrayGray200 = '';
@@ -63,6 +74,10 @@ export class IndicadoresComponent implements OnInit {
   v_svgCSSClasses = '';
   a_colorsThemeBase = '';
   a_colorsThemeLight = '';
+  f_colorsThemeBase = '';
+  f_colorsThemeLight = '';
+  m_colorsThemeBase = '';
+  m_colorsThemeLight = '';
   a_symbolCSSClasses = '';
   a_svgCSSClasses = '';
   na_colorsThemeBase = '';
@@ -78,8 +93,11 @@ export class IndicadoresComponent implements OnInit {
     private votoServ: VotoProvService,
     private usuarios: ReferentesService,
     private cdr: ChangeDetectorRef,
+    public authServ: JwtAuthService,
+    public grafServ: GraficaService
   ) {
-
+    this.userLog$ = this.authServ.currentUserSubject.asObservable();
+    this.usuarioRol = this.userLog$;
   }
   loadLayoutView() {
     this.fontFamily = '';
@@ -92,6 +110,10 @@ export class IndicadoresComponent implements OnInit {
     this.na_colorsThemeLight = "#FFE1E7";
     this.a_colorsThemeBase = "#1A8383";
     this.a_colorsThemeLight = "#DEFFFF";
+    this.f_colorsThemeBase = "#1A8383";
+    this.f_colorsThemeLight = "#DEFFFF";
+    this.m_colorsThemeBase = "#1A8383";
+    this.m_colorsThemeLight = "#DEFFFF";
   }
 
   async ngOnInit() {
@@ -103,41 +125,39 @@ export class IndicadoresComponent implements OnInit {
     this.a_svgCSSClasses = `svg-icon svg-icon-xl svg-icon-"#1A8383"`;
     this.na_symbolCSSClasses = `symbol "symbol-circle" symbol-50 symbol-light-"#1A8383" mr-2`;
     this.na_svgCSSClasses = `svg-icon svg-icon-xl svg-icon-"#1A8383"`;
-    this.buscarCoordinadores();
-    this.votoServ.getVotos().subscribe((res: any) => {
-      this.afiliados = this.buscarAfiliados(res.data);
-
-      this.votosTotal = res.data.length;
-
-      this.femenino = this.buscarGenero(res.data);
-      this.masculino = this.votosTotal - this.femenino;
-      this.afiliados = this.buscarAfiliados(res.data);
-      this.noafiliados = this.votosTotal - this.afiliados;
-      let data = {
-        v_datosData: [1, 34],
-        v_labelsData: ['08 Agosto', '09 Agosto'],
-        v_total: this.votosTotal,
-        a_datosData: [1, 34],
-        a_labelsData: ['08 Agosto', '09 Agosto'],
-        a_total: this.afiliados,
-        na_datosData: [1, 34],
-        na_labelsData: ['08 Agosto', '09 Agosto'],
-        na_total: this.noafiliados,
-      }
-      this.cargarGrafica(data);
-    });
-    console.log(`this.votosTotal`, this.votosTotal);
+    this.buscarDatosGraficaTotal();
+    console.log(`this.votosTotal`, this.votosTotal)
+    let data = {
+      v_datosData: [1, 34],
+      v_labelsData: ['08 Agosto', '09 Agosto'],
+      v_total: this.votosTotal,
+      a_datosData: [1, 34],
+      a_labelsData: ['08 Agosto', '09 Agosto'],
+      a_total: this.afiliados,
+      na_datosData: [1, 34],
+      na_labelsData: ['08 Agosto', '09 Agosto'],
+      na_total: this.noafiliados,
+      femenino: this.femenino,
+      masculino: this.masculino,
+    }
+    this.cargarGrafica(data);
     this.cdr.detectChanges();
 
   }
-  buscarCoordinadores() {
-    let coord = this.usuarios.getReferente().subscribe((res: any) => {
-      this.coordinadores = res.resp.filter((datos: any) => datos.role === "user-coord").length;
-      this.referentes = res.resp.filter((datos: any) => datos.role === "user-ref").length;
-      this.responsables = res.resp.filter((datos: any) => datos.role === "user-resp").length
-
-    }
-    );
+  async buscarDatosGraficaTotal() {
+    await this.grafServ.getvotosGraficaTotal().subscribe((res: any) => {
+      console.log(`res`, res)
+      this.votosTotal = res.votosTotal;
+      this.afiliados = res.afiliados;
+      this.femenino = res.femenino;
+      this.masculino = res.masculino;
+      this.noafiliados = res.noafiliados;
+    });
+    await this.grafServ.getvotosGrafica().subscribe((res: any) => {
+      this.coordinadores = res.coordinadores;
+      this.referentes = res.referentes;
+      this.responsables = res.responsables
+    });
   }
 
   cargarGrafica(data: any) {
@@ -277,7 +297,8 @@ export class IndicadoresComponent implements OnInit {
       baseColor: "#1A8383",
       lightColor: "#DEFFFF",
       tituloData: "Afiliados",
-      logoData: "assets/images/mpn/afiliado.png", cssClass: "gutter-b",
+      logoData: "assets/images/mpn/afiliado.png",
+      cssClass: "gutter-b",
       symbolShape: "symbol-circle",
       datosData: data.a_datosData,
       labelsData: data.a_labelsData,
@@ -408,7 +429,8 @@ export class IndicadoresComponent implements OnInit {
       baseColor: "#831A2D",
       lightColor: "#FFE1E7",
       tituloData: "No Afiliados",
-      logoData: "assets/images/mpn/no_afiliado.png", cssClass: "gutter-b",
+      logoData: "assets/images/mpn/no_afiliado.png",
+      cssClass: "gutter-b",
       symbolShape: "symbol-circle",
       datosData: data.na_datosData,
       labelsData: data.na_labelsData,
@@ -535,86 +557,340 @@ export class IndicadoresComponent implements OnInit {
         strokeWidth: 3
       }
     };
-    this.chartOptions = {
-      series: [this.femenino, this.masculino],
-
+    this.graficaFemenino = {
+      baseColor: "#BD00F0",
+      lightColor: "#F3C9FF",
+      tituloData: "No Afiliados",
+      logoData: "assets/images/mpn/no_afiliado.png",
+      cssClass: "gutter-b",
+      symbolShape: "symbol-circle",
+      datosData: data.na_datosData,
+      labelsData: data.na_labelsData,
+      total: data.na_total,
+    };
+    this.f_chartOptions = {
+      series: [{
+        name: 'Net Profit',
+        data: this.graficaNoafiliados.datosData,
+      }],
       chart: {
-        width: 380,
-        type: "pie"
-      },
-      plotOptions: {
-        pie: {
-          customScale: 0.8
+        type: 'area',
+        height: 120,
+        toolbar: {
+          show: false
+        },
+        zoom: {
+          enabled: false
+        },
+        sparkline: {
+          enabled: true
         }
+      },
+      plotOptions: {},
+      legend: {
+        show: false
       },
       dataLabels: {
-        enabled: true,
-        enabledOnSeries: undefined,
-
-        textAnchor: 'middle',
-        distributed: false,
-        offsetX: 0,
-        offsetY: 0,
-        style: {
-          fontSize: '24px',
-          fontFamily: 'Helvetica, Arial, sans-serif',
-          fontWeight: 'bold',
-          colors: undefined
+        enabled: false
+      },
+      fill: {
+        type: 'solid',
+        opacity: 1
+      },
+      stroke: {
+        curve: 'smooth',
+        show: true,
+        width: 3,
+        colors: [this.f_colorsThemeBase]
+      },
+      xaxis: {
+        categories: this.graficaNoafiliados.labelsData,
+        axisBorder: {
+          show: false,
         },
-        background: {
-          enabled: true,
-          foreColor: '#fff',
-          padding: 4,
-          borderRadius: 2,
-          borderWidth: 1,
-          borderColor: '#fff',
-          opacity: 0.9,
-          dropShadow: {
-            enabled: false,
-            top: 1,
-            left: 1,
-            blur: 1,
-            color: '#000',
-            opacity: 0.45
+        axisTicks: {
+          show: false
+        },
+        labels: {
+          show: false,
+          style: {
+            colors: this.colorsGrayGray500,
+            fontSize: '12px',
+            fontFamily: this.fontFamily
           }
         },
-        dropShadow: {
-          enabled: false,
-          top: 1,
-          left: 1,
-          blur: 1,
-          color: '#000',
-          opacity: 0.45
+        crosshairs: {
+          show: false,
+          position: 'front',
+          stroke: {
+            color: this.colorsGrayGray300,
+            width: 1,
+            dashArray: 3
+          }
+        },
+        tooltip: {
+          enabled: true,
+          formatter: undefined,
+          offsetY: 0,
+          style: {
+            fontSize: '12px',
+            fontFamily: this.fontFamily
+          }
         }
       },
-
-      labels: ["Femenino", "Masculino"],
-      responsive: [
-        {
-
-          breakpoint: 480,
-          options: {
-            chart: {
-              width: 250
-            },
-            legend: {
-              position: 'top',
-              labels: ["Femenino", "Masculino"],
-            }
+      yaxis: {
+        min: 0,
+        max: 55,
+        labels: {
+          show: false,
+          style: {
+            colors: this.colorsGrayGray500,
+            fontSize: '12px',
+            fontFamily: this.fontFamily
           }
         }
-      ]
+      },
+      states: {
+        normal: {
+          filter: {
+            type: 'none',
+            value: 0
+          }
+        },
+        hover: {
+          filter: {
+            type: 'none',
+            value: 0
+          }
+        },
+        active: {
+          allowMultipleDataPointsSelection: false,
+          filter: {
+            type: 'none',
+            value: 0
+          }
+        }
+      },
+      tooltip: {
+        style: {
+          fontSize: '12px',
+          fontFamily: this.fontFamily
+        },
+        y: {
+          formatter: (val) => {
+            return `$ ${val} thousands`;
+          }
+        }
+      },
+      colors: [this.f_colorsThemeLight],
+      markers: {
+        colors: [this.f_colorsThemeLight],
+        strokeColor: [this.f_colorsThemeBase],
+        strokeWidth: 3
+      }
     };
-  }
-  buscarAfiliados(data: any) {
-    let afiliados = data.filter((datos: any) => datos.afiliado === "Es afiliado al MPN").length;
-
-    return afiliados;
-  }
-  buscarGenero(data: any) {
-    let femenino = data.filter((datos: any) => datos.genero === "M").length;
-
-    return femenino;
+    this.graficaMasculino = {
+      baseColor: "#FBFF00",
+      lightColor: "#FEFFCE",
+      tituloData: "No Afiliados",
+      logoData: "assets/images/mpn/no_afiliado.png",
+      cssClass: "gutter-b",
+      symbolShape: "symbol-circle",
+      datosData: data.na_datosData,
+      labelsData: data.na_labelsData,
+      total: data.na_total,
+    };
+    this.m_chartOptions = {
+      series: [{
+        name: 'Net Profit',
+        data: this.graficaNoafiliados.datosData,
+      }],
+      chart: {
+        type: 'area',
+        height: 120,
+        toolbar: {
+          show: false
+        },
+        zoom: {
+          enabled: false
+        },
+        sparkline: {
+          enabled: true
+        }
+      },
+      plotOptions: {},
+      legend: {
+        show: false
+      },
+      dataLabels: {
+        enabled: false
+      },
+      fill: {
+        type: 'solid',
+        opacity: 1
+      },
+      stroke: {
+        curve: 'smooth',
+        show: true,
+        width: 3,
+        colors: [this.m_colorsThemeBase]
+      },
+      xaxis: {
+        categories: this.graficaNoafiliados.labelsData,
+        axisBorder: {
+          show: false,
+        },
+        axisTicks: {
+          show: false
+        },
+        labels: {
+          show: false,
+          style: {
+            colors: this.colorsGrayGray500,
+            fontSize: '12px',
+            fontFamily: this.fontFamily
+          }
+        },
+        crosshairs: {
+          show: false,
+          position: 'front',
+          stroke: {
+            color: this.colorsGrayGray300,
+            width: 1,
+            dashArray: 3
+          }
+        },
+        tooltip: {
+          enabled: true,
+          formatter: undefined,
+          offsetY: 0,
+          style: {
+            fontSize: '12px',
+            fontFamily: this.fontFamily
+          }
+        }
+      },
+      yaxis: {
+        min: 0,
+        max: 55,
+        labels: {
+          show: false,
+          style: {
+            colors: this.colorsGrayGray500,
+            fontSize: '12px',
+            fontFamily: this.fontFamily
+          }
+        }
+      },
+      states: {
+        normal: {
+          filter: {
+            type: 'none',
+            value: 0
+          }
+        },
+        hover: {
+          filter: {
+            type: 'none',
+            value: 0
+          }
+        },
+        active: {
+          allowMultipleDataPointsSelection: false,
+          filter: {
+            type: 'none',
+            value: 0
+          }
+        }
+      },
+      tooltip: {
+        style: {
+          fontSize: '12px',
+          fontFamily: this.fontFamily
+        },
+        y: {
+          formatter: (val) => {
+            return `$ ${val} thousands`;
+          }
+        }
+      },
+      colors: [this.m_colorsThemeLight],
+      markers: {
+        colors: [this.m_colorsThemeLight],
+        strokeColor: [this.m_colorsThemeBase],
+        strokeWidth: 3
+      }
+    };
+    /*  this.chartOptions = {
+       series: [data.femenino, data.masculino],
+ 
+       chart: {
+         width: 380,
+         type: "pie"
+       },
+       plotOptions: {
+         pie: {
+           customScale: 0.8
+         }
+       },
+       dataLabels: {
+         enabled: true,
+         enabledOnSeries: undefined,
+ 
+         textAnchor: 'middle',
+         distributed: false,
+         offsetX: 0,
+         offsetY: 0,
+         style: {
+           fontSize: '24px',
+           fontFamily: 'Helvetica, Arial, sans-serif',
+           fontWeight: 'bold',
+           colors: undefined
+         },
+         background: {
+           enabled: true,
+           foreColor: '#fff',
+           padding: 4,
+           borderRadius: 2,
+           borderWidth: 1,
+           borderColor: '#fff',
+           opacity: 0.9,
+           dropShadow: {
+             enabled: false,
+             top: 1,
+             left: 1,
+             blur: 1,
+             color: '#000',
+             opacity: 0.45
+           }
+         },
+         dropShadow: {
+           enabled: false,
+           top: 1,
+           left: 1,
+           blur: 1,
+           color: '#000',
+           opacity: 0.45
+         }
+       },
+ 
+       labels: ["Femenino", "Masculino"],
+       responsive: [
+         {
+ 
+           breakpoint: 480,
+           options: {
+             chart: {
+               width: 250
+             },
+             legend: {
+               position: 'top',
+               labels: ["Femenino", "Masculino"],
+             }
+           }
+         }
+       ]
+     }; */
   }
 
 }

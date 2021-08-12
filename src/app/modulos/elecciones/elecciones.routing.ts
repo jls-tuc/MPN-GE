@@ -6,6 +6,7 @@ import { ReferentePopupComponent } from "./components/referentes/popUp/referente
 import { PlanillaComponent } from "./components/planilla/planilla/planilla.component";
 import { PopUpCoorComponent } from "./components/coordinador/pop-up-coor/pop-up-coor.component";
 import { VerPlanillaComponent } from "./components/planilla/ver-planilla/ver-planilla.component";
+import { DatacoordComponent } from './components/indicadores/datacoord/datacoord.component';
 
 export const EleccionesRoutes: Routes = [
   {
@@ -45,6 +46,11 @@ export const EleccionesRoutes: Routes = [
         path: "coordinador",
         component: PopUpCoorComponent,
         data: { title: "Coordinador", breadcrumb: "COORDINADOR" },
+      },
+      {
+        path: "calculototal",
+        component: DatacoordComponent,
+        data: { title: "Estadisticas Totales", breadcrumb: "ESTADISTICAS" },
       },
     ],
   },
