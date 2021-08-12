@@ -123,10 +123,8 @@ export class PopUpCoorComponent implements OnInit {
   async buscarDNI() {
 
     this.cargando = true;
-    const params = `dni=${this.secondFormGroup.get("dni").value}&sexo=${
-      this.secondFormGroup.get("sexo").value
-    }`;
-
+    const params = `dni=${this.secondFormGroup.get("dni").value}&sexo=${this.secondFormGroup.get("sexo").value
+      }`;
 
     this.ValidarPersona.getPersonaRenaper(params).subscribe(
       async (data: any) => {
