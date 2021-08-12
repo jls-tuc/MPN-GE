@@ -12,8 +12,7 @@
                 <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
                     <mat-form-field class="DP-full-width">
                         <mat-label>Nro. Documento</mat-label>
-                        <input type="text" class="form-control" matInput formControlName="dni"
-                            [class.is-invalid]='dniNoValido' placeholder="Ingrese el número de dni">
+                        <input type="text" class="form-control" matInput formControlName="dni" [class.is-invalid]='dniNoValido' placeholder="Ingrese el número de dni">
                         <mat-error *ngIf='dniNoValido' class="text-danger col-lg-6">
                             <strong>Es necesario completar el campo.</strong>
                         </mat-error>
@@ -21,10 +20,8 @@
                     <div class="form-group">
                         <label>Seleccione Sexo</label>
                         <div class="radio-inline">
-                            <mat-radio-group aria-labelledby="example-radio-group-label" class="radio radio-lg"
-                                formControlName="sexo">
-                                <mat-radio-button class="pr-1" *ngFor="let s of sexo" [value]="s"
-                                    [class.is-invalid]='sexoNoValido'>
+                            <mat-radio-group aria-labelledby="example-radio-group-label" class="radio radio-lg" formControlName="sexo">
+                                <mat-radio-button class="pr-1" *ngFor="let s of sexo" [value]="s" [class.is-invalid]='sexoNoValido'>
                                     {{s}}
                                 </mat-radio-button>
                                 <mat-error *ngIf='sexoNoValido' class="text-danger col-lg-6">
@@ -35,8 +32,7 @@
                     </div>
                     <div class="row mt-2">
                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                            <button class="mat-primary mb-16 mr-8" [disabled]="!itemForm.valid " mat-raised-button
-                                (click)="validarDNI()" color="primary">Buscar</button>
+                            <button class="mat-primary mb-16 mr-8" [disabled]="!itemForm.valid " mat-raised-button (click)="validarDNI()" color="primary">Buscar</button>
 
                             <button mat-raised-button color="warn" mat-button [routerLink]="['/']">Cancelar</button>
                         </div>
@@ -63,15 +59,14 @@
                     <p>
                         <mat-icon class="text-muted">contact_page</mat-icon>{{data.documento}}
                     </p>
-                    <p>
+                    <!-- <p>
                         <mat-icon class="text-muted">security_update</mat-icon>{{data.mesa}}
                     </p>
                     <p>
                         <mat-icon class="text-muted">home</mat-icon>{{data.escuela}}
-                    </p>
+                    </p> -->
                     <p>
-                        <mat-icon class="text-muted">location_on</mat-icon>{{data.direccion|titlecase}} -
-                        {{data.localidad|titlecase}}
+                        <mat-icon class="text-muted">location_on</mat-icon>{{data.direccion|titlecase}} - {{data.localidad|titlecase}}
                     </p>
                 </div>
             </mat-card-content>
