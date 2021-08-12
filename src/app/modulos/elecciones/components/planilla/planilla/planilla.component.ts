@@ -111,12 +111,10 @@ export class PlanillaComponent implements OnInit {
   }
 
   buscarDatos() {
-
     this.cargando = true;
     const params: {} = `documento=${
       this.firstFormGroup.get("dni").value
     }&sexo=${this.firstFormGroup.get("sexo").value}`;
-
 
     this.padronService.getPadronProv(params).subscribe((res: any) => {
       if (res.ok) {
@@ -151,12 +149,11 @@ export class PlanillaComponent implements OnInit {
     });
   }
   cerrarPopUP() {
-    console.log(`this.data`, this.data)
+    //  console.log(`this.data`, this.data)
     if (this.data != null) {
       this.dialogRef.close();
     } else {
-
-      this.router.navigate(["/elecciones"])
+      this.router.navigate(["/elecciones"]);
     }
   }
   guardar() {
@@ -177,7 +174,7 @@ export class PlanillaComponent implements OnInit {
         idReferente: this.datosResPlanilla.idReferente,
       },
     };
-    console.log("voto", this.votoAdH);
+    //console.log("voto", this.votoAdH);
 
     this.votoProvService
       .postVotoProv(this.votoAdH)
@@ -198,6 +195,6 @@ export class PlanillaComponent implements OnInit {
             timer: 3500,
           });
         }
-      })
+      });
   }
 }

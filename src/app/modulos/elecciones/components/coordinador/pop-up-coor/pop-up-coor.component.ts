@@ -121,12 +121,10 @@ export class PopUpCoorComponent implements OnInit {
   }
 
   async buscarDNI() {
-
     this.cargando = true;
     const params = `dni=${this.secondFormGroup.get("dni").value}&sexo=${
       this.secondFormGroup.get("sexo").value
     }`;
-
 
     this.ValidarPersona.getPersonaRenaper(params).subscribe(
       async (data: any) => {
@@ -216,7 +214,7 @@ export class PopUpCoorComponent implements OnInit {
 
   getPassword(nombre: string) {
     let pass: any = nombre.split(" ");
-    let newPass = pass[0] + "2021nqnCapital";
+    let newPass = pass[0] + "2021nqn";
     //console.log("newPass", newPass);
     return newPass;
   }
