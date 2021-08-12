@@ -23,6 +23,8 @@ import { Observable } from "rxjs";
 import { JwtAuthService } from "app/shared/services/auth/jwt-auth.service";
 import { GraficaService } from "../../../services/grafica.service";
 import { Sort } from "@angular/material/sort";
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 @Component({
   selector: "app-datacoord",
   templateUrl: "./datacoord.component.html",
@@ -60,6 +62,7 @@ export class DatacoordComponent implements OnInit {
   ngOnInit(): void {
     this.cargarDatosUs();
   }
+
   cargarDatosUs() {
     this.grafCalc.getvotosCalculoTotal().subscribe((res: any) => {
       console.log(`Respuesta de CalculoTotal; `, res.data);
@@ -92,7 +95,7 @@ export class DatacoordComponent implements OnInit {
         console.log(res);
         this.votosCargados = res.votosUnicos;
         this.totalVotos = res.totalV;
-        this.dataSource = new MatTableDataSource(this.votosCargados);
+        this.dataSource = new MatTableDataSource(this.votosCoordinadores);
         this.dataSource.paginator = this.paginator;
 
         this.cdr.markForCheck();
