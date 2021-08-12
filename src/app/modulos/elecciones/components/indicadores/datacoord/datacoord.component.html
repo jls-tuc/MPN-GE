@@ -16,7 +16,7 @@
     </mat-form-field>
     <div class="card-body">
 
-        <table mat-table [dataSource]="dataSource" matSort>
+        <table mat-table [dataSource]="dataSource" matSort (matSortChange)="sortData($event)">
             <ng-container matColumnDef='organizacion'>
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Organizacion</th>
                 <td mat-cell *matCellDef='let votosCoordinadores'>
@@ -47,7 +47,8 @@
             <ng-container matColumnDef="totalvotos">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Total Votos </th>
                 <div class="text-dark-75 font-weight-bolder font-size-lg mb-0">
-                    <td mat-cell class="text-dark-75 font-weight-bolder font-size-lg mb-0" *matCellDef='let votosCoordinadores'>
+                    <td mat-cell class="text-dark-75 font-weight-bolder font-size-lg mb-0"
+                        *matCellDef='let votosCoordinadores'>
                         {{votosCoordinadores.totalvotos }}
                     </td>
                 </div>

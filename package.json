@@ -45,6 +45,8 @@
     "css-star-rating": "git+https://git@github.com/uilibrary/css-star-rating.git",
     "date-fns": "2.14.0",
     "echarts": "4.8.0",
+    "exceljs": "^4.2.1",
+    "file-saver": "^2.0.5",
     "flag-icon-css": "3.5.0",
     "highlight.js": "10.1.1",
     "hopscotch": "0.3.1",
