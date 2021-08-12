@@ -44,7 +44,6 @@ export class JwtAuthService {
 
   user: UserModel;
   isAuthenticated: Boolean;
-  //user$ = new BehaviorSubject<UserModel>(this.user);
   currentUserSubject: BehaviorSubject<UserModel>;
 
   signingIn: Boolean;

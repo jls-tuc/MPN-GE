@@ -8,7 +8,7 @@
                 </div>
             </a>
             <ul class="menu" *ngIf="!layoutConf.isMobile">
-                <li *ngFor="let item of menuItems; let i = index;">
+                <li *ngFor="let item of menuItems ; let i = index;">
                     <div *ngIf="item.type !== 'separator'" routerLinkActive="open">
                         <a matRipple routerLink="/{{item.state}}" *ngIf="item.type === 'link'">
                             <mat-icon>{{item.icon}}</mat-icon>

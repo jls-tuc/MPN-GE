@@ -38,6 +38,7 @@ export class HeaderTopComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    this.mostrarData();
     this.layoutConf = this.layout.layoutConf;
     this.egretThemes = this.themeService.egretThemes;
     /* this.menuItemSub = this.navService.menuUse$.subscribe((res) => {
@@ -61,11 +62,14 @@ export class HeaderTopComponent implements OnInit, OnDestroy {
       this.menuItems = res;
       // console.log(this.menuItems);
     }); */
-    this.userData$ = this.jwtAuth.currentUserSubject.asObservable();
-    this.usurioLog = this.userData$;
-    this.datosUsuarios = this.usurioLog.source._value;
-    this.menuItems = this.usurioLog.source._value.menu;
-    this.fotoUsuario = sessionStorage.getItem("FOTO");
+  }
+
+  async mostrarData() {
+    this.userData$ = await this.jwtAuth.currentUserSubject.asObservable();
+    this.usurioLog = await this.userData$;
+    this.datosUsuarios = await this.usurioLog.source._value;
+    this.menuItems = await this.usurioLog.source._value.menu;
+    this.fotoUsuario = await sessionStorage.getItem("FOTO");
   }
   ngOnDestroy() {
     //this.menuItemSub.unsubscribe();

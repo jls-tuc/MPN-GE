@@ -24,8 +24,14 @@ export class SidebarSideComponent implements OnInit, OnDestroy, AfterViewInit {
   ) {}
 
   ngOnInit() {
-    this.iconTypeMenuTitle = this.navService.iconTypeMenuTitle;
-    this.menuItemsSub = this.navService.menuUse$.subscribe((menuItem) => {
+    this.cargarData();
+
+    this.layoutConf = this.layout.layoutConf;
+  }
+
+  async cargarData() {
+    this.iconTypeMenuTitle = await this.navService.iconTypeMenuTitle;
+    this.menuItemsSub = await this.navService.menuUse$.subscribe((menuItem) => {
       this.menuItems = menuItem.menu;
       // console.log(this.menuItems);
       //Checks item list has any icon type.
@@ -33,8 +39,8 @@ export class SidebarSideComponent implements OnInit, OnDestroy, AfterViewInit {
         (item) => item.type === "icon"
       ).length;
     });
-    this.layoutConf = this.layout.layoutConf;
   }
+
   ngAfterViewInit() {}
   ngOnDestroy() {
     if (this.menuItemsSub) {

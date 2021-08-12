@@ -63,7 +63,7 @@ export class PadronesComponent implements OnInit {
 
       this.padronService.getAfiliado(params).subscribe((res: any) => {
         if (res.ok) {
-          //   console.log("No entra");
+          console.log("No entra", res);
           let padronNqn = {
             documento: res.data.dni,
             apellido: res.data.apellido,
