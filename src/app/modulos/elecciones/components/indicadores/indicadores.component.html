@@ -78,88 +78,147 @@
 </div>
 
 <div fxLayout="row wrap">
-    <div fxFlex="100" fxFlex.gt-sm="25" fxFlex.sm="50">
-        <mat-card class="p-0 " [@animate]="{ value: '*', params: { opacity: '0', y: '40px', delay: '300ms' } }">
-            <!-- Body -->
-            <div class="card-body p-0">
-                <div class="d-flex align-items-center justify-content-between card-spacer flex-grow-1">
 
-                    <img class="img-datos mt-0" src="{{this.graficaNoafiliados.logoData}}" alt="" />
+    <ng-container *ngIf="!operadores">
+        <div fxFlex="100" fxFlex.gt-sm="50" fxFlex.sm="50">
+            <mat-card class="p-0 " [@animate]="{ value: '*', params: { opacity: '0', y: '40px', delay: '300ms' } }">
+                <!-- Body -->
+                <div class="card-body p-0">
+                    <div class="d-flex align-items-center justify-content-between card-spacer flex-grow-1">
+
+                        <img class="img-datos mt-0" src="{{this.graficaFemenino.logoData}}" alt="" />
 
 
-                    <div class="d-flex flex-column text-right mr-2 mt-1">
-                        <p class="font-weight-bolder font-nro">{{this.femenino}}</p>
-                        <span class="text-muted font-weight-bold">Femenino</span>
+                        <div class="d-flex flex-column text-right mr-2 mt-1">
+                            <p class="font-weight-bolder font-nro">{{this.femenino}}</p>
+                            <span class="text-muted font-weight-bold">Femenino</span>
+                        </div>
                     </div>
-                </div>
-                <!--begin::Chart-->
-                <div id="kt_stats_widget_11_chart" class="card-rounded-bottom" [style.height]="'120px'">
-                    <apx-chart [series]="na_chartOptions.series" [chart]="na_chartOptions.chart" [xaxis]="na_chartOptions.xaxis" [yaxis]="na_chartOptions.yaxis" [dataLabels]="na_chartOptions.dataLabels" [stroke]="na_chartOptions.stroke" [legend]="na_chartOptions.legend"
-                        [fill]="na_chartOptions.fill" [states]="na_chartOptions.states" [tooltip]="na_chartOptions.tooltip" [colors]="na_chartOptions.colors" [markers]="na_chartOptions.markers" [plotOptions]="na_chartOptions.plotOptions">
-                    </apx-chart>
-                </div>
-                <!--end::Chart-->
-                <!--end::Stats-->
-            </div>
-        </mat-card>
-    </div>
-    <div fxFlex="100" fxFlex.gt-sm="25" fxFlex.sm="50">
-        <mat-card class="p-0 " [@animate]="{ value: '*', params: { opacity: '0', y: '40px', delay: '300ms' } }">
-            <!-- Body -->
-            <div class="card-body p-0">
-                <div class="d-flex align-items-center justify-content-between card-spacer flex-grow-1">
-
-                    <img class="img-datos mt-0" src="{{this.graficaNoafiliados.logoData}}" alt="" />
-
-
-                    <div class="d-flex flex-column text-right mr-2 mt-1">
-                        <p class="font-weight-bolder font-nro">{{this.masculino}}</p>
-                        <span class="text-muted font-weight-bold">Masculino</span>
+                    <!--begin::Chart-->
+                    <div id="kt_stats_widget_11_chart" class="card-rounded-bottom" [style.height]="'120px'">
+                        <apx-chart [series]="f_chartOptions.series" [chart]="f_chartOptions.chart" [xaxis]="f_chartOptions.xaxis" [yaxis]="f_chartOptions.yaxis" [dataLabels]="f_chartOptions.dataLabels" [stroke]="f_chartOptions.stroke" [legend]="f_chartOptions.legend" [fill]="f_chartOptions.fill"
+                            [states]="f_chartOptions.states" [tooltip]="f_chartOptions.tooltip" [colors]="f_chartOptions.colors" [markers]="f_chartOptions.markers" [plotOptions]="f_chartOptions.plotOptions">
+                        </apx-chart>
                     </div>
+                    <!--end::Chart-->
+                    <!--end::Stats-->
                 </div>
-                <!--begin::Chart-->
-                <div id="kt_stats_widget_11_chart" class="card-rounded-bottom" [style.height]="'120px'">
-                    <apx-chart [series]="na_chartOptions.series" [chart]="na_chartOptions.chart" [xaxis]="na_chartOptions.xaxis" [yaxis]="na_chartOptions.yaxis" [dataLabels]="na_chartOptions.dataLabels" [stroke]="na_chartOptions.stroke" [legend]="na_chartOptions.legend"
-                        [fill]="na_chartOptions.fill" [states]="na_chartOptions.states" [tooltip]="na_chartOptions.tooltip" [colors]="na_chartOptions.colors" [markers]="na_chartOptions.markers" [plotOptions]="na_chartOptions.plotOptions">
-                    </apx-chart>
+            </mat-card>
+        </div>
+
+        <div fxFlex="100" fxFlex.gt-sm="50" fxFlex.sm="50">
+            <mat-card class="p-0 " [@animate]="{ value: '*', params: { opacity: '0', y: '40px', delay: '300ms' } }">
+                <!-- Body -->
+                <div class="card-body p-0">
+                    <div class="d-flex align-items-center justify-content-between card-spacer flex-grow-1">
+
+                        <img class="img-datos mt-0" src="{{this.graficaMasculino.logoData}}" alt="" />
+
+
+                        <div class="d-flex flex-column text-right mr-2 mt-1">
+                            <p class="font-weight-bolder font-nro">{{this.masculino}}</p>
+                            <span class="text-muted font-weight-bold">Masculino</span>
+                        </div>
+                    </div>
+                    <!--begin::Chart-->
+                    <div id="kt_stats_widget_11_chart" class="card-rounded-bottom" [style.height]="'120px'">
+                        <apx-chart [series]="m_chartOptions.series" [chart]="m_chartOptions.chart" [xaxis]="m_chartOptions.xaxis" [yaxis]="m_chartOptions.yaxis" [dataLabels]="m_chartOptions.dataLabels" [stroke]="m_chartOptions.stroke" [legend]="m_chartOptions.legend" [fill]="m_chartOptions.fill"
+                            [states]="m_chartOptions.states" [tooltip]="m_chartOptions.tooltip" [colors]="m_chartOptions.colors" [markers]="m_chartOptions.markers" [plotOptions]="m_chartOptions.plotOptions">
+                        </apx-chart>
+                    </div>
+                    <!--end::Chart-->
+                    <!--end::Stats-->
                 </div>
-                <!--end::Chart-->
-                <!--end::Stats-->
-            </div>
-        </mat-card>
-    </div>
-    <div fxFlex="100" fxFlex.gt-sm="50" fxFlex.sm="50">
-        <mat-card class="p-0 " [@animate]="{ value: '*', params: { opacity: '0', y: '40px', delay: '300ms' } }">
-            <!-- Body -->
-            <div class="card-body p-0">
-                <div class="d-flex align-items-center justify-content-between card-spacer flex-grow-1">
+            </mat-card>
+        </div>
+    </ng-container>
+    <ng-container *ngIf="operadores">
+        <div fxFlex="100" fxFlex.gt-sm="25" fxFlex.sm="50">
+            <mat-card class="p-0 " [@animate]="{ value: '*', params: { opacity: '0', y: '40px', delay: '300ms' } }">
+                <!-- Body -->
+                <div class="card-body p-0">
+                    <div class="d-flex align-items-center justify-content-between card-spacer flex-grow-1">
+
+                        <img class="img-datos mt-0" src="{{this.graficaFemenino.logoData}}" alt="" />
+
+
+                        <div class="d-flex flex-column text-right mr-2 mt-1">
+                            <p class="font-weight-bolder font-nro">{{this.femenino}}</p>
+                            <span class="text-muted font-weight-bold">Femenino</span>
+                        </div>
+                    </div>
+                    <!--begin::Chart-->
+                    <div id="kt_stats_widget_11_chart" class="card-rounded-bottom" [style.height]="'120px'">
+                        <apx-chart [series]="f_chartOptions.series" [chart]="f_chartOptions.chart" [xaxis]="f_chartOptions.xaxis" [yaxis]="f_chartOptions.yaxis" [dataLabels]="f_chartOptions.dataLabels" [stroke]="f_chartOptions.stroke" [legend]="f_chartOptions.legend" [fill]="f_chartOptions.fill"
+                            [states]="f_chartOptions.states" [tooltip]="f_chartOptions.tooltip" [colors]="f_chartOptions.colors" [markers]="f_chartOptions.markers" [plotOptions]="f_chartOptions.plotOptions">
+                        </apx-chart>
+                    </div>
+                    <!--end::Chart-->
+                    <!--end::Stats-->
+                </div>
+            </mat-card>
+        </div>
+
+        <div fxFlex="100" fxFlex.gt-sm="25" fxFlex.sm="50">
+            <mat-card class="p-0 " [@animate]="{ value: '*', params: { opacity: '0', y: '40px', delay: '300ms' } }">
+                <!-- Body -->
+                <div class="card-body p-0">
+                    <div class="d-flex align-items-center justify-content-between card-spacer flex-grow-1">
+
+                        <img class="img-datos mt-0" src="{{this.graficaMasculino.logoData}}" alt="" />
+
+
+                        <div class="d-flex flex-column text-right mr-2 mt-1">
+                            <p class="font-weight-bolder font-nro">{{this.masculino}}</p>
+                            <span class="text-muted font-weight-bold">Masculino</span>
+                        </div>
+                    </div>
+                    <!--begin::Chart-->
+                    <div id="kt_stats_widget_11_chart" class="card-rounded-bottom" [style.height]="'120px'">
+                        <apx-chart [series]="m_chartOptions.series" [chart]="m_chartOptions.chart" [xaxis]="m_chartOptions.xaxis" [yaxis]="m_chartOptions.yaxis" [dataLabels]="m_chartOptions.dataLabels" [stroke]="m_chartOptions.stroke" [legend]="m_chartOptions.legend" [fill]="m_chartOptions.fill"
+                            [states]="m_chartOptions.states" [tooltip]="m_chartOptions.tooltip" [colors]="m_chartOptions.colors" [markers]="m_chartOptions.markers" [plotOptions]="m_chartOptions.plotOptions">
+                        </apx-chart>
+                    </div>
+                    <!--end::Chart-->
+                    <!--end::Stats-->
+                </div>
+            </mat-card>
+        </div>
+        <div fxFlex="100" fxFlex.gt-sm="50" fxFlex.sm="50">
+            <mat-card class="p-0 " [@animate]="{ value: '*', params: { opacity: '0', y: '40px', delay: '300ms' } }">
+                <!-- Body -->
+                <div class="card-body p-0">
+                    <div class="d-flex align-items-center justify-content-between card-spacer flex-grow-1">
 
 
 
-                    <div class="d-flex flex-column text-right mr-2 mt-1 ml-2 text-center">
-                        <p class="font-weight-bolder font-nro">{{this.coordinadores}}</p>
-                        <span class="text-muted font-weight-bold"> Coordinadores</span>
+                        <div class="d-flex flex-column text-right mr-2 mt-1 ml-2 text-center">
+                            <p class="font-weight-bolder font-nro">{{this.coordinadores}}</p>
+                            <span class="text-muted font-weight-bold"> Coordinadores</span>
+                        </div>
+                        <div class="d-flex flex-column text-right mr-2 mt-1 text-center">
+                            <p class="font-weight-bolder font-nro">{{this.referentes}}</p>
+                            <span class="text-muted font-weight-bold">Referentes</span>
+                        </div>
+                        <div class="d-flex flex-column text-right mr-2 mt-1 text-center">
+                            <p class="font-weight-bolder font-nro">{{this.responsables}}</p>
+                            <span class="text-muted font-weight-bold">Responsables</span>
+                        </div>
                     </div>
-                    <div class="d-flex flex-column text-right mr-2 mt-1 text-center">
-                        <p class="font-weight-bolder font-nro">{{this.referentes}}</p>
-                        <span class="text-muted font-weight-bold">Referentes</span>
+                    <!--begin::Chart-->
+                    <div id="kt_stats_widget_11_chart" class="card-rounded-bottom" [style.height]="'120px'">
+                        <apx-chart [series]="a_chartOptions.series" [chart]="a_chartOptions.chart" [xaxis]="a_chartOptions.xaxis" [yaxis]="a_chartOptions.yaxis" [dataLabels]="a_chartOptions.dataLabels" [stroke]="a_chartOptions.stroke" [legend]="a_chartOptions.legend" [fill]="a_chartOptions.fill"
+                            [states]="a_chartOptions.states" [tooltip]="a_chartOptions.tooltip" [colors]="a_chartOptions.colors" [markers]="a_chartOptions.markers" [plotOptions]="a_chartOptions.plotOptions">
+                        </apx-chart>
                     </div>
-                    <div class="d-flex flex-column text-right mr-2 mt-1 text-center">
-                        <p class="font-weight-bolder font-nro">{{this.responsables}}</p>
-                        <span class="text-muted font-weight-bold">Responsables</span>
-                    </div>
+                    <!--end::Chart-->
+                    <!--end::Stats-->
                 </div>
-                <!--begin::Chart-->
-                <div id="kt_stats_widget_11_chart" class="card-rounded-bottom" [style.height]="'120px'">
-                    <apx-chart [series]="a_chartOptions.series" [chart]="a_chartOptions.chart" [xaxis]="a_chartOptions.xaxis" [yaxis]="a_chartOptions.yaxis" [dataLabels]="a_chartOptions.dataLabels" [stroke]="a_chartOptions.stroke" [legend]="a_chartOptions.legend" [fill]="a_chartOptions.fill"
-                        [states]="a_chartOptions.states" [tooltip]="a_chartOptions.tooltip" [colors]="a_chartOptions.colors" [markers]="a_chartOptions.markers" [plotOptions]="a_chartOptions.plotOptions">
-                    </apx-chart>
-                </div>
-                <!--end::Chart-->
-                <!--end::Stats-->
-            </div>
-        </mat-card>
-    </div>
+            </mat-card>
+        </div>
+    </ng-container>
+
+
 
 
 </div>
