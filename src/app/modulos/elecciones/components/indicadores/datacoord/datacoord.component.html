@@ -1,5 +1,11 @@
 <div class="container">
     <div id="pdfTable" #pdfTable>
+        <div class="text-center" *ngIf="!cargar">
+            <h6 class="m-0 pb-16" style="white-space: pre-wrap; line-height: 1.4;">Buscando los Datos</h6>
+            <div mat-dialog-content>
+                <mat-spinner [style.margin]="'auto'"></mat-spinner>
+            </div>
+        </div>
         <div *ngIf="cargar">
 
             <div id=”htmlData”>
@@ -8,7 +14,7 @@
                         <h3 class="card-label">Planilla de totales de Votos por Coordinador:
                         </h3>
                         <h4 class="card-label text-dark-75 font-weight-bolder font-size-lg mb-0">Votos cargados:
-                            {{this.totalVotos}}
+                            {{this.totalVotos}} - Votos por DNI: {{this.totalDNI}} - Duplicados: {{this.duplicados}}
                         </h4>
                     </div>
                 </div>
