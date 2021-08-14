@@ -121,6 +121,7 @@ export class IndicadoresComponent implements OnInit {
     let data = {
       id: Usuario.id,
       areaResponsable: Usuario.areaResponsable,
+      role: Usuario.role,
     }
     console.log(`data`, data)
     this.loadLayoutView();
