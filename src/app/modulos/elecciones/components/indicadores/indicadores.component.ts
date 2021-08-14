@@ -94,6 +94,8 @@ export class IndicadoresComponent implements OnInit {
   public coordinadores: any;
   public referentes: any;
   public responsables: any;
+  public operadores = false;
+  calculos: any;
   constructor(
     private layout: LayoutService,
     private snack: MatSnackBar,
@@ -102,10 +104,7 @@ export class IndicadoresComponent implements OnInit {
     private cdr: ChangeDetectorRef,
     public authServ: JwtAuthService,
     public grafServ: GraficaService
-  ) {
-    this.userLog$ = this.authServ.currentUserSubject.asObservable();
-    this.usuarioRol = this.userLog$;
-  }
+  ) {}
   loadLayoutView() {
     this.fontFamily = "";
     this.colorsGrayGray500 = "";
@@ -117,13 +116,19 @@ export class IndicadoresComponent implements OnInit {
     this.na_colorsThemeLight = "#FFE1E7";
     this.a_colorsThemeBase = "#1A8383";
     this.a_colorsThemeLight = "#DEFFFF";
-    this.f_colorsThemeBase = "#1A8383";
-    this.f_colorsThemeLight = "#DEFFFF";
-    this.m_colorsThemeBase = "#1A8383";
-    this.m_colorsThemeLight = "#DEFFFF";
+    this.f_colorsThemeBase = "#FBFF00";
+    this.f_colorsThemeLight = "#FEFFCE";
+    this.m_colorsThemeBase = "#BD00F0";
+    this.m_colorsThemeLight = "#F3C9FF";
   }
 
   async ngOnInit() {
+    let Usuario: any = this.authServ.user;
+    let data = {
+      id: Usuario.id,
+      areaResponsable: Usuario.areaResponsable,
+    };
+    // console.log(`data`, data)
     this.loadLayoutView();
     this.v_symbolCSSClasses = `symbol "symbol-circle" symbol-50 symbol-light-"#1A8383" mr-2`;
     this.v_svgCSSClasses = `svg-icon svg-icon-xl svg-icon-"#1A8383"`;
@@ -131,38 +136,47 @@ export class IndicadoresComponent implements OnInit {
     this.a_svgCSSClasses = `svg-icon svg-icon-xl svg-icon-"#1A8383"`;
     this.na_symbolCSSClasses = `symbol "symbol-circle" symbol-50 symbol-light-"#1A8383" mr-2`;
     this.na_svgCSSClasses = `svg-icon svg-icon-xl svg-icon-"#1A8383"`;
-    this.buscarDatosGraficaTotal();
-    //  console.log(`this.votosTotal`, this.votosTotal);
-    let data = {
-      v_datosData: [1, 34],
-      v_labelsData: ["08 Agosto", "09 Agosto"],
-      v_total: this.votosTotal,
-      a_datosData: [1, 34],
-      a_labelsData: ["08 Agosto", "09 Agosto"],
-      a_total: this.afiliados,
-      na_datosData: [1, 34],
-      na_labelsData: ["08 Agosto", "09 Agosto"],
-      na_total: this.noafiliados,
-      femenino: this.femenino,
-      masculino: this.masculino,
-    };
-    this.cargarGrafica(data);
-    this.cdr.detectChanges();
+    if (
+      this.authServ.user.role === "user-calc" ||
+      this.authServ.user.role === "user-sys"
+    ) {
+      this.operadores = true;
+    } else {
+      this.operadores = false;
+    }
+    this.buscarDatosGraficaRol(data);
   }
-  async buscarDatosGraficaTotal() {
-    await this.grafServ.getvotosGraficaTotal().subscribe((res: any) => {
-      // console.log(`res`, res);
-      this.votosTotal = res.votosTotal;
-      this.afiliados = res.afiliados;
-      this.femenino = res.femenino;
-      this.masculino = res.masculino;
-      this.noafiliados = res.noafiliados;
-    });
-    await this.grafServ.getvotosGrafica().subscribe((res: any) => {
-      this.coordinadores = res.coordinadores;
-      this.referentes = res.referentes;
-      this.responsables = res.responsables;
-    });
+
+  async buscarDatosGraficaRol(data: any) {
+    this.calculos = await this.grafServ
+      .getvotosGrafica(data)
+      .subscribe((res: any) => {
+        console.log(`Respuesta de CalculoTotal; `, res);
+
+        this.votosTotal = res.votosTotal;
+        this.afiliados = res.afiliados;
+        this.femenino = res.femenino;
+        this.masculino = res.masculino;
+        this.noafiliados = res.noafiliados;
+        this.coordinadores = res.coordinadores;
+        this.referentes = res.referentes;
+        this.responsables = res.responsables;
+        let data = {
+          v_datosData: [1, 34],
+          v_labelsData: ["08 Agosto", "09 Agosto"],
+          v_total: this.votosTotal,
+          a_datosData: [1, 34],
+          a_labelsData: ["08 Agosto", "09 Agosto"],
+          a_total: this.afiliados,
+          na_datosData: [1, 34],
+          na_labelsData: ["08 Agosto", "09 Agosto"],
+          na_total: this.noafiliados,
+          femenino: this.femenino,
+          masculino: this.masculino,
+        };
+        this.cargarGrafica(data);
+        this.cdr.detectChanges();
+      });
   }
 
   cargarGrafica(data: any) {
@@ -438,7 +452,7 @@ export class IndicadoresComponent implements OnInit {
       baseColor: "#831A2D",
       lightColor: "#FFE1E7",
       tituloData: "No Afiliados",
-      logoData: "assets/images/mpn/no_afiliado.png",
+      logoData: "assets/images/mpn/mujer_hombre.png",
       cssClass: "gutter-b",
       symbolShape: "symbol-circle",
       datosData: data.na_datosData,
@@ -572,7 +586,7 @@ export class IndicadoresComponent implements OnInit {
       baseColor: "#BD00F0",
       lightColor: "#F3C9FF",
       tituloData: "No Afiliados",
-      logoData: "assets/images/mpn/no_afiliado.png",
+      logoData: "assets/images/mpn/mujer.png",
       cssClass: "gutter-b",
       symbolShape: "symbol-circle",
       datosData: data.na_datosData,

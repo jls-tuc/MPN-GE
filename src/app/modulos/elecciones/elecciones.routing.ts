@@ -7,6 +7,7 @@ import { PlanillaComponent } from "./components/planilla/planilla/planilla.compo
 import { PopUpCoorComponent } from "./components/coordinador/pop-up-coor/pop-up-coor.component";
 import { VerPlanillaComponent } from "./components/planilla/ver-planilla/ver-planilla.component";
 import { DatacoordComponent } from './components/indicadores/datacoord/datacoord.component';
+import { DatarefComponent } from "./components/indicadores/dataref/dataref.component";
 
 export const EleccionesRoutes: Routes = [
   {
@@ -51,6 +52,11 @@ export const EleccionesRoutes: Routes = [
         path: "calculototal",
         component: DatacoordComponent,
         data: { title: "Estadisticas Totales", breadcrumb: "ESTADISTICAS" },
+      },
+      {
+        path: "calculototalref",
+        component: DatarefComponent,
+        data: { title: "Estadisticas Totales Referentes", breadcrumb: "ESTADISTICAS REFERENTES" },
       },
     ],
   },
