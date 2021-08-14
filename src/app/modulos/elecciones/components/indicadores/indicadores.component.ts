@@ -1,23 +1,30 @@
-import { Component, OnInit, OnDestroy, ChangeDetectorRef, AfterViewInit, ViewChild } from '@angular/core';
-import { egretAnimations } from 'app/shared/animations/egret-animations';
-import { LayoutService } from 'app/shared/services/layout.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { VotoProvService } from '../../services/voto-prov.service';
-import { JwtAuthService } from '../../../../shared/services/auth/jwt-auth.service';
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  ChangeDetectorRef,
+  AfterViewInit,
+  ViewChild,
+} from "@angular/core";
+import { egretAnimations } from "app/shared/animations/egret-animations";
+import { LayoutService } from "app/shared/services/layout.service";
+import { MatSnackBar } from "@angular/material/snack-bar";
+import { VotoProvService } from "../../services/voto-prov.service";
+import { JwtAuthService } from "../../../../shared/services/auth/jwt-auth.service";
 import {
   ApexNonAxisChartSeries,
   ApexResponsive,
   ApexChart,
   ChartComponent,
   ApexPlotOptions,
-  ApexDataLabels
+  ApexDataLabels,
 } from "ng-apexcharts";
-import { ReferentesService } from '../../services/referentes.service';
-import { filter } from 'rxjs/operators';
-import { UserModel } from '../../../../shared/models/user.model';
-import { Observable } from 'rxjs';
-import { GraficaService } from '../../services/grafica.service';
-import { number } from 'ngx-custom-validators/src/app/number/validator';
+import { ReferentesService } from "../../services/referentes.service";
+import { filter } from "rxjs/operators";
+import { UserModel } from "../../../../shared/models/user.model";
+import { Observable } from "rxjs";
+import { GraficaService } from "../../services/grafica.service";
+import { number } from "ngx-custom-validators/src/app/number/validator";
 export type ChartOptions = {
   series: ApexNonAxisChartSeries;
   chart: ApexChart;
@@ -27,10 +34,10 @@ export type ChartOptions = {
   labels: any;
 };
 @Component({
-  selector: 'app-indicadores',
-  templateUrl: './indicadores.component.html',
-  styleUrls: ['./indicadores.component.scss'],
-  animations: egretAnimations
+  selector: "app-indicadores",
+  templateUrl: "./indicadores.component.html",
+  styleUrls: ["./indicadores.component.scss"],
+  animations: egretAnimations,
 })
 export class IndicadoresComponent implements OnInit {
   //Variables Usuario
@@ -64,26 +71,26 @@ export class IndicadoresComponent implements OnInit {
   public na_datosData: string[];
   public na_labelsData: number[];
   public na_total: number = 0;
-  fontFamily = '';
-  colorsGrayGray500 = '';
-  colorsGrayGray200 = '';
-  colorsGrayGray300 = '';
-  v_colorsThemeBase = '';
-  v_colorsThemeLight = '';
-  v_symbolCSSClasses = '';
-  v_svgCSSClasses = '';
-  a_colorsThemeBase = '';
-  a_colorsThemeLight = '';
-  f_colorsThemeBase = '';
-  f_colorsThemeLight = '';
-  m_colorsThemeBase = '';
-  m_colorsThemeLight = '';
-  a_symbolCSSClasses = '';
-  a_svgCSSClasses = '';
-  na_colorsThemeBase = '';
-  na_colorsThemeLight = '';
-  na_symbolCSSClasses = '';
-  na_svgCSSClasses = '';
+  fontFamily = "";
+  colorsGrayGray500 = "";
+  colorsGrayGray200 = "";
+  colorsGrayGray300 = "";
+  v_colorsThemeBase = "";
+  v_colorsThemeLight = "";
+  v_symbolCSSClasses = "";
+  v_svgCSSClasses = "";
+  a_colorsThemeBase = "";
+  a_colorsThemeLight = "";
+  f_colorsThemeBase = "";
+  f_colorsThemeLight = "";
+  m_colorsThemeBase = "";
+  m_colorsThemeLight = "";
+  a_symbolCSSClasses = "";
+  a_svgCSSClasses = "";
+  na_colorsThemeBase = "";
+  na_colorsThemeLight = "";
+  na_symbolCSSClasses = "";
+  na_svgCSSClasses = "";
   public coordinadores: any;
   public referentes: any;
   public responsables: any;
@@ -100,10 +107,10 @@ export class IndicadoresComponent implements OnInit {
     this.usuarioRol = this.userLog$;
   }
   loadLayoutView() {
-    this.fontFamily = '';
-    this.colorsGrayGray500 = '';
-    this.colorsGrayGray200 = '';
-    this.colorsGrayGray300 = '';
+    this.fontFamily = "";
+    this.colorsGrayGray500 = "";
+    this.colorsGrayGray200 = "";
+    this.colorsGrayGray300 = "";
     this.v_colorsThemeBase = "#1a3a83";
     this.v_colorsThemeLight = "#DEE8FF";
     this.na_colorsThemeBase = "#831A2D";
@@ -117,7 +124,6 @@ export class IndicadoresComponent implements OnInit {
   }
 
   async ngOnInit() {
-
     this.loadLayoutView();
     this.v_symbolCSSClasses = `symbol "symbol-circle" symbol-50 symbol-light-"#1A8383" mr-2`;
     this.v_svgCSSClasses = `svg-icon svg-icon-xl svg-icon-"#1A8383"`;
@@ -126,27 +132,26 @@ export class IndicadoresComponent implements OnInit {
     this.na_symbolCSSClasses = `symbol "symbol-circle" symbol-50 symbol-light-"#1A8383" mr-2`;
     this.na_svgCSSClasses = `svg-icon svg-icon-xl svg-icon-"#1A8383"`;
     this.buscarDatosGraficaTotal();
-    console.log(`this.votosTotal`, this.votosTotal)
+    //  console.log(`this.votosTotal`, this.votosTotal);
     let data = {
       v_datosData: [1, 34],
-      v_labelsData: ['08 Agosto', '09 Agosto'],
+      v_labelsData: ["08 Agosto", "09 Agosto"],
       v_total: this.votosTotal,
       a_datosData: [1, 34],
-      a_labelsData: ['08 Agosto', '09 Agosto'],
+      a_labelsData: ["08 Agosto", "09 Agosto"],
       a_total: this.afiliados,
       na_datosData: [1, 34],
-      na_labelsData: ['08 Agosto', '09 Agosto'],
+      na_labelsData: ["08 Agosto", "09 Agosto"],
       na_total: this.noafiliados,
       femenino: this.femenino,
       masculino: this.masculino,
-    }
+    };
     this.cargarGrafica(data);
     this.cdr.detectChanges();
-
   }
   async buscarDatosGraficaTotal() {
     await this.grafServ.getvotosGraficaTotal().subscribe((res: any) => {
-      console.log(`res`, res)
+      // console.log(`res`, res);
       this.votosTotal = res.votosTotal;
       this.afiliados = res.afiliados;
       this.femenino = res.femenino;
@@ -156,7 +161,7 @@ export class IndicadoresComponent implements OnInit {
     await this.grafServ.getvotosGrafica().subscribe((res: any) => {
       this.coordinadores = res.coordinadores;
       this.referentes = res.referentes;
-      this.responsables = res.responsables
+      this.responsables = res.responsables;
     });
   }
 
@@ -173,39 +178,41 @@ export class IndicadoresComponent implements OnInit {
       total: data.v_total,
     };
     this.v_chartOptions = {
-      series: [{
-        name: 'Net Profit',
-        data: this.graficaVotos.datosData,
-      }],
+      series: [
+        {
+          name: "Net Profit",
+          data: this.graficaVotos.datosData,
+        },
+      ],
       chart: {
-        type: 'area',
+        type: "area",
         height: 120,
         toolbar: {
-          show: false
+          show: false,
         },
         zoom: {
-          enabled: false
+          enabled: false,
         },
         sparkline: {
-          enabled: true
-        }
+          enabled: true,
+        },
       },
       plotOptions: {},
       legend: {
-        show: false
+        show: false,
       },
       dataLabels: {
-        enabled: false
+        enabled: false,
       },
       fill: {
-        type: 'solid',
-        opacity: 1
+        type: "solid",
+        opacity: 1,
       },
       stroke: {
-        curve: 'smooth',
+        curve: "smooth",
         show: true,
         width: 3,
-        colors: [this.v_colorsThemeBase]
+        colors: [this.v_colorsThemeBase],
       },
       xaxis: {
         categories: this.graficaVotos.labelsData,
@@ -213,34 +220,34 @@ export class IndicadoresComponent implements OnInit {
           show: false,
         },
         axisTicks: {
-          show: false
+          show: false,
         },
         labels: {
           show: false,
           style: {
             colors: this.colorsGrayGray500,
-            fontSize: '12px',
-            fontFamily: this.fontFamily
-          }
+            fontSize: "12px",
+            fontFamily: this.fontFamily,
+          },
         },
         crosshairs: {
           show: false,
-          position: 'front',
+          position: "front",
           stroke: {
             color: this.colorsGrayGray300,
             width: 1,
-            dashArray: 3
-          }
+            dashArray: 3,
+          },
         },
         tooltip: {
           enabled: true,
           formatter: undefined,
           offsetY: 0,
           style: {
-            fontSize: '12px',
-            fontFamily: this.fontFamily
-          }
-        }
+            fontSize: "12px",
+            fontFamily: this.fontFamily,
+          },
+        },
       },
       yaxis: {
         min: 0,
@@ -249,49 +256,49 @@ export class IndicadoresComponent implements OnInit {
           show: false,
           style: {
             colors: this.colorsGrayGray500,
-            fontSize: '12px',
-            fontFamily: this.fontFamily
-          }
-        }
+            fontSize: "12px",
+            fontFamily: this.fontFamily,
+          },
+        },
       },
       states: {
         normal: {
           filter: {
-            type: 'none',
-            value: 0
-          }
+            type: "none",
+            value: 0,
+          },
         },
         hover: {
           filter: {
-            type: 'none',
-            value: 0
-          }
+            type: "none",
+            value: 0,
+          },
         },
         active: {
           allowMultipleDataPointsSelection: false,
           filter: {
-            type: 'none',
-            value: 0
-          }
-        }
+            type: "none",
+            value: 0,
+          },
+        },
       },
       tooltip: {
         style: {
-          fontSize: '12px',
-          fontFamily: this.fontFamily
+          fontSize: "12px",
+          fontFamily: this.fontFamily,
         },
         y: {
           formatter: (val) => {
             return `$ ${val} thousands`;
-          }
-        }
+          },
+        },
       },
       colors: [this.v_colorsThemeLight],
       markers: {
         colors: [this.v_colorsThemeLight],
         strokeColor: [this.v_colorsThemeBase],
-        strokeWidth: 3
-      }
+        strokeWidth: 3,
+      },
     };
     this.graficaAfiliados = {
       baseColor: "#1A8383",
@@ -305,39 +312,41 @@ export class IndicadoresComponent implements OnInit {
       total: data.a_total,
     };
     this.a_chartOptions = {
-      series: [{
-        name: 'Afiliados',
-        data: this.graficaAfiliados.datosData,
-      }],
+      series: [
+        {
+          name: "Afiliados",
+          data: this.graficaAfiliados.datosData,
+        },
+      ],
       chart: {
-        type: 'area',
+        type: "area",
         height: 120,
         toolbar: {
-          show: false
+          show: false,
         },
         zoom: {
-          enabled: false
+          enabled: false,
         },
         sparkline: {
-          enabled: true
-        }
+          enabled: true,
+        },
       },
       plotOptions: {},
       legend: {
-        show: false
+        show: false,
       },
       dataLabels: {
-        enabled: false
+        enabled: false,
       },
       fill: {
-        type: 'solid',
-        opacity: 1
+        type: "solid",
+        opacity: 1,
       },
       stroke: {
-        curve: 'smooth',
+        curve: "smooth",
         show: true,
         width: 3,
-        colors: [this.a_colorsThemeBase]
+        colors: [this.a_colorsThemeBase],
       },
       xaxis: {
         categories: this.graficaAfiliados.labelsData,
@@ -345,34 +354,34 @@ export class IndicadoresComponent implements OnInit {
           show: false,
         },
         axisTicks: {
-          show: false
+          show: false,
         },
         labels: {
           show: false,
           style: {
             colors: this.colorsGrayGray500,
-            fontSize: '12px',
-            fontFamily: this.fontFamily
-          }
+            fontSize: "12px",
+            fontFamily: this.fontFamily,
+          },
         },
         crosshairs: {
           show: false,
-          position: 'front',
+          position: "front",
           stroke: {
             color: this.colorsGrayGray300,
             width: 1,
-            dashArray: 3
-          }
+            dashArray: 3,
+          },
         },
         tooltip: {
           enabled: true,
           formatter: undefined,
           offsetY: 0,
           style: {
-            fontSize: '12px',
-            fontFamily: this.fontFamily
-          }
-        }
+            fontSize: "12px",
+            fontFamily: this.fontFamily,
+          },
+        },
       },
       yaxis: {
         min: 0,
@@ -381,49 +390,49 @@ export class IndicadoresComponent implements OnInit {
           show: false,
           style: {
             colors: this.colorsGrayGray500,
-            fontSize: '12px',
-            fontFamily: this.fontFamily
-          }
-        }
+            fontSize: "12px",
+            fontFamily: this.fontFamily,
+          },
+        },
       },
       states: {
         normal: {
           filter: {
-            type: 'none',
-            value: 0
-          }
+            type: "none",
+            value: 0,
+          },
         },
         hover: {
           filter: {
-            type: 'none',
-            value: 0
-          }
+            type: "none",
+            value: 0,
+          },
         },
         active: {
           allowMultipleDataPointsSelection: false,
           filter: {
-            type: 'none',
-            value: 0
-          }
-        }
+            type: "none",
+            value: 0,
+          },
+        },
       },
       tooltip: {
         style: {
-          fontSize: '12px',
-          fontFamily: this.fontFamily
+          fontSize: "12px",
+          fontFamily: this.fontFamily,
         },
         y: {
           formatter: (val) => {
             return `$ ${val} thousands`;
-          }
-        }
+          },
+        },
       },
       colors: [this.a_colorsThemeLight],
       markers: {
         colors: [this.a_colorsThemeLight],
         strokeColor: [this.a_colorsThemeBase],
-        strokeWidth: 3
-      }
+        strokeWidth: 3,
+      },
     };
     this.graficaNoafiliados = {
       baseColor: "#831A2D",
@@ -437,39 +446,41 @@ export class IndicadoresComponent implements OnInit {
       total: data.na_total,
     };
     this.na_chartOptions = {
-      series: [{
-        name: 'Net Profit',
-        data: this.graficaNoafiliados.datosData,
-      }],
+      series: [
+        {
+          name: "Net Profit",
+          data: this.graficaNoafiliados.datosData,
+        },
+      ],
       chart: {
-        type: 'area',
+        type: "area",
         height: 120,
         toolbar: {
-          show: false
+          show: false,
         },
         zoom: {
-          enabled: false
+          enabled: false,
         },
         sparkline: {
-          enabled: true
-        }
+          enabled: true,
+        },
       },
       plotOptions: {},
       legend: {
-        show: false
+        show: false,
       },
       dataLabels: {
-        enabled: false
+        enabled: false,
       },
       fill: {
-        type: 'solid',
-        opacity: 1
+        type: "solid",
+        opacity: 1,
       },
       stroke: {
-        curve: 'smooth',
+        curve: "smooth",
         show: true,
         width: 3,
-        colors: [this.na_colorsThemeBase]
+        colors: [this.na_colorsThemeBase],
       },
       xaxis: {
         categories: this.graficaNoafiliados.labelsData,
@@ -477,34 +488,34 @@ export class IndicadoresComponent implements OnInit {
           show: false,
         },
         axisTicks: {
-          show: false
+          show: false,
         },
         labels: {
           show: false,
           style: {
             colors: this.colorsGrayGray500,
-            fontSize: '12px',
-            fontFamily: this.fontFamily
-          }
+            fontSize: "12px",
+            fontFamily: this.fontFamily,
+          },
         },
         crosshairs: {
           show: false,
-          position: 'front',
+          position: "front",
           stroke: {
             color: this.colorsGrayGray300,
             width: 1,
-            dashArray: 3
-          }
+            dashArray: 3,
+          },
         },
         tooltip: {
           enabled: true,
           formatter: undefined,
           offsetY: 0,
           style: {
-            fontSize: '12px',
-            fontFamily: this.fontFamily
-          }
-        }
+            fontSize: "12px",
+            fontFamily: this.fontFamily,
+          },
+        },
       },
       yaxis: {
         min: 0,
@@ -513,49 +524,49 @@ export class IndicadoresComponent implements OnInit {
           show: false,
           style: {
             colors: this.colorsGrayGray500,
-            fontSize: '12px',
-            fontFamily: this.fontFamily
-          }
-        }
+            fontSize: "12px",
+            fontFamily: this.fontFamily,
+          },
+        },
       },
       states: {
         normal: {
           filter: {
-            type: 'none',
-            value: 0
-          }
+            type: "none",
+            value: 0,
+          },
         },
         hover: {
           filter: {
-            type: 'none',
-            value: 0
-          }
+            type: "none",
+            value: 0,
+          },
         },
         active: {
           allowMultipleDataPointsSelection: false,
           filter: {
-            type: 'none',
-            value: 0
-          }
-        }
+            type: "none",
+            value: 0,
+          },
+        },
       },
       tooltip: {
         style: {
-          fontSize: '12px',
-          fontFamily: this.fontFamily
+          fontSize: "12px",
+          fontFamily: this.fontFamily,
         },
         y: {
           formatter: (val) => {
             return `$ ${val} thousands`;
-          }
-        }
+          },
+        },
       },
       colors: [this.na_colorsThemeLight],
       markers: {
         colors: [this.na_colorsThemeLight],
         strokeColor: [this.na_colorsThemeBase],
-        strokeWidth: 3
-      }
+        strokeWidth: 3,
+      },
     };
     this.graficaFemenino = {
       baseColor: "#BD00F0",
@@ -569,39 +580,41 @@ export class IndicadoresComponent implements OnInit {
       total: data.na_total,
     };
     this.f_chartOptions = {
-      series: [{
-        name: 'Net Profit',
-        data: this.graficaNoafiliados.datosData,
-      }],
+      series: [
+        {
+          name: "Net Profit",
+          data: this.graficaNoafiliados.datosData,
+        },
+      ],
       chart: {
-        type: 'area',
+        type: "area",
         height: 120,
         toolbar: {
-          show: false
+          show: false,
         },
         zoom: {
-          enabled: false
+          enabled: false,
         },
         sparkline: {
-          enabled: true
-        }
+          enabled: true,
+        },
       },
       plotOptions: {},
       legend: {
-        show: false
+        show: false,
       },
       dataLabels: {
-        enabled: false
+        enabled: false,
       },
       fill: {
-        type: 'solid',
-        opacity: 1
+        type: "solid",
+        opacity: 1,
       },
       stroke: {
-        curve: 'smooth',
+        curve: "smooth",
         show: true,
         width: 3,
-        colors: [this.f_colorsThemeBase]
+        colors: [this.f_colorsThemeBase],
       },
       xaxis: {
         categories: this.graficaNoafiliados.labelsData,
@@ -609,34 +622,34 @@ export class IndicadoresComponent implements OnInit {
           show: false,
         },
         axisTicks: {
-          show: false
+          show: false,
         },
         labels: {
           show: false,
           style: {
             colors: this.colorsGrayGray500,
-            fontSize: '12px',
-            fontFamily: this.fontFamily
-          }
+            fontSize: "12px",
+            fontFamily: this.fontFamily,
+          },
         },
         crosshairs: {
           show: false,
-          position: 'front',
+          position: "front",
           stroke: {
             color: this.colorsGrayGray300,
             width: 1,
-            dashArray: 3
-          }
+            dashArray: 3,
+          },
         },
         tooltip: {
           enabled: true,
           formatter: undefined,
           offsetY: 0,
           style: {
-            fontSize: '12px',
-            fontFamily: this.fontFamily
-          }
-        }
+            fontSize: "12px",
+            fontFamily: this.fontFamily,
+          },
+        },
       },
       yaxis: {
         min: 0,
@@ -645,49 +658,49 @@ export class IndicadoresComponent implements OnInit {
           show: false,
           style: {
             colors: this.colorsGrayGray500,
-            fontSize: '12px',
-            fontFamily: this.fontFamily
-          }
-        }
+            fontSize: "12px",
+            fontFamily: this.fontFamily,
+          },
+        },
       },
       states: {
         normal: {
           filter: {
-            type: 'none',
-            value: 0
-          }
+            type: "none",
+            value: 0,
+          },
         },
         hover: {
           filter: {
-            type: 'none',
-            value: 0
-          }
+            type: "none",
+            value: 0,
+          },
         },
         active: {
           allowMultipleDataPointsSelection: false,
           filter: {
-            type: 'none',
-            value: 0
-          }
-        }
+            type: "none",
+            value: 0,
+          },
+        },
       },
       tooltip: {
         style: {
-          fontSize: '12px',
-          fontFamily: this.fontFamily
+          fontSize: "12px",
+          fontFamily: this.fontFamily,
         },
         y: {
           formatter: (val) => {
             return `$ ${val} thousands`;
-          }
-        }
+          },
+        },
       },
       colors: [this.f_colorsThemeLight],
       markers: {
         colors: [this.f_colorsThemeLight],
         strokeColor: [this.f_colorsThemeBase],
-        strokeWidth: 3
-      }
+        strokeWidth: 3,
+      },
     };
     this.graficaMasculino = {
       baseColor: "#FBFF00",
@@ -701,39 +714,41 @@ export class IndicadoresComponent implements OnInit {
       total: data.na_total,
     };
     this.m_chartOptions = {
-      series: [{
-        name: 'Net Profit',
-        data: this.graficaNoafiliados.datosData,
-      }],
+      series: [
+        {
+          name: "Net Profit",
+          data: this.graficaNoafiliados.datosData,
+        },
+      ],
       chart: {
-        type: 'area',
+        type: "area",
         height: 120,
         toolbar: {
-          show: false
+          show: false,
         },
         zoom: {
-          enabled: false
+          enabled: false,
         },
         sparkline: {
-          enabled: true
-        }
+          enabled: true,
+        },
       },
       plotOptions: {},
       legend: {
-        show: false
+        show: false,
       },
       dataLabels: {
-        enabled: false
+        enabled: false,
       },
       fill: {
-        type: 'solid',
-        opacity: 1
+        type: "solid",
+        opacity: 1,
       },
       stroke: {
-        curve: 'smooth',
+        curve: "smooth",
         show: true,
         width: 3,
-        colors: [this.m_colorsThemeBase]
+        colors: [this.m_colorsThemeBase],
       },
       xaxis: {
         categories: this.graficaNoafiliados.labelsData,
@@ -741,34 +756,34 @@ export class IndicadoresComponent implements OnInit {
           show: false,
         },
         axisTicks: {
-          show: false
+          show: false,
         },
         labels: {
           show: false,
           style: {
             colors: this.colorsGrayGray500,
-            fontSize: '12px',
-            fontFamily: this.fontFamily
-          }
+            fontSize: "12px",
+            fontFamily: this.fontFamily,
+          },
         },
         crosshairs: {
           show: false,
-          position: 'front',
+          position: "front",
           stroke: {
             color: this.colorsGrayGray300,
             width: 1,
-            dashArray: 3
-          }
+            dashArray: 3,
+          },
         },
         tooltip: {
           enabled: true,
           formatter: undefined,
           offsetY: 0,
           style: {
-            fontSize: '12px',
-            fontFamily: this.fontFamily
-          }
-        }
+            fontSize: "12px",
+            fontFamily: this.fontFamily,
+          },
+        },
       },
       yaxis: {
         min: 0,
@@ -777,49 +792,49 @@ export class IndicadoresComponent implements OnInit {
           show: false,
           style: {
             colors: this.colorsGrayGray500,
-            fontSize: '12px',
-            fontFamily: this.fontFamily
-          }
-        }
+            fontSize: "12px",
+            fontFamily: this.fontFamily,
+          },
+        },
       },
       states: {
         normal: {
           filter: {
-            type: 'none',
-            value: 0
-          }
+            type: "none",
+            value: 0,
+          },
         },
         hover: {
           filter: {
-            type: 'none',
-            value: 0
-          }
+            type: "none",
+            value: 0,
+          },
         },
         active: {
           allowMultipleDataPointsSelection: false,
           filter: {
-            type: 'none',
-            value: 0
-          }
-        }
+            type: "none",
+            value: 0,
+          },
+        },
       },
       tooltip: {
         style: {
-          fontSize: '12px',
-          fontFamily: this.fontFamily
+          fontSize: "12px",
+          fontFamily: this.fontFamily,
         },
         y: {
           formatter: (val) => {
             return `$ ${val} thousands`;
-          }
-        }
+          },
+        },
       },
       colors: [this.m_colorsThemeLight],
       markers: {
         colors: [this.m_colorsThemeLight],
         strokeColor: [this.m_colorsThemeBase],
-        strokeWidth: 3
-      }
+        strokeWidth: 3,
+      },
     };
     /*  this.chartOptions = {
        series: [data.femenino, data.masculino],
@@ -892,5 +907,4 @@ export class IndicadoresComponent implements OnInit {
        ]
      }; */
   }
-
 }

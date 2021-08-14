@@ -6,7 +6,11 @@ import {
   Optional,
 } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
+import {
+  MatDialog,
+  MatDialogRef,
+  MAT_DIALOG_DATA,
+} from "@angular/material/dialog";
 import { Router } from "@angular/router";
 import { Iusuario } from "app/modulos/elecciones/interfaces/usuario.interfaces";
 import { ReferentesService } from "app/modulos/elecciones/services/referentes.service";
@@ -16,6 +20,7 @@ import { ProvLocService } from "app/shared/services/prov-loc.service";
 import { ValidarPersonaService } from "app/shared/services/renaper/validar.persona.service";
 import { Observable } from "rxjs";
 import Swal from "sweetalert2";
+import { ReferentesComponent } from "../referentes.component";
 
 @Component({
   selector: "app-referente-popup",
@@ -60,7 +65,8 @@ export class ReferentePopupComponent implements OnInit {
     private auth: JwtAuthService,
     private ValidarPersona: ValidarPersonaService,
     private provLocService: ProvLocService,
-    private referenteService: ReferentesService
+    private referenteService: ReferentesService,
+    private dialog: MatDialog
   ) {
     this.dataPForm();
     this.userForm();
@@ -71,7 +77,6 @@ export class ReferentePopupComponent implements OnInit {
 
   ngOnInit() {
     this.obtProvLoc();
-    this.cargarReferentes();
     this.usuarioRol = this.data.data;
     // console.log("resss", this.usuarioRol);
   }
@@ -111,14 +116,6 @@ export class ReferentePopupComponent implements OnInit {
     });
   }
 
-  cargarReferentes() {
-    /*  this.referenteService.getReferente().subscribe((res: any) => {
-      let usuarios = res.data;
-      this.idReferentes = usuarios.filter((res) => res.role === "user-ref");
-      //  console.log("res", this.idReferentes);
-    }); */
-  }
-
   obtProvLoc() {
     this.provLocService.getProvLocalidades().subscribe((data: any) => {
       this.provLoc = data.data;
@@ -151,7 +148,11 @@ export class ReferentePopupComponent implements OnInit {
     this.firstFormGroup.patchValue({ idReferente: e });
   }
   cerrarPopUP() {
-    this.dialogRef.close();
+    if (this.usuarioRol.id) {
+      console.log("estoy aca");
+      this.dialogRef.close("closed");
+    }
+    this.router.navigate(["/elecciones/referentes"]);
   }
   async buscarDNI() {
     this.cargando = true;
@@ -167,7 +168,7 @@ export class ReferentePopupComponent implements OnInit {
           this.datosRenaper = data;
           data.dni = this.secondFormGroup.get("dni").value;
           data.sexo = this.secondFormGroup.get("sexo").value;
-          console.log("data", data);
+          //  console.log("data", data);
           this.dataPForm(data);
           this.userForm(data);
         } else {
@@ -237,7 +238,8 @@ export class ReferentePopupComponent implements OnInit {
             "Puede continuar",
             "success"
           );
-          await this.dialogRef.close();
+
+          this.cerrarPopUP();
         } else {
           Swal.fire({
             position: "center",

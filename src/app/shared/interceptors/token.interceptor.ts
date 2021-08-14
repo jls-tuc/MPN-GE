@@ -19,7 +19,6 @@ export class TokenInterceptor implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     let token: string = this.jwtAuth.token || this.jwtAuth.getJwtToken();
-
     if (!token) {
       return next.handle(req);
     }

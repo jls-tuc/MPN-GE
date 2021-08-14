@@ -1,12 +1,19 @@
-import { Injectable } from "@angular/core";
+import { Injectable, OnDestroy } from "@angular/core";
 import { SessionStoreService } from "../session-store.service";
 import { HttpClient } from "@angular/common/http";
 import { Router, ActivatedRoute } from "@angular/router";
-import { map, catchError, delay } from "rxjs/operators";
+import { map, catchError, delay, finalize, switchMap } from "rxjs/operators";
 import { UserModel } from "../../models/user.model";
-import { of, BehaviorSubject, throwError, Observable } from "rxjs";
+import {
+  of,
+  BehaviorSubject,
+  throwError,
+  Observable,
+  Subscription,
+} from "rxjs";
 import { environment } from "environments/environment";
 import Swal from "sweetalert2";
+import { AuthModel } from "./auth.model";
 const apiURL = environment.apiURL;
 // ================= only for demo purpose ===========
 
@@ -39,14 +46,17 @@ interface IBadge {
 @Injectable({
   providedIn: "root",
 })
-export class JwtAuthService {
-  token;
+export class JwtAuthService implements OnDestroy {
+  private unsubscribe: Subscription[] = [];
+  private isLoadingSubject: BehaviorSubject<boolean>;
 
+  token;
   user: UserModel;
   isAuthenticated: Boolean;
   currentUserSubject: BehaviorSubject<UserModel>;
-
+  currentUser$: Observable<UserModel>;
   signingIn: Boolean;
+  isLoading$: Observable<boolean>;
   return: string;
   JWT_TOKEN: string = "Token";
   APP_USER: string = "APP-USER";
@@ -54,60 +64,65 @@ export class JwtAuthService {
   get currentUserValue(): UserModel {
     return this.currentUserSubject.value;
   }
+
   constructor(
     private ls: SessionStoreService,
     private http: HttpClient,
     private router: Router,
     private route: ActivatedRoute
   ) {
+    this.isLoadingSubject = new BehaviorSubject<boolean>(false);
     this.currentUserSubject = new BehaviorSubject<UserModel>(undefined);
+    this.currentUser$ = this.currentUserSubject.asObservable();
+    this.isLoading$ = this.isLoadingSubject.asObservable();
+    const subscr = this.getUserByToken().subscribe();
+    this.unsubscribe.push(subscr);
     this.route.queryParams.subscribe(
       (params) => (this.return = params["return"] || "/")
     );
   }
 
-  public signin(formUs) {
+  public signin(formUs): Observable<UserModel> {
+    this.isLoadingSubject.next(true);
     this.signingIn = true;
     return this.http.post(`${apiURL}/auth/login`, formUs).pipe(
       delay(1000),
-      map((res: any) => {
-        //console.log("res", res);
-        this.setUserAndToken(res.token, res.ok, res.foto);
+      map((auth: AuthModel) => {
+        this.setAuthFromSessionStorage(auth);
+        return auth;
         this.signingIn = false;
-        return res;
       }),
-      catchError((error) => {
+      switchMap(() => this.getUserByToken()),
+      catchError((err) => {
         Swal.fire({
           position: "center",
           icon: "warning",
-          title: `${error.error.msg}`,
+          title: `${err.error.msg}`,
           showConfirmButton: false,
           timer: 3500,
         });
-        return throwError(error);
-      })
+        return of(undefined);
+      }),
+      finalize(() => this.isLoadingSubject.next(false))
     );
-
-    // FOLLOWING CODE SENDS SIGNIN REQUEST TO SERVER
-
-    // this.signingIn = true;
-    // return this.http.post(`${environment.apiURL}/auth/local`, { username, password })
-    //   .pipe(
-    //     map((res: any) => {
-    //       this.setUserAndToken(res.token, res.user, !!res);
-    //       this.signingIn = false;
-    //       return res;
-    //     }),
-    //     catchError((error) => {
-    //       return throwError(error);
-    //     })
-    //   );
+  }
+  public signout() {
+    window.sessionStorage.removeItem(this.JWT_TOKEN);
+    this.ls.clear();
+    this.router.navigate(["sessions/signin2"], {
+      queryParams: {},
+    });
+  }
+  isLoggedIn(): Boolean {
+    return !!this.getJwtToken();
+  }
+  getUser() {
+    return this.ls.getItem(this.APP_USER);
   }
 
-  /*
-    checkTokenIsValid is called inside constructor of
-    shared/components/layouts/admin-layout/admin-layout.component.ts
-  */
+  getJwtToken(): any {
+    return this.ls.getItem(this.JWT_TOKEN);
+  }
   public checkTokenIsValid() {
     /* return of(DEMO_USER).pipe(
       map((profile: User) => {
@@ -136,48 +151,81 @@ export class JwtAuthService {
     //     })
     //   );
   }
+  getUserByToken(): Observable<UserModel> {
+    const auth = this.getAuthFromSessionStorage();
+    if (!auth) {
+      return of(undefined);
+    }
+    this.isLoadingSubject.next(true);
+    return this.UserByToken(auth).pipe(
+      map((user: UserModel) => {
+        if (user) {
+          user = this.getUserDetails();
+          this.currentUserSubject = new BehaviorSubject<UserModel>(user);
+        } else {
+          this.signout();
+        }
+        return user;
+      }),
+      finalize(() => this.isLoadingSubject.next(false))
+    );
+  }
 
-  public getUserDetails(dataToken?: any): any {
-    const token = dataToken;
+  setAuthFromSessionStorage(auth: AuthModel): boolean {
+    if (auth && auth.token) {
+      this.token = auth.token;
+      this.ls.setItem(this.JWT_TOKEN, auth.token);
+      sessionStorage.setItem("FOTO", auth.foto);
+      this.user = this.getUserDetails(auth.token);
+
+      return true;
+    }
+    return false;
+  }
+
+  public getAuthFromSessionStorage(): any {
+    try {
+      const authData = window.sessionStorage.getItem(this.JWT_TOKEN);
+      return authData;
+    } catch (error) {
+      console.error(error);
+      return undefined;
+    }
+  }
+  private getFotoFromSessionStorage(): any {
+    try {
+      const authData = window.sessionStorage.getItem("foto");
+      return authData;
+    } catch (error) {
+      console.error(error);
+      return undefined;
+    }
+  }
+
+  UserByToken(token): Observable<UserModel> {
+    const user = token;
+
+    if (!user) {
+      return of(undefined);
+    }
+
+    return of(user);
+  }
+  private getUserDetails(dataToken?: any): any {
+    const token = this.getAuthFromSessionStorage();
+    const foto = this.getFotoFromSessionStorage();
     let payload;
     if (token) {
       payload = token.split(".")[1];
       payload = window.atob(payload);
       payload = JSON.parse(payload);
+      payload["foto"] = foto;
       return payload;
     } else {
       return null;
     }
   }
-
-  public signout() {
-    this.setUserAndToken(null, false, null);
-    this.ls.clear();
-    this.router.navigateByUrl("sessions/signin2");
-  }
-
-  isLoggedIn(): Boolean {
-    return !!this.getJwtToken();
-  }
-
-  getJwtToken(): any {
-    return this.ls.getItem(this.JWT_TOKEN);
-  }
-  getUser() {
-    return this.ls.getItem(this.APP_USER);
-  }
-
-  setUserAndToken(token: String, isAuthenticated: Boolean, foto: string) {
-    this.isAuthenticated = isAuthenticated;
-    this.token = token;
-    this.user = this.getUserDetails(token);
-    sessionStorage.setItem("FOTO", foto);
-    //console.log("user", this.user);
-    this.currentUserSubject = new BehaviorSubject<UserModel>(this.user);
-
-    /* this.user = user;
-    this.user$.next(user); */
-    this.ls.setItem(this.JWT_TOKEN, token);
-    //this.ls.setItem(this.APP_USER, user);
+  ngOnDestroy() {
+    this.unsubscribe.forEach((sb) => sb.unsubscribe());
   }
 }

@@ -409,15 +409,9 @@ export class NavigationService {
   // navigation component has subscribed to this Observable
   menuItems$ = this.menuItems.asObservable();
 
-  constructor(public authService: JwtAuthService) {
-    this.menuUse$ = this.authService.currentUserSubject.asObservable();
-    this.menuUse = this.menuUse$;
-    this.menuVacio = this.menuUse.source._value.role;
-  }
+  constructor(public authService: JwtAuthService) {}
 
-  getMenuRole() {
-    this.menuVacio;
-  }
+  getMenuRole() {}
   // Customizer component uses this method to change menu.
   // You can remove this method and customizer component.
   // Or you can customize this method to supply different menu for

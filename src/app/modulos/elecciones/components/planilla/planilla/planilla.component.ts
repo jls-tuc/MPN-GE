@@ -63,6 +63,7 @@ export class PlanillaComponent implements OnInit {
     if (this.data != null) {
       this.cargar_datos = true;
       this.datosResPlanilla = this.data.data;
+      console.log(this.datosResPlanilla);
     } else {
       if (this.datosUser.source._value.role === "user-ref") {
         this.datosResPlanilla = {
@@ -180,12 +181,26 @@ export class PlanillaComponent implements OnInit {
       .postVotoProv(this.votoAdH)
       .subscribe(async (data: any) => {
         if (data.ok === true) {
-          await Swal.fire(
-            "El voto fue cargado correctamente",
-            "Puede continuar",
-            "success"
-          );
-          await this.cerrarPopUP();
+          this.votoProvService
+            .postVotoGraf(this.votoAdH)
+            .subscribe(async (data: any) => {
+              if (data.ok === true) {
+                await Swal.fire(
+                  "El voto fue cargado correctamente",
+                  "Puede continuar",
+                  "success"
+                );
+                await this.cerrarPopUP();
+              } else {
+                Swal.fire({
+                  position: "center",
+                  icon: "warning",
+                  title: `${data.msg}`,
+                  showConfirmButton: false,
+                  timer: 3500,
+                });
+              }
+            });
         } else {
           Swal.fire({
             position: "center",

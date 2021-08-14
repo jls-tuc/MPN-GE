@@ -10,6 +10,7 @@ import { Observable } from "rxjs";
 import { UserModel } from "app/shared/models/user.model";
 import { JwtAuthService } from "app/shared/services/auth/jwt-auth.service";
 import { VerPlanillaComponent } from "../planilla/ver-planilla/ver-planilla.component";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-referentes",
@@ -25,6 +26,7 @@ export class ReferentesComponent implements OnInit {
     private referenteService: ReferentesService,
     private auth: JwtAuthService,
     public dialog: MatDialog,
+    private router: Router,
     private cdr: ChangeDetectorRef
   ) {
     this.user$ = this.auth.currentUserSubject.asObservable();
@@ -41,10 +43,22 @@ export class ReferentesComponent implements OnInit {
 
   openDialog(data?) {
     //  console.log("data", data);
-    this.dialog.open(ReferentePopupComponent, {
-      width: "70%",
-      data: { data },
+    const dialogoRef: MatDialogRef<any> = this.dialog.open(
+      ReferentePopupComponent,
+      {
+        width: "70%",
+        height: "90%",
+        disableClose: true,
+        data: { data },
+      }
+    );
+    dialogoRef.afterClosed().subscribe((res) => {
+      // console.log(res);
+      if (res === "closed") {
+        this.router.navigate(["/elecciones/referentes"]);
+      }
     });
+    this.cdr.markForCheck();
   }
 
   openDialogResPlanillas(data?) {
@@ -67,6 +81,7 @@ export class ReferentesComponent implements OnInit {
 
     dialogoRef.afterClosed().subscribe((res) => {
       this.ngOnInit();
+      dialogoRef.close();
     });
     this.cdr.markForCheck();
   }
