@@ -18,4 +18,8 @@ export class GraficaService {
     let url = `${apiURL}/estadistica/calculototal`;
     return this.http.get(url);
   }
+  getvotosCalculoTotalCoord(usr: any) {
+    let url = `${apiURL}/estadistica/calculototalref`;
+    return this.http.post(url, usr);
+  }
 }

@@ -88,6 +88,7 @@ export class IndicadoresComponent implements OnInit {
   public referentes: any;
   public responsables: any;
   public operadores = false;
+  calculos: any;
   constructor(
     private layout: LayoutService,
     private snack: MatSnackBar,
@@ -97,8 +98,6 @@ export class IndicadoresComponent implements OnInit {
     public authServ: JwtAuthService,
     public grafServ: GraficaService
   ) {
-    this.userLog$ = this.authServ.currentUserSubject.asObservable();
-    this.usuarioRol = this.userLog$;
   }
   loadLayoutView() {
     this.fontFamily = '';
@@ -118,12 +117,12 @@ export class IndicadoresComponent implements OnInit {
   }
 
   async ngOnInit() {
-    console.log(`this.usuarioRol`, this.usuarioRol)
-    const usr = this.usuarioRol.source._value;
+    let Usuario: any = this.authServ.user;
     let data = {
-      id: usr.id,
-      role: usr.role
+      id: Usuario.id,
+      areaResponsable: Usuario.areaResponsable,
     }
+    console.log(`data`, data)
     this.loadLayoutView();
     this.v_symbolCSSClasses = `symbol "symbol-circle" symbol-50 symbol-light-"#1A8383" mr-2`;
     this.v_svgCSSClasses = `svg-icon svg-icon-xl svg-icon-"#1A8383"`;
@@ -131,7 +130,7 @@ export class IndicadoresComponent implements OnInit {
     this.a_svgCSSClasses = `svg-icon svg-icon-xl svg-icon-"#1A8383"`;
     this.na_symbolCSSClasses = `symbol "symbol-circle" symbol-50 symbol-light-"#1A8383" mr-2`;
     this.na_svgCSSClasses = `svg-icon svg-icon-xl svg-icon-"#1A8383"`;
-    if (usr.role === "user-calc" || usr.role === "user-sys") {
+    if (this.authServ.user.role === "user-calc" || this.authServ.user.role === "user-sys") {
       this.operadores = true;
     } else {
       this.operadores = false;
@@ -139,8 +138,8 @@ export class IndicadoresComponent implements OnInit {
     this.buscarDatosGraficaRol(data);
   }
 
-  async buscarDatosGraficaRol(usr: any) {
-    this.grafServ.getvotosGrafica(usr).subscribe((res: any) => {
+  async buscarDatosGraficaRol(data: any) {
+    this.calculos = await this.grafServ.getvotosGrafica(data).subscribe((res: any) => {
       console.log(`Respuesta de CalculoTotal; `, res);
 
       this.votosTotal = res.votosTotal;

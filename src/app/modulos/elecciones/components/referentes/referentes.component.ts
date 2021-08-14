@@ -126,8 +126,8 @@ export class ReferentesComponent implements OnInit {
     }
   }
 
-  cargarReferentes() {
-    this.referenteService.getReferente().subscribe((res: any) => {
+  async cargarReferentes() {
+    await this.referenteService.getReferente().subscribe((res: any) => {
       this.users = res.resp.filter(
         (data) =>
           data.idCoordinador === this.usurioLog.source._value.id &&
@@ -136,8 +136,8 @@ export class ReferentesComponent implements OnInit {
       //  console.log("users", this.users);
     });
   }
-  cargarResponsables() {
-    this.referenteService.getReferente().subscribe((res: any) => {
+  async cargarResponsables() {
+    await this.referenteService.getReferente().subscribe((res: any) => {
       this.users = res.resp.filter(
         (data) => data.idReferente === this.usurioLog.source._value.id
       );

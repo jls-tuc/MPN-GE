@@ -42,7 +42,7 @@ interface IBadge {
 export class JwtAuthService {
   token;
 
-  user: UserModel;
+  public user: UserModel;
   isAuthenticated: Boolean;
   //user$ = new BehaviorSubject<UserModel>(this.user);
   currentUserSubject: BehaviorSubject<UserModel>;
