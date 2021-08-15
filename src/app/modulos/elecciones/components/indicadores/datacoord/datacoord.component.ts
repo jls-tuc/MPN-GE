@@ -83,22 +83,22 @@ export class DatacoordComponent implements OnInit {
   }
   cargarDatosUs() {
     this.grafCalc.getvotosCalculoTotal().subscribe((res: any) => {
-      console.log(`Respuesta de CalculoTotal; `, res.data);
+      //  console.log(`Respuesta de CalculoTotal; `, res.data);
       this.votosCargados = res.data;
       this.votosCoordinadores = this.votosCargados.filter(
         (data) => data.role === "user-coord"
       );
-      console.log(`this.votosCoordinadores`, this.votosCoordinadores);
+      // console.log(`this.votosCoordinadores`, this.votosCoordinadores);
       this.totalVotos = 0;
       for (let voto of this.votosCoordinadores) {
         this.totalVotos = this.totalVotos + voto.totalvotos;
-        console.log(`this.totalVotos`, this.totalVotos);
+        //   console.log(`this.totalVotos`, this.totalVotos);
       }
-      console.log(`res`, res)
+      //   console.log(`res`, res)
       this.totalDNI = res.totalDNI;
-      console.log(`this.totalDNI`, this.totalDNI);
-      this.duplicados = this.totalDNI - this.totalVotos;
-      console.log(`Saliooooooooooo`);
+      //  console.log(`this.totalDNI`, this.totalDNI);
+      this.duplicados = this.totalVotos - this.totalDNI;
+      //   console.log(`Saliooooooooooo`);
       this.dataSource = new MatTableDataSource(this.votosCoordinadores);
       this.dataSource.paginator = this.paginator;
       this.cdr.markForCheck();
@@ -113,7 +113,7 @@ export class DatacoordComponent implements OnInit {
   cargarPlanilla(data?) {
     this.votoService.getVotosById(data).subscribe((res: any) => {
       if (res.ok) {
-        console.log(res);
+        //   console.log(res);
         this.votosCargados = res.votosUnicos;
         this.totalVotos = res.totalV;
         this.dataSource = new MatTableDataSource(this.votosCoordinadores);

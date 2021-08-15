@@ -1,15 +1,14 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { environment } from 'environments/environment';
+import { HttpClient } from "@angular/common/http";
+import { Injectable } from "@angular/core";
+import { environment } from "environments/environment";
 const apiURL = environment.apiURL;
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class GraficaService {
-
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
   getvotosGrafica(usr: any) {
-    console.log(`Mando usr`, usr)
+    //console.log(`Mando usr`, usr)
     let url = `${apiURL}/estadistica/graficatotal`;
     return this.http.post(url, usr);
   }
