@@ -24,11 +24,11 @@ import { Observable } from "rxjs";
 import { JwtAuthService } from "app/shared/services/auth/jwt-auth.service";
 import { GraficaService } from "../../../services/grafica.service";
 import { Sort } from "@angular/material/sort";
-import jsPDF from 'jspdf';
-import pdfMake from 'pdfmake/build/pdfmake';
-import pdfFonts from 'pdfmake/build/vfs_fonts';
+import jsPDF from "jspdf";
+import pdfMake from "pdfmake/build/pdfmake";
+import pdfFonts from "pdfmake/build/vfs_fonts";
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
-import htmlToPdfmake from 'html-to-pdfmake';
+import htmlToPdfmake from "html-to-pdfmake";
 
 @Component({
   selector: "app-datacoord",
@@ -54,11 +54,10 @@ export class DatacoordComponent implements OnInit {
     "totalnoafiliados",
     "totalvotos",
   ];
-
   dataSource: MatTableDataSource<any>;
   sortedData: any[];
   public cargar_datos: boolean = false;
-  @ViewChild('pdfTable') pdfTable: ElementRef;
+  @ViewChild("pdfTable") pdfTable: ElementRef;
   constructor(
     public auhService: JwtAuthService,
     public dialog: MatDialog,
@@ -66,8 +65,8 @@ export class DatacoordComponent implements OnInit {
     private votoService: VotoProvService,
     private grafCalc: GraficaService,
     private router: Router
-  ) { }
-  title = 'htmltopdf';
+  ) {}
+  title = "htmltopdf";
 
   ngOnInit(): void {
     this.cargarDatosUs();
@@ -81,26 +80,25 @@ export class DatacoordComponent implements OnInit {
 
     const documentDefinition = { content: html };
     pdfMake.createPdf(documentDefinition).open();
-
   }
   cargarDatosUs() {
     this.grafCalc.getvotosCalculoTotal().subscribe((res: any) => {
-      console.log(`Respuesta de CalculoTotal; `, res.data);
+      //  console.log(`Respuesta de CalculoTotal; `, res.data);
       this.votosCargados = res.data;
       this.votosCoordinadores = this.votosCargados.filter(
         (data) => data.role === "user-coord"
       );
-      console.log(`this.votosCoordinadores`, this.votosCoordinadores);
+      // console.log(`this.votosCoordinadores`, this.votosCoordinadores);
       this.totalVotos = 0;
       for (let voto of this.votosCoordinadores) {
         this.totalVotos = this.totalVotos + voto.totalvotos;
-        console.log(`this.totalVotos`, this.totalVotos);
+        //   console.log(`this.totalVotos`, this.totalVotos);
       }
-      console.log(`res`, res)
+      //   console.log(`res`, res)
       this.totalDNI = res.totalDNI;
-      console.log(`this.totalDNI`, this.totalDNI);
-      this.duplicados = this.totalDNI - this.totalVotos;
-      console.log(`Saliooooooooooo`);
+      //  console.log(`this.totalDNI`, this.totalDNI);
+      this.duplicados = this.totalVotos - this.totalDNI;
+      //   console.log(`Saliooooooooooo`);
       this.dataSource = new MatTableDataSource(this.votosCoordinadores);
       this.dataSource.paginator = this.paginator;
       this.cdr.markForCheck();
@@ -115,7 +113,7 @@ export class DatacoordComponent implements OnInit {
   cargarPlanilla(data?) {
     this.votoService.getVotosById(data).subscribe((res: any) => {
       if (res.ok) {
-        console.log(res);
+        //   console.log(res);
         this.votosCargados = res.votosUnicos;
         this.totalVotos = res.totalV;
         this.dataSource = new MatTableDataSource(this.votosCoordinadores);

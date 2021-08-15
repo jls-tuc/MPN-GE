@@ -98,7 +98,7 @@ export class VerPlanillaComponent implements OnInit {
   cargarPlanilla(data?) {
     this.votoService.getVotosById(data).subscribe((res: any) => {
       if (res.ok) {
-        console.log(res);
+        // console.log(res);
         this.votosCargados = res.votosUnicos;
         this.totalVotos = res.totalV;
         this.dataSource = new MatTableDataSource(this.votosCargados);

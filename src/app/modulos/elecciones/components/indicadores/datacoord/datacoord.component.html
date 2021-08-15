@@ -13,7 +13,8 @@
                     <div class="card-title" *ngIf="cargar">
                         <h3 class="card-label">Planilla de totales de Votos por Coordinador:
                         </h3>
-                        <h4 class="card-label text-dark-75 font-weight-bolder font-size-lg mb-0">Votos cargados: {{this.totalVotos}} - Votos por DNI: {{this.totalDNI}} - Duplicados: {{this.duplicados}}
+                        <h4 class="card-label text-dark-75 font-weight-bolder font-size-lg mb-0">Votos cargados:
+                            {{this.totalVotos}} - Votos por DNI: {{this.totalDNI}} - Duplicados: {{this.duplicados}}
                         </h4>
                     </div>
                 </div>
@@ -49,14 +50,16 @@
                         <ng-container matColumnDef="totalnoafiliados">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header>No Afiliados </th>
                             <div class="text-dark-75 font-weight-bolder font-size-lg mb-0">
-                                <td mat-cell *matCellDef='let votosCoordinadores'>{{votosCoordinadores.totalnoafiliados }}
+                                <td mat-cell *matCellDef='let votosCoordinadores'>{{votosCoordinadores.totalnoafiliados
+                                    }}
                                 </td>
                             </div>
                         </ng-container>
                         <ng-container matColumnDef="totalvotos">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header>Total Votos </th>
                             <div class="text-dark-75 font-weight-bolder font-size-lg mb-0">
-                                <td mat-cell class="text-dark-75 font-weight-bolder font-size-lg mb-0" *matCellDef='let votosCoordinadores'>
+                                <td mat-cell class="text-dark-75 font-weight-bolder font-size-lg mb-0"
+                                    *matCellDef='let votosCoordinadores'>
                                     {{votosCoordinadores.totalvotos }}
                                 </td>
                             </div>
