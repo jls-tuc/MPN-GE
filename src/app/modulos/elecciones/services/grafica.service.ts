@@ -8,7 +8,9 @@ const apiURL = environment.apiURL;
 export class GraficaService {
   constructor(private http: HttpClient) {}
   getvotosGrafica(usr: any) {
-    //  console.log(`Mando usr`, usr)
+
+    //console.log(`Mando usr`, usr)
+
     let url = `${apiURL}/estadistica/graficatotal`;
     return this.http.post(url, usr);
   }
