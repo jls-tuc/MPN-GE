@@ -63,7 +63,7 @@ export class PlanillaComponent implements OnInit {
     if (this.data != null) {
       this.cargar_datos = true;
       this.datosResPlanilla = this.data.data;
-      console.log(this.datosResPlanilla);
+      // console.log(this.datosResPlanilla);
     } else {
       if (this.datosUser.source._value.role === "user-ref") {
         this.datosResPlanilla = {

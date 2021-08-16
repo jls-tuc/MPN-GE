@@ -149,7 +149,7 @@ export class ReferentePopupComponent implements OnInit {
   }
   cerrarPopUP() {
     if (this.usuarioRol.id) {
-      console.log("estoy aca");
+      //  console.log("estoy aca");
       this.dialogRef.close("closed");
     }
     this.router.navigate(["/elecciones/referentes"]);

@@ -127,8 +127,9 @@ export class IndicadoresComponent implements OnInit {
     let data = {
       id: Usuario.id,
       areaResponsable: Usuario.areaResponsable,
+      role: Usuario.role,
     };
-    // console.log(`data`, data)
+    //  console.log(`data`, data);
     this.loadLayoutView();
     this.v_symbolCSSClasses = `symbol "symbol-circle" symbol-50 symbol-light-"#1A8383" mr-2`;
     this.v_svgCSSClasses = `svg-icon svg-icon-xl svg-icon-"#1A8383"`;
@@ -151,7 +152,7 @@ export class IndicadoresComponent implements OnInit {
     this.calculos = await this.grafServ
       .getvotosGrafica(data)
       .subscribe((res: any) => {
-        console.log(`Respuesta de CalculoTotal; `, res);
+        //  console.log(`Respuesta de CalculoTotal; `, res);
 
         this.votosTotal = res.votosTotal;
         this.afiliados = res.afiliados;
