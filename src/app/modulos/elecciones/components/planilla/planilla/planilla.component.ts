@@ -62,6 +62,10 @@ export class PlanillaComponent implements OnInit {
   cargarDatosUs() {
     if (this.data != null) {
       this.cargar_datos = true;
+
+      this.datosResPlanilla = this.data.data;
+      // console.log(this.datosResPlanilla);
+
       //  console.log(this.data.data);
       if (this.data.data.role === "user-ref") {
         this.datosResPlanilla = {
@@ -83,6 +87,7 @@ export class PlanillaComponent implements OnInit {
           role: this.data.data.role,
         };
       }
+
     } else {
       if (this.datosUser.source._value.role === "user-ref") {
         this.datosResPlanilla = {

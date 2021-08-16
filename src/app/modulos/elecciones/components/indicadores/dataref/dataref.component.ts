@@ -96,7 +96,9 @@ export class DatarefComponent implements OnInit {
     await this.grafCalc
       .getvotosCalculoTotalCoord(data)
       .subscribe((res: any) => {
-        // console.log(`Respuesta de CalculoTotal; `, res.data);
+
+        //  console.log(`Respuesta de CalculoTotal; `, res.data);
+
         this.votosCargados = res.data;
 
         for (let voto of this.votosCargados) {
@@ -104,7 +106,9 @@ export class DatarefComponent implements OnInit {
           // console.log(`this.totalVotos`, this.totalVotos);
         }
 
+
         //console.log(`Saliooooooooooo`);
+
         this.dataSource = new MatTableDataSource(this.votosCargados);
         this.dataSource.paginator = this.paginator;
       });
