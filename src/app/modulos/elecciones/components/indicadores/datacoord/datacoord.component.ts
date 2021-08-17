@@ -94,10 +94,10 @@ export class DatacoordComponent implements OnInit {
         this.totalVotos = this.totalVotos + voto.totalvotos;
         console.log(`this.totalVotos`, this.totalVotos);
       }
-      console.log(`res`, res)
+      console.log(`res`, res);
       this.totalDNI = res.totalDNI;
       console.log(`this.totalDNI`, this.totalDNI);
-      this.duplicados = this.totalDNI - this.totalVotos;
+      this.duplicados = this.totalVotos - this.totalDNI;
       console.log(`Saliooooooooooo`);
       this.dataSource = new MatTableDataSource(this.votosCoordinadores);
       this.dataSource.paginator = this.paginator;
