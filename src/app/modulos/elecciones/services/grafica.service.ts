@@ -6,7 +6,7 @@ const apiURL = environment.apiURL;
   providedIn: "root",
 })
 export class GraficaService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
   getvotosGrafica(usr: any) {
 
     //console.log(`Mando usr`, usr)
@@ -21,6 +21,10 @@ export class GraficaService {
   }
   getvotosCalculoTotalCoord(usr: any) {
     let url = `${apiURL}/estadistica/calculototalref`;
+    return this.http.post(url, usr);
+  }
+  getvotosCalculoTotalRef(usr: any) {
+    let url = `${apiURL}/estadistica/calculototalresp`;
     return this.http.post(url, usr);
   }
 }

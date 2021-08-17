@@ -8,6 +8,8 @@ import { PopUpCoorComponent } from "./components/coordinador/pop-up-coor/pop-up-
 import { VerPlanillaComponent } from "./components/planilla/ver-planilla/ver-planilla.component";
 import { DatacoordComponent } from './components/indicadores/datacoord/datacoord.component';
 import { DatarefComponent } from "./components/indicadores/dataref/dataref.component";
+import { DatarespComponent } from "./components/indicadores/dataresp/dataresp.component";
+import { VerMiPlanillaComponent } from "./components/planilla/ver-mi-planilla/ver-mi-planilla.component";
 
 export const EleccionesRoutes: Routes = [
   {
@@ -44,6 +46,11 @@ export const EleccionesRoutes: Routes = [
         data: { titel: "Planillas", breadcrumb: "INFORMACION CARGADA" },
       },
       {
+        path: "verPlanilla",
+        component: VerMiPlanillaComponent,
+        data: { titel: "Planilla", breadcrumb: "VER MI PLANILLA" },
+      },
+      {
         path: "coordinador",
         component: PopUpCoorComponent,
         data: { title: "Coordinador", breadcrumb: "COORDINADOR" },
@@ -57,6 +64,11 @@ export const EleccionesRoutes: Routes = [
         path: "calculototalref",
         component: DatarefComponent,
         data: { title: "Estadisticas Totales Referentes", breadcrumb: "ESTADISTICAS REFERENTES" },
+      },
+      {
+        path: "calculototalresp",
+        component: DatarespComponent,
+        data: { title: "Estadisticas Totales Responsables", breadcrumb: "ESTADISTICAS RESPONSABLES" },
       },
     ],
   },

@@ -21,7 +21,7 @@ import { VotoProvService } from "../../../services/voto-prov.service";
 import Swal from "sweetalert2";
 import { UserModel } from "app/shared/models/user.model";
 import { Observable } from "rxjs";
-import { JwtAuthService } from "app/shared/services/auth/jwt-auth.service";
+import { JwtAuthService } from "../../../../../shared/services/auth/jwt-auth.service";
 import { GraficaService } from "../../../services/grafica.service";
 import { Sort } from "@angular/material/sort";
 import jsPDF from "jspdf";
@@ -29,23 +29,25 @@ import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 import htmlToPdfmake from "html-to-pdfmake";
+import { ReferentesService } from "../../../services/referentes.service";
+import { OnDestroy } from "@angular/core";
 
 @Component({
-  selector: "app-datacoord",
-  templateUrl: "./datacoord.component.html",
-  styleUrls: ["./datacoord.component.scss"],
+  selector: 'app-dataresp',
+  templateUrl: './dataresp.component.html',
+  styleUrls: ['./dataresp.component.scss']
 })
-export class DatacoordComponent implements OnInit {
-  cargar: boolean = false;
+export class DatarespComponent implements OnInit {
+
+  cargar: boolean = true;
   userData$: Observable<UserModel>;
   datosUser: any;
+  userID: any;
+  users: any;
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
 
   votosCargados: any = {};
-  totalVotos: any;
-  totalDNI: any;
-  duplicados: any;
-  votosCoordinadores: any;
+  totalVotos: number = 0;
   resPlanillas: any;
   listaColumnas: string[] = [
     "organizacion",
@@ -54,17 +56,22 @@ export class DatacoordComponent implements OnInit {
     "totalnoafiliados",
     "totalvotos",
   ];
+
   dataSource: MatTableDataSource<any>;
   sortedData: any[];
   public cargar_datos: boolean = false;
   @ViewChild("pdfTable") pdfTable: ElementRef;
+  usuario: any;
+  calculos: any;
+  suscrip: any;
   constructor(
-    public auhService: JwtAuthService,
+    public auth: JwtAuthService,
     public dialog: MatDialog,
     private cdr: ChangeDetectorRef,
     private votoService: VotoProvService,
     private grafCalc: GraficaService,
-    private router: Router
+    private router: Router,
+    private referenteService: ReferentesService
   ) { }
   title = "htmltopdf";
 
@@ -81,59 +88,40 @@ export class DatacoordComponent implements OnInit {
     const documentDefinition = { content: html };
     pdfMake.createPdf(documentDefinition).open();
   }
-  cargarDatosUs() {
-    this.grafCalc.getvotosCalculoTotal().subscribe((res: any) => {
-      //  console.log(`Respuesta de CalculoTotal; `, res.data);
-      this.votosCargados = res.data;
-      this.votosCoordinadores = this.votosCargados.filter(
-        (data) => data.role === "user-coord"
-      );
-      // console.log(`this.votosCoordinadores`, this.votosCoordinadores);
-      this.totalVotos = 0;
-      for (let voto of this.votosCoordinadores) {
-        this.totalVotos = this.totalVotos + voto.totalvotos;
-        //   console.log(`this.totalVotos`, this.totalVotos);
-      }
-      //console.log(`res`, res)
-      this.totalDNI = res.totalDNI;
-      //console.log(`this.totalDNI`, this.totalDNI);
-      this.duplicados = this.totalVotos - this.totalDNI;
-      //   console.log(`Saliooooooooooo`);
-      this.dataSource = new MatTableDataSource(this.votosCoordinadores);
-      this.dataSource.paginator = this.paginator;
-      this.cdr.markForCheck();
-      this.cargar = true;
-    });
+
+  async cargarDatosUs() {
+    let data = {
+      usr: this.auth.user,
+    };
+
+    await this.grafCalc
+      .getvotosCalculoTotalRef(data)
+      .subscribe((res: any) => {
+
+        //  console.log(`Respuesta de CalculoTotal; `, res.data);
+
+        this.votosCargados = res.data;
+
+        for (let voto of this.votosCargados) {
+          this.totalVotos = this.totalVotos + voto.totalvotos;
+          // console.log(`this.totalVotos`, this.totalVotos);
+        }
+
+        //console.log(`Saliooooooooooo`);
+
+        this.dataSource = new MatTableDataSource(this.votosCargados);
+        this.dataSource.paginator = this.paginator;
+      });
+    this.cdr.markForCheck();
   }
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
-  cargarPlanilla(data?) {
-    this.votoService.getVotosById(data).subscribe((res: any) => {
-      if (res.ok) {
-        //   console.log(res);
-        this.votosCargados = res.votosUnicos;
-        this.totalVotos = res.totalV;
-        this.dataSource = new MatTableDataSource(this.votosCoordinadores);
-        this.dataSource.paginator = this.paginator;
-
-        this.cdr.markForCheck();
-      } else {
-        Swal.fire({
-          position: "center",
-          icon: "warning",
-          title: "Por favor, verifique los datos ingresados.",
-          showConfirmButton: false,
-          timer: 3500,
-        });
-      }
-    });
-  }
 
   sortData(sort: Sort) {
-    const data = this.votosCoordinadores.slice();
+    const data = this.votosCargados.slice();
     if (!sort.active || sort.direction === "") {
       this.sortedData = data;
       return;
@@ -148,11 +136,7 @@ export class DatacoordComponent implements OnInit {
         case "totalafiliados":
           return this.compare(a.totalafiliados, b.totalafiliados, isAsc);
         case "totalnoafiliados":
-          return this.compare(
-            a.votosCoordinadores,
-            b.votosCoordinadores,
-            isAsc
-          );
+          return this.compare(a.votosCargados, b.votosCargados, isAsc);
         case "totalvotos":
           return this.compare(a.totalvotos, b.totalvotos, isAsc);
 
