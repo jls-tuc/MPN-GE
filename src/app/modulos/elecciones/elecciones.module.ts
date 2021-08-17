@@ -23,6 +23,8 @@ import { PopUpCoorComponent } from "./components/coordinador/pop-up-coor/pop-up-
 import { VerPlanillaComponent } from "./components/planilla/ver-planilla/ver-planilla.component";
 import { DatacoordComponent } from './components/indicadores/datacoord/datacoord.component';
 import { DatarefComponent } from './components/indicadores/dataref/dataref.component';
+import { DatarespComponent } from './components/indicadores/dataresp/dataresp.component';
+import { VerMiPlanillaComponent } from './components/planilla/ver-mi-planilla/ver-mi-planilla.component';
 
 @NgModule({
   imports: [
@@ -55,6 +57,8 @@ import { DatarefComponent } from './components/indicadores/dataref/dataref.compo
     VerPlanillaComponent,
     DatacoordComponent,
     DatarefComponent,
+    DatarespComponent,
+    VerMiPlanillaComponent,
   ],
 })
 export class EleccionesModule {}

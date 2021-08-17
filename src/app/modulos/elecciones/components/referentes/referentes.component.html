@@ -20,7 +20,8 @@
                                 planillas</button>
                         </ng-container>
                         <button mat-menu-item (click)="openCargarPlanilla(user)">Cargar Planilla</button>
-                        <ng-container *ngIf="usLogRole !== 'user-coord'">
+                        <!-- <ng-container *ngIf="usLogRole !== 'user-coord'"> -->
+                        <ng-container>
                             <button mat-menu-item (click)="verPlanillas(user)">Ver planilla Adhesion</button>
                         </ng-container>
                         <button mat-menu-item>Estadisticas</button>
@@ -32,12 +33,10 @@
                 <!-- user detail lines-->
                 <div class="user-details">
                     <p>
-                        <mat-icon class="text-muted">location_on</mat-icon>{{user.datosPersonales.localidad
-                        |titlecase}}
+                        <mat-icon class="text-muted">location_on</mat-icon>{{user.datosPersonales.localidad |titlecase}}
                     </p>
                     <p>
-                        <mat-icon class="text-muted">date_range</mat-icon>Fecha de alta: {{user.fechaAltaUsuario |
-                        date: 'dd/MM/yyyy'}}
+                        <mat-icon class="text-muted">date_range</mat-icon>Fecha de alta: {{user.fechaAltaUsuario | date: 'dd/MM/yyyy'}}
                     </p>
                     <p>
                         <mat-icon class="text-muted">phone</mat-icon>{{user.datosPersonales.telefono}}
