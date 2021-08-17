@@ -13,5 +13,6 @@ export interface IvotoADH {
     idResPlanilla: String;
     idCoordinador: String;
     idReferente: String;
+    role: String;
   };
 }

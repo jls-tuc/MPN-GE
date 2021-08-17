@@ -12,7 +12,7 @@ export const environment = {
   //apiURL: "https://paso2021nqn.com.ar:3000/api",
   //apiURL: //"http://localhost:8000/api",
 
-  apiURL: "http://localhost:8017/api",
+  apiURL: "http://localhost:8000/api",
   //apiURL: "http://181.209.23.177:8017/api",
   //apiURL: "http://localhost:8000/api",
 

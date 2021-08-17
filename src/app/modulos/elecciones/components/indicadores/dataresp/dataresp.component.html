@@ -1,0 +1,76 @@
+<div class="container">
+
+
+    <mat-form-field>
+        <mat-label>
+            Filtro de busqueda</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Escriba aquí..." #input>
+    </mat-form-field>
+
+    <div id="pdfTable" #pdfTable>
+        <div *ngIf="cargar">
+
+            <div id=”htmlData”>
+                <div class="card-header flex-wrap border-0 pt-6 pb-0">
+                    <div class="card-title" *ngIf="cargar">
+                        <h3 class="card-label">Planilla de totales de Votos por Responsables:
+                        </h3>
+                        <h4 class="card-label text-dark-75 font-weight-bolder font-size-lg mb-0">Votos cargados: {{this.totalVotos}}
+                        </h4>
+                    </div>
+                </div>
+
+                <div class="card-body">
+
+                    <table id=”htmlData” mat-table [dataSource]="dataSource" matSort (matSortChange)="sortData($event)">
+                        <ng-container matColumnDef='organizacion'>
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Organizacion</th>
+                            <td mat-cell *matCellDef='let votosCargados'>
+                                <div class="text-dark-75 font-weight-bolder font-size-lg mb-0">
+                                    {{votosCargados.organizacion|uppercase}}
+                                </div>
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef='nombrecompleto'>
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre Completo</th>
+                            <td mat-cell *matCellDef='let votosCargados'>
+                                {{votosCargados.nombrecompleto|titlecase}}
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="totalafiliados">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Afiliados</th>
+                            <td mat-cell *matCellDef='let votosCargados'>{{votosCargados.totalafiliados }}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="totalnoafiliados">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>No Afiliados </th>
+                            <div class="text-dark-75 font-weight-bolder font-size-lg mb-0">
+                                <td mat-cell *matCellDef='let votosCargados'>{{votosCargados.totalnoafiliados }}
+                                </td>
+                            </div>
+                        </ng-container>
+                        <ng-container matColumnDef="totalvotos">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Total Votos </th>
+                            <div class="text-dark-75 font-weight-bolder font-size-lg mb-0">
+                                <td mat-cell class="text-dark-75 font-weight-bolder font-size-lg mb-0" *matCellDef='let votosCargados'>
+                                    {{votosCargados.totalvotos }}
+                                </td>
+                            </div>
+                        </ng-container>
+
+
+
+                        <tr mat-header-row *matHeaderRowDef="listaColumnas"></tr>
+                        <tr mat-row *matRowDef="let row; columns: listaColumnas;" class="table-row"></tr>
+                    </table>
+                    <!-- <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons></mat-paginator> -->
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+    <button mat-raised-button color="primary" (click)="downloadAsPDF()">Exportar PDF</button>
+</div>

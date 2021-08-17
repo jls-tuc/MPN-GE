@@ -62,11 +62,36 @@ export class PlanillaComponent implements OnInit {
   cargarDatosUs() {
     if (this.data != null) {
       this.cargar_datos = true;
+
       this.datosResPlanilla = this.data.data;
-      console.log(this.datosResPlanilla);
+      // console.log(this.datosResPlanilla);
+
+      //  console.log(this.data.data);
+      if (this.data.data.role === "user-ref") {
+        this.datosResPlanilla = {
+          localidad: this.data.data.localidad,
+          nombres: this.data.data.nombres,
+          apellido: this.data.data.apellido,
+          idCoordinador: this.data.data.idCoordinador,
+          idReferente: this.data.data._id,
+          role: this.data.data.role,
+        };
+      } else {
+        this.datosResPlanilla = {
+          localidad: this.data.data.localidad,
+          nombres: this.data.data.nombres,
+          apellido: this.data.data.apellido,
+          idResPlanilla: this.data.data._id,
+          idCoordinador: this.data.data.idCoordinador,
+          idReferente: this.data.data.idReferente,
+          role: this.data.data.role,
+        };
+      }
+
     } else {
       if (this.datosUser.source._value.role === "user-ref") {
         this.datosResPlanilla = {
+          role: this.datosUser.source._value.role,
           _id: "",
           idCoordinador: this.datosUser.source._value.idCoordinador,
           idReferente: this.datosUser.source._value.id,
@@ -76,6 +101,7 @@ export class PlanillaComponent implements OnInit {
         };
       } else if (this.datosUser.source._value.role === "user-coord") {
         this.datosResPlanilla = {
+          role: this.datosUser.source._value.role,
           _id: "",
           idCoordinador: this.datosUser.source._value.id,
           idReferente: "",
@@ -170,12 +196,13 @@ export class PlanillaComponent implements OnInit {
       afiliado: this.afiliadoFormGroup.get("afiliado").value,
       fec_afiliacion: this.afiliadoFormGroup.get("fec_afiliacion").value,
       resPlanilla: {
-        idResPlanilla: this.datosResPlanilla._id,
+        idResPlanilla: this.datosResPlanilla.idResPlanilla,
         idCoordinador: this.datosResPlanilla.idCoordinador,
         idReferente: this.datosResPlanilla.idReferente,
+        role: this.datosResPlanilla.role,
       },
     };
-    //console.log("voto", this.votoAdH);
+    //   console.log("voto", this.votoAdH);
 
     this.votoProvService
       .postVotoProv(this.votoAdH)
