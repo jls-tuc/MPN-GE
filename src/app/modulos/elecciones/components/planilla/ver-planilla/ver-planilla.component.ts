@@ -57,9 +57,7 @@ export class VerPlanillaComponent implements OnInit {
     this.cargarDatosUs();
   }
   cargarDatosUs() {
-    // console.log(this.data.data);
-
-    if (this.data != null && this.data.data.role === "user-resp") {
+    if (this.data != null && this.data.data.role === "user-ref") {
       this.cargar_datos = true;
       this.resPlanillas = this.data.data;
       const consulta: any = `consulta=${"Resplanilla"}&valor=${
@@ -68,6 +66,7 @@ export class VerPlanillaComponent implements OnInit {
       this.cargarPlanilla(consulta);
     } else {
       if (this.datosUser.source._value.role === "user-ref") {
+        //console.log("estoy");
         this.resPlanillas = {
           _id: this.datosUser.source._value.id,
           nombres: this.datosUser.source._value.nombres,
