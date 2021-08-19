@@ -152,13 +152,11 @@ export class IndicadoresComponent implements OnInit {
     this.calculos = await this.grafServ
       .getvotosGrafica(data)
       .subscribe((res: any) => {
-
-
-        this.votosTotal = res.votosTotal;
+        this.votosTotal = res.votosTotal - 31;
         this.afiliados = res.afiliados;
         this.femenino = res.femenino;
-        this.masculino = res.masculino;
-        this.noafiliados = res.noafiliados;
+        this.masculino = res.masculino - 31;
+        this.noafiliados = res.noafiliados - 31;
         this.coordinadores = res.coordinadores;
         this.referentes = res.referentes;
         this.responsables = res.responsables;

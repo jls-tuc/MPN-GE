@@ -10,7 +10,7 @@ import { Observable } from "rxjs";
 import { UserModel } from "app/shared/models/user.model";
 import { JwtAuthService } from "app/shared/services/auth/jwt-auth.service";
 import { VerPlanillaComponent } from "../planilla/ver-planilla/ver-planilla.component";
-import { Router } from "@angular/router";
+import { Router, Params } from "@angular/router";
 
 @Component({
   selector: "app-referentes",
@@ -57,6 +57,7 @@ export class ReferentesComponent implements OnInit {
       if (res === "closed") {
         this.router.navigate(["/elecciones/referentes"]);
       }
+      this.router.navigate(["/elecciones/referentes"]);
     });
     this.cdr.markForCheck();
   }
@@ -136,34 +137,27 @@ export class ReferentesComponent implements OnInit {
       //console.log(`Estoy resp`);
       this.cargarResponsables();
     } else {
-      // console.log(`Estoy planilla`);
       this.cargarPlanillero();
     }
   }
 
   async cargarReferentes() {
-    await this.referenteService.getReferente().subscribe((res: any) => {
-      this.users = res.resp.filter(
-        (data) =>
-          data.idCoordinador === this.usurioLog.source._value.id &&
-          data.role === "user-ref"
-      );
+    const params: {} = `id=${this.usurioLog.source._value.id}`;
+    await this.referenteService.getReferente(params).subscribe((res: any) => {
+      this.users = res.resp;
       //  console.log("users", this.users);
     });
   }
   async cargarResponsables() {
-    await this.referenteService.getReferente().subscribe((res: any) => {
-      this.users = res.resp.filter(
-        (data) => data.idReferente === this.usurioLog.source._value.id
-      );
+    const params: {} = `id=${this.usurioLog.source._value.id}`;
+    await this.referenteService.getResPlanila(params).subscribe((res: any) => {
+      this.users = res.resp;
     });
   }
   cargarPlanillero() {
-    this.referenteService.getReferente().subscribe((res: any) => {
-      //      console.log(res);
-      this.users = res.resp.filter(
-        (data) => data._id === this.usurioLog.source._value.id
-      );
+    const params: {} = `id=${this.usurioLog.source._value.id}`;
+    this.referenteService.getPlanillero(params).subscribe((res: any) => {
+      this.users = res.resp;
     });
   }
 }

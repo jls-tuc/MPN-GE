@@ -14,14 +14,22 @@ export class ReferentesService {
     return this.http.post(url, data);
   }
 
-  getReferente() {
-    let url = `${apiURL}/auth/usuarios`;
-    return this.http.get(url);
-  }
-
   getResPById(id: any) {
     //console.log("ID", id);
     let url = `${apiURL}/auth/usuario`;
+    return this.http.get(url + `/?${id}`);
+  }
+
+  getReferente(id: any) {
+    let url = `${apiURL}/cards/ref`;
+    return this.http.get(url + `/?${id}`);
+  }
+  getResPlanila(id: any) {
+    let url = `${apiURL}/cards/resp`;
+    return this.http.get(url + `/?${id}`);
+  }
+  getPlanillero(id: any) {
+    let url = `${apiURL}/cards/planilla`;
     return this.http.get(url + `/?${id}`);
   }
 }
