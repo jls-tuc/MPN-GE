@@ -38,9 +38,9 @@ export class HeaderTopComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.mostrarData();
     this.layoutConf = this.layout.layoutConf;
     this.egretThemes = this.themeService.egretThemes;
+    this.mostrarData();
     /* this.menuItemSub = this.navService.menuUse$.subscribe((res) => {
       //  console.log(res.menu);
       res = res.menu.filter(
