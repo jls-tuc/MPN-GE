@@ -74,6 +74,7 @@ export class PlanillaComponent implements OnInit {
           apellido: this.data.data.apellido,
           idCoordinador: this.data.data.idCoordinador,
           idReferente: this.data.data._id,
+          idResPlanilla: "",
           role: this.data.data.role,
         };
       } else {
@@ -87,7 +88,6 @@ export class PlanillaComponent implements OnInit {
           role: this.data.data.role,
         };
       }
-
     } else {
       if (this.datosUser.source._value.role === "user-ref") {
         this.datosResPlanilla = {
@@ -95,6 +95,7 @@ export class PlanillaComponent implements OnInit {
           _id: "",
           idCoordinador: this.datosUser.source._value.idCoordinador,
           idReferente: this.datosUser.source._value.id,
+          idResPlanilla: "",
           nombres: this.datosUser.source._value.nombres,
           apellido: this.datosUser.source._value.apellido,
           localidad: this.datosUser.source._value.localidad,
@@ -105,6 +106,7 @@ export class PlanillaComponent implements OnInit {
           _id: "",
           idCoordinador: this.datosUser.source._value.id,
           idReferente: "",
+          idResPlanilla: "",
           nombres: this.datosUser.source._value.nombres,
           apellido: this.datosUser.source._value.apellido,
           localidad: this.datosUser.source._value.localidad,

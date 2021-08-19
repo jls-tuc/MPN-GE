@@ -56,10 +56,12 @@ export class VerPlanillaComponent implements OnInit {
   ngOnInit(): void {
     this.cargarDatosUs();
   }
-  cargarDatosUs() {
-    if (this.data != null && this.data.data.role === "user-ref") {
-      this.cargar_datos = true;
-      this.resPlanillas = this.data.data;
+  async cargarDatosUs() {
+    if (
+      (this.data != null && this.data.data.role === "user-ref") ||
+      (this.data != null && this.data.data.role === "user-resp")
+    ) {
+      await this.cargarHtml(this.data.data);
       const consulta: any = `consulta=${"Resplanilla"}&valor=${
         this.resPlanillas._id
       }`;
@@ -89,6 +91,27 @@ export class VerPlanillaComponent implements OnInit {
         }`;
         this.cargarPlanilla(consulta);
       }
+    }
+  }
+
+  cargarHtml(data) {
+    if (data.role === "user-ref") {
+      this.cargar_datos = true;
+      this.resPlanillas = {
+        _id: data._id,
+        nombres: data.datosPersonales.nombres,
+        apellido: data.datosPersonales.apellido,
+        localidad: data.datosPersonales.localidad,
+      };
+      console.log(this.resPlanillas);
+    } else {
+      this.cargar_datos = true;
+      this.resPlanillas = {
+        _id: data._id,
+        nombres: data.nombres,
+        apellido: data.apellido,
+        localidad: data.localidad,
+      };
     }
   }
 
