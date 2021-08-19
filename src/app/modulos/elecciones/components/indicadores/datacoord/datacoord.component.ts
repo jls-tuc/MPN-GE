@@ -65,7 +65,7 @@ export class DatacoordComponent implements OnInit {
     private votoService: VotoProvService,
     private grafCalc: GraficaService,
     private router: Router
-  ) { }
+  ) {}
   title = "htmltopdf";
 
   ngOnInit(): void {

@@ -147,12 +147,13 @@ export class ReferentePopupComponent implements OnInit {
   obtRef(e?) {
     this.firstFormGroup.patchValue({ idReferente: e });
   }
-  cerrarPopUP() {
+  async cerrarPopUP() {
     if (this.usuarioRol.id) {
-      //  console.log("estoy aca");
+      console.log("estoy aca");
       this.dialogRef.close("closed");
     }
     this.router.navigate(["/elecciones/referentes"]);
+    await this.dialogRef.close();
   }
   async buscarDNI() {
     this.cargando = true;

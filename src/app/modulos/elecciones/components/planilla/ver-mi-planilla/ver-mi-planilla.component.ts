@@ -23,9 +23,9 @@ import { Observable } from "rxjs";
 import { JwtAuthService } from "app/shared/services/auth/jwt-auth.service";
 
 @Component({
-  selector: 'app-ver-mi-planilla',
-  templateUrl: './ver-mi-planilla.component.html',
-  styleUrls: ['./ver-mi-planilla.component.scss']
+  selector: "app-ver-mi-planilla",
+  templateUrl: "./ver-mi-planilla.component.html",
+  styleUrls: ["./ver-mi-planilla.component.scss"],
 })
 export class VerMiPlanillaComponent implements OnInit {
   userData$: Observable<UserModel>;
@@ -57,7 +57,6 @@ export class VerMiPlanillaComponent implements OnInit {
     this.cargarDatosUs();
   }
   cargarDatosUs() {
-
     if (this.datosUser.source._value.role === "user-ref") {
       this.resPlanillas = {
         _id: this.datosUser.source._value.id,
@@ -66,8 +65,9 @@ export class VerMiPlanillaComponent implements OnInit {
         localidad: this.datosUser.source._value.localidad,
         miplanilla: true,
       };
-      const consulta: {} = `consulta=${"Referente"}&valor=${this.resPlanillas._id
-        }`;
+      const consulta: {} = `consulta=${"Referente"}&valor=${
+        this.resPlanillas._id
+      }`;
       this.cargarPlanilla(consulta);
     } else if (this.datosUser.source._value.role === "user-coord") {
       this.resPlanillas = {
@@ -77,11 +77,9 @@ export class VerMiPlanillaComponent implements OnInit {
         localidad: this.datosUser.source._value.localidad,
         miplanilla: true,
       };
-      const consulta: {} = `consulta=${"Coord"}&valor=${this.resPlanillas._id
-        }`;
+      const consulta: {} = `consulta=${"Coord"}&valor=${this.resPlanillas._id}`;
       this.cargarPlanilla(consulta);
     }
-
   }
 
   applyFilter(event: Event) {
@@ -91,7 +89,7 @@ export class VerMiPlanillaComponent implements OnInit {
   cargarPlanilla(data?) {
     this.votoService.getVotosByIdUser(data).subscribe((res: any) => {
       if (res.ok) {
-        // console.log(res);
+        console.log(res);
         this.votosCargados = res.votosUnicos;
         this.totalVotos = res.totalV;
         this.dataSource = new MatTableDataSource(this.votosCargados);

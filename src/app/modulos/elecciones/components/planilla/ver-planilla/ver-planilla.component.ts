@@ -57,7 +57,9 @@ export class VerPlanillaComponent implements OnInit {
     this.cargarDatosUs();
   }
   cargarDatosUs() {
-    if (this.data != null) {
+    // console.log(this.data.data);
+
+    if (this.data != null && this.data.data.role === "user-resp") {
       this.cargar_datos = true;
       this.resPlanillas = this.data.data;
       const consulta: any = `consulta=${"Resplanilla"}&valor=${
