@@ -41,6 +41,7 @@ export type ChartOptions = {
 })
 export class IndicadoresComponent implements OnInit {
   //Variables Usuario
+  cargar: boolean = false;
   userLog$: Observable<UserModel>;
   usuarioRol: any;
   @ViewChild("chart") chart: ChartComponent;
@@ -104,7 +105,7 @@ export class IndicadoresComponent implements OnInit {
     private cdr: ChangeDetectorRef,
     public authServ: JwtAuthService,
     public grafServ: GraficaService
-  ) {}
+  ) { }
   loadLayoutView() {
     this.fontFamily = "";
     this.colorsGrayGray500 = "";
@@ -145,13 +146,18 @@ export class IndicadoresComponent implements OnInit {
     } else {
       this.operadores = false;
     }
+    this.cargar = false;
     this.buscarDatosGraficaRol(data);
+
   }
 
   async buscarDatosGraficaRol(data: any) {
+    let usr = this.authServ.getUser();
+    console.log(``,)
     this.calculos = await this.grafServ
       .getvotosGrafica(data)
       .subscribe((res: any) => {
+
         this.votosTotal = res.votosTotal - 31;
         this.afiliados = res.afiliados;
         this.femenino = res.femenino;
@@ -849,75 +855,7 @@ export class IndicadoresComponent implements OnInit {
         strokeWidth: 3,
       },
     };
-    /*  this.chartOptions = {
-       series: [data.femenino, data.masculino],
- 
-       chart: {
-         width: 380,
-         type: "pie"
-       },
-       plotOptions: {
-         pie: {
-           customScale: 0.8
-         }
-       },
-       dataLabels: {
-         enabled: true,
-         enabledOnSeries: undefined,
- 
-         textAnchor: 'middle',
-         distributed: false,
-         offsetX: 0,
-         offsetY: 0,
-         style: {
-           fontSize: '24px',
-           fontFamily: 'Helvetica, Arial, sans-serif',
-           fontWeight: 'bold',
-           colors: undefined
-         },
-         background: {
-           enabled: true,
-           foreColor: '#fff',
-           padding: 4,
-           borderRadius: 2,
-           borderWidth: 1,
-           borderColor: '#fff',
-           opacity: 0.9,
-           dropShadow: {
-             enabled: false,
-             top: 1,
-             left: 1,
-             blur: 1,
-             color: '#000',
-             opacity: 0.45
-           }
-         },
-         dropShadow: {
-           enabled: false,
-           top: 1,
-           left: 1,
-           blur: 1,
-           color: '#000',
-           opacity: 0.45
-         }
-       },
- 
-       labels: ["Femenino", "Masculino"],
-       responsive: [
-         {
- 
-           breakpoint: 480,
-           options: {
-             chart: {
-               width: 250
-             },
-             legend: {
-               position: 'top',
-               labels: ["Femenino", "Masculino"],
-             }
-           }
-         }
-       ]
-     }; */
+    this.cargar = true;
+
   }
 }
