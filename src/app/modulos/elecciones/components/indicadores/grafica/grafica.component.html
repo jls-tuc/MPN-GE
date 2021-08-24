@@ -1,0 +1,89 @@
+<div class="text-center">
+    <div fxLayout="row wrap">
+        <div fxFlex="100" fxFlex.gt-sm="33" fxFlex.sm="50">
+            <app-card [cssClass]=cssClass [baseColor]=grafVotos.baseColor [baseColorLigth]=grafVotos.baseColorLigth [titulo]=grafVotos.tituloData [valor]=grafVotos.datosData [logo]=grafVotos.logoData></app-card>
+        </div>
+        <div fxFlex="100" fxFlex.gt-sm="33" fxFlex.sm="50">
+            <app-card [cssClass]=cssClass [baseColor]=grafVotosVoto.baseColor [baseColorLigth]=grafVotosVoto.baseColorLigth [titulo]=grafVotosVoto.tituloData [valor]=grafVotosVoto.datosData [logo]=grafVotosVoto.logoData></app-card>
+        </div>
+        <div fxFlex="100" fxFlex.gt-sm="33" fxFlex.sm="50">
+            <app-card [cssClass]=cssClass [baseColor]=grafVotosFalta.baseColor [baseColorLigth]=grafVotosFalta.baseColorLigth [titulo]=grafVotosFalta.tituloData [valor]=grafVotosFalta.datosData [logo]=grafVotosFalta.logoData></app-card>
+        </div>
+    </div>
+    <mat-card>
+
+
+        <div id="pdfTable" #pdfTable>
+            <div class="text-center" *ngIf="!cargar">
+                <h6 class="m-0 pb-16" style="white-space: pre-wrap; line-height: 1.4;">Buscando los Datos</h6>
+                <div mat-dialog-content>
+                    <mat-spinner [style.margin]="'auto'"></mat-spinner>
+                </div>
+            </div>
+            <div *ngIf="cargar">
+
+                <div id=”htmlData”>
+                    <div class="card-header flex-wrap border-0 pt-6 pb-0">
+                        <div class="card-title" *ngIf="cargar">
+                            <h3 class="card-label">Planilla de totales de Votos por Coordinador:
+                            </h3>
+                            <h4 class="card-label text-dark-75 font-weight-bolder font-size-lg mb-0">Votos cargados: {{this.totalVotos}} - Votos por DNI: {{this.totalDNI}} - Duplicados: {{this.duplicados}}
+                            </h4>
+                        </div>
+                    </div>
+                    <mat-form-field>
+                        <mat-label>
+                            Filtro de busqueda</mat-label>
+                        <input matInput (keyup)="applyFilter($event)" placeholder="Escriba aquí..." #input>
+                    </mat-form-field>
+                    <div class="card-body">
+
+                        <table id=”htmlData” mat-table [dataSource]="dataSource" matSort (matSortChange)="sortData($event)">
+                            <ng-container class="organizacion" matColumnDef='organizacion'>
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Organizacion</th>
+                                <td mat-cell *matCellDef='let votosCoordinadores'>
+                                    <div class="text-dark-75 font-weight-bolder font-size-lg mb-0">
+                                        {{votosCoordinadores.organizacion|uppercase}}
+                                    </div>
+                                </td>
+                            </ng-container>
+
+                            <ng-container class="nombre" matColumnDef='nombrecompleto'>
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre Completo</th>
+                                <td mat-cell *matCellDef='let votosCoordinadores'>
+                                    {{votosCoordinadores.nombrecompleto|titlecase}}
+                                </td>
+                            </ng-container>
+
+                            <ng-container class="datos" matColumnDef="totalafiliados">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Afiliados</th>
+                                <td mat-cell *matCellDef='let votosCoordinadores'>{{votosCoordinadores.totalafiliados }}
+                                </td>
+                            </ng-container>
+                            <ng-container class="datos" matColumnDef="totalnoafiliados">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>No Afiliados </th>
+                                <div class="text-dark-75 font-weight-bolder font-size-lg mb-0">
+                                    <td mat-cell *matCellDef='let votosCoordinadores'>{{votosCoordinadores.totalnoafiliados }}
+                                    </td>
+                                </div>
+                            </ng-container>
+                            <ng-container class="datos" matColumnDef="totalvotos">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Total Votos </th>
+                                <div class="text-dark-75 font-weight-bolder font-size-lg mb-0">
+                                    <td mat-cell class="text-dark-75 font-weight-bolder font-size-lg mb-0" *matCellDef='let votosCoordinadores'>
+                                        {{votosCoordinadores.totalvotos }}
+                                    </td>
+                                </div>
+                            </ng-container>
+                            <tr mat-header-row *matHeaderRowDef="listaColumnas"></tr>
+                            <tr mat-row *matRowDef="let row; columns: listaColumnas;" class="table-row"></tr>
+                        </table>
+                        <!-- <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons></mat-paginator> -->
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </mat-card>
+</div>

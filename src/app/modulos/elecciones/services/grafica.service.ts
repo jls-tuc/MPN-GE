@@ -6,6 +6,7 @@ const apiURL = environment.apiURL;
   providedIn: "root",
 })
 export class GraficaService {
+  public data: any;
   constructor(private http: HttpClient) { }
   getvotosGrafica(usr: any) {
 
