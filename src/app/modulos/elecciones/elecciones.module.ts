@@ -25,6 +25,9 @@ import { DatacoordComponent } from './components/indicadores/datacoord/datacoord
 import { DatarefComponent } from './components/indicadores/dataref/dataref.component';
 import { DatarespComponent } from './components/indicadores/dataresp/dataresp.component';
 import { VerMiPlanillaComponent } from './components/planilla/ver-mi-planilla/ver-mi-planilla.component';
+import { GraficaComponent } from './components/indicadores/grafica/grafica.component';
+import { CardComponent } from './components/indicadores/grafica/card/card.component';
+import { PiechartComponent } from './components/indicadores/grafica/piechart/piechart.component';
 
 @NgModule({
   imports: [
@@ -59,6 +62,9 @@ import { VerMiPlanillaComponent } from './components/planilla/ver-mi-planilla/ve
     DatarefComponent,
     DatarespComponent,
     VerMiPlanillaComponent,
+    GraficaComponent,
+    CardComponent,
+    PiechartComponent,
   ],
 })
 export class EleccionesModule {}

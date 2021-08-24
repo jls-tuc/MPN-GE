@@ -1,8 +1,6 @@
 export interface IgraficaTarjeta {
-  cssClass: string;
-  symbolShape: string;
   baseColor: string;
-  lightColor: string;
+  baseColorLigth: string;
   tituloData: string;
   logoData: string;
   datosData: number[];
