@@ -21,11 +21,21 @@ import { PlanillaComponent } from "./components/planilla/planilla/planilla.compo
 import { ResponsablesPComponent } from "./components/responsablesPlanilla/responsables-p/responsables-p.component";
 import { PopUpCoorComponent } from "./components/coordinador/pop-up-coor/pop-up-coor.component";
 import { VerPlanillaComponent } from "./components/planilla/ver-planilla/ver-planilla.component";
-import { DatacoordComponent } from "./components/indicadores/datacoord/datacoord.component";
-import { DatarefComponent } from "./components/indicadores/dataref/dataref.component";
-import { DatarespComponent } from "./components/indicadores/dataresp/dataresp.component";
-import { VerMiPlanillaComponent } from "./components/planilla/ver-mi-planilla/ver-mi-planilla.component";
+
+
+
+
+
 import { MapaComponent } from "./components/mapa/mapa.component";
+
+import { DatacoordComponent } from './components/indicadores/datacoord/datacoord.component';
+import { DatarefComponent } from './components/indicadores/dataref/dataref.component';
+import { DatarespComponent } from './components/indicadores/dataresp/dataresp.component';
+import { VerMiPlanillaComponent } from './components/planilla/ver-mi-planilla/ver-mi-planilla.component';
+import { GraficaComponent } from './components/indicadores/grafica/grafica.component';
+import { CardComponent } from './components/indicadores/grafica/card/card.component';
+import { PiechartComponent } from './components/indicadores/grafica/piechart/piechart.component';
+
 
 @NgModule({
   imports: [
@@ -61,6 +71,10 @@ import { MapaComponent } from "./components/mapa/mapa.component";
     DatarespComponent,
     VerMiPlanillaComponent,
     MapaComponent,
+    GraficaComponent,
+    CardComponent,
+    PiechartComponent,
+
   ],
 })
 export class EleccionesModule {}

@@ -10,7 +10,11 @@ import { DatacoordComponent } from "./components/indicadores/datacoord/datacoord
 import { DatarefComponent } from "./components/indicadores/dataref/dataref.component";
 import { DatarespComponent } from "./components/indicadores/dataresp/dataresp.component";
 import { VerMiPlanillaComponent } from "./components/planilla/ver-mi-planilla/ver-mi-planilla.component";
+
 import { MapaComponent } from "./components/mapa/mapa.component";
+
+import { GraficaComponent } from "./components/indicadores/grafica/grafica.component";
+
 
 export const EleccionesRoutes: Routes = [
   {
@@ -78,11 +82,21 @@ export const EleccionesRoutes: Routes = [
         },
       },
       {
+
         path: "mapa",
         component: MapaComponent,
         data: {
           title: "Mapas de votates por escuelas/localidades",
           breadcrumb: "Mapa de calor",
+        },
+      },
+      {
+        path: "graficaeleccion",
+        component: GraficaComponent,
+        data: {
+          title: "Estadisticas Totales de la Eleccion",
+          breadcrumb: "ESTADISTICAS ELECCION",
+
         },
       },
     ],
