@@ -1,18 +1,21 @@
 export interface IvotoADH {
-  dni: String;
-  sexo: String;
-  nombreCompleto: String;
-  clase: String;
-  genero: String;
-  telefono: String;
-  tipo_voto: String;
-  circuito: String;
-  afiliado: String;
-  fec_afiliacion: String;
+  dni: string;
+  sexo: string;
+  apellido: string;
+  nombre: string;
+  clase: string;
+  genero: string;
+  telefono: string;
+  tipo_voto: string;
+  afiliado: string;
+  localidad: string;
+  dom_estableimiento: string;
+  establecimiento: string;
+  mesa: string;
+  orden: string;
   resPlanilla: {
-    idResPlanilla: String;
-    idCoordinador: String;
-    idReferente: String;
-    role: String;
+    idResPlanilla: string;
+    idCoordinador: string;
+    idReferente: string;
   };
 }

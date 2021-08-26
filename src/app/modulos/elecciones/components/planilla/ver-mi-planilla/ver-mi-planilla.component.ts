@@ -35,7 +35,14 @@ export class VerMiPlanillaComponent implements OnInit {
   votosCargados: any = {};
   totalVotos: any = {};
   resPlanillas: any;
-  listaColumnas: string[] = ["dni", "nombreCompleto", "localidad", "telefono"];
+  listaColumnas: string[] = [
+    "dni",
+    "nombreCompleto",
+    "telefono",
+    "localidad",
+    "establecimiento",
+    "mesa",
+  ];
   dataSource: MatTableDataSource<any>;
   sortedData: any[];
   public cargar_datos: boolean = false;
@@ -89,7 +96,7 @@ export class VerMiPlanillaComponent implements OnInit {
   cargarPlanilla(data?) {
     this.votoService.getVotosByIdUser(data).subscribe((res: any) => {
       if (res.ok) {
-        console.log(res);
+        //console.log(res);
         this.votosCargados = res.votosUnicos;
         this.totalVotos = res.totalV;
         this.dataSource = new MatTableDataSource(this.votosCargados);

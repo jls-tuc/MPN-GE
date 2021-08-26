@@ -21,10 +21,11 @@ import { PlanillaComponent } from "./components/planilla/planilla/planilla.compo
 import { ResponsablesPComponent } from "./components/responsablesPlanilla/responsables-p/responsables-p.component";
 import { PopUpCoorComponent } from "./components/coordinador/pop-up-coor/pop-up-coor.component";
 import { VerPlanillaComponent } from "./components/planilla/ver-planilla/ver-planilla.component";
-import { DatacoordComponent } from './components/indicadores/datacoord/datacoord.component';
-import { DatarefComponent } from './components/indicadores/dataref/dataref.component';
-import { DatarespComponent } from './components/indicadores/dataresp/dataresp.component';
-import { VerMiPlanillaComponent } from './components/planilla/ver-mi-planilla/ver-mi-planilla.component';
+import { DatacoordComponent } from "./components/indicadores/datacoord/datacoord.component";
+import { DatarefComponent } from "./components/indicadores/dataref/dataref.component";
+import { DatarespComponent } from "./components/indicadores/dataresp/dataresp.component";
+import { VerMiPlanillaComponent } from "./components/planilla/ver-mi-planilla/ver-mi-planilla.component";
+import { MapaComponent } from "./components/mapa/mapa.component";
 
 @NgModule({
   imports: [
@@ -59,6 +60,7 @@ import { VerMiPlanillaComponent } from './components/planilla/ver-mi-planilla/ve
     DatarefComponent,
     DatarespComponent,
     VerMiPlanillaComponent,
+    MapaComponent,
   ],
 })
 export class EleccionesModule {}
