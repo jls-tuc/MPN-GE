@@ -38,11 +38,6 @@
             </td>
         </ng-container>
 
-        <ng-container matColumnDef="localidad">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Localidad</th>
-            <td mat-cell *matCellDef='let votosCargados'>{{votosCargados.circuito
-                |titlecase}}</td>
-        </ng-container>
         <ng-container matColumnDef="telefono">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Telefono </th>
             <div class="text-dark-75 font-weight-bolder font-size-lg mb-0">
@@ -51,6 +46,20 @@
             </div>
         </ng-container>
 
+        <ng-container matColumnDef="localidad">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Localidad</th>
+            <td mat-cell *matCellDef='let votosCargados'>{{votosCargados.localidad
+                |titlecase}}</td>
+        </ng-container>
+        <ng-container matColumnDef="establecimiento">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Establecimiento</th>
+            <td mat-cell *matCellDef='let votosCargados'>{{votosCargados.establecimiento
+                |uppercase}}</td>
+        </ng-container>
+        <ng-container matColumnDef="mesa">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Mesa</th>
+            <td mat-cell *matCellDef='let votosCargados'>{{votosCargados.mesa }}</td>
+        </ng-container>
 
 
         <tr mat-header-row *matHeaderRowDef="listaColumnas"></tr>

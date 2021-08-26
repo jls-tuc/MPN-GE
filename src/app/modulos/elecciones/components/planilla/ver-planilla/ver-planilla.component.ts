@@ -35,7 +35,14 @@ export class VerPlanillaComponent implements OnInit {
   votosCargados: any = {};
   totalVotos: any = {};
   resPlanillas: any;
-  listaColumnas: string[] = ["dni", "nombreCompleto", "localidad", "telefono"];
+  listaColumnas: string[] = [
+    "dni",
+    "nombreCompleto",
+    "telefono",
+    "localidad",
+    "establecimiento",
+    "mesa",
+  ];
   dataSource: MatTableDataSource<any>;
   sortedData: any[];
   public cargar_datos: boolean = false;
@@ -57,10 +64,14 @@ export class VerPlanillaComponent implements OnInit {
     this.cargarDatosUs();
   }
   async cargarDatosUs() {
-    if (
-      (this.data != null && this.data.data.role === "user-ref") ||
-      (this.data != null && this.data.data.role === "user-resp")
-    ) {
+    //console.log(this.data.data);
+    if (this.data != null && this.data.data.role === "user-ref") {
+      await this.cargarHtml(this.data.data);
+      const consulta: any = `consulta=${"Referente"}&valor=${
+        this.resPlanillas._id
+      }`;
+      this.cargarPlanilla(consulta);
+    } else if (this.data != null && this.data.data.role === "user-resp") {
       await this.cargarHtml(this.data.data);
       const consulta: any = `consulta=${"Resplanilla"}&valor=${
         this.resPlanillas._id
@@ -103,7 +114,7 @@ export class VerPlanillaComponent implements OnInit {
         apellido: data.datosPersonales.apellido,
         localidad: data.datosPersonales.localidad,
       };
-      console.log(this.resPlanillas);
+      //console.log(this.resPlanillas);
     } else {
       this.cargar_datos = true;
       this.resPlanillas = {

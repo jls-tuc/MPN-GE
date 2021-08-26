@@ -15,11 +15,6 @@ export class PadronesService {
     return this.http.get(url + `/?${data}`);
   }
 
-  getPadronProv(data) {
-    let url = `${apiURL}/padronProv`;
-    return this.http.get(url + `/?${data}`);
-  }
-
   getAfiliado(data) {
     let url = `${apiURL}/afiliadoNpn`;
     return this.http.get(url + `/?${data}`);

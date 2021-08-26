@@ -15,6 +15,8 @@ import Swal from "sweetalert2";
 import { JwtAuthService } from "app/shared/services/auth/jwt-auth.service";
 import { Observable } from "rxjs";
 import { UserModel } from "app/shared/models/user.model";
+import { MapaService } from "app/modulos/elecciones/services/mapa.service";
+
 @Component({
   selector: "app-planilla",
   templateUrl: "./planilla.component.html",
@@ -45,7 +47,8 @@ export class PlanillaComponent implements OnInit {
     private cdr: ChangeDetectorRef,
     private router: Router,
     private votoProvService: VotoProvService,
-    private padronService: PadronesService
+    private padronService: PadronesService,
+    private mapaSerivice: MapaService
   ) {
     (this.userData$ = this.auhService.currentUserSubject.asObservable()),
       (this.datosUser = this.userData$);
@@ -124,12 +127,18 @@ export class PlanillaComponent implements OnInit {
 
   buildSecondForm(dataPadron?) {
     this.secondFormGroup = this.fb.group({
-      nombreCompleto: [dataPadron ? dataPadron.apellido_nombre : ""],
+      nombre: [dataPadron ? dataPadron.nombre : ""],
+      apellido: [dataPadron ? dataPadron.apellido : ""],
       clase: [dataPadron ? dataPadron.clase : ""],
       genero: [dataPadron ? dataPadron.genero : ""],
       telefono: [dataPadron ? dataPadron.telefono : ""],
       tipo_voto: ["Voto Adhesion"],
       circuito: [dataPadron ? dataPadron.circuito : ""],
+      localidad: [dataPadron ? dataPadron.localidad : ""],
+      dom_estableimiento: [dataPadron ? dataPadron.dom_estableimiento : ""],
+      establecimiento: [dataPadron ? dataPadron.establecimiento : ""],
+      mesa: [dataPadron ? dataPadron.mesa : ""],
+      orden: [dataPadron ? dataPadron.orden : ""],
     });
   }
   buildAfiliadoForm(dataAfiliado?) {
@@ -145,7 +154,7 @@ export class PlanillaComponent implements OnInit {
       this.firstFormGroup.get("dni").value
     }&sexo=${this.firstFormGroup.get("sexo").value}`;
 
-    this.padronService.getPadronProv(params).subscribe((res: any) => {
+    this.padronService.getPadronNqn(params).subscribe((res: any) => {
       if (res.ok) {
         this.cargando = false;
         this.ocultarBusqueda = true;
@@ -189,20 +198,27 @@ export class PlanillaComponent implements OnInit {
     this.votoAdH = {
       dni: this.firstFormGroup.get("dni").value,
       sexo: this.firstFormGroup.get("sexo").value,
-      nombreCompleto: this.secondFormGroup.get("nombreCompleto").value,
+      apellido: this.secondFormGroup.get("apellido").value,
+      nombre: this.secondFormGroup.get("nombre").value,
       clase: this.secondFormGroup.get("clase").value,
       genero: this.secondFormGroup.get("genero").value,
       telefono: this.secondFormGroup.get("telefono").value,
       tipo_voto: this.secondFormGroup.get("tipo_voto").value,
-      circuito: this.secondFormGroup.get("circuito").value,
+      localidad: this.secondFormGroup.get("localidad").value,
+      dom_estableimiento: this.secondFormGroup.get("dom_estableimiento").value,
+      establecimiento: this.secondFormGroup.get("establecimiento").value,
+      mesa: this.secondFormGroup.get("mesa").value,
+      orden: this.secondFormGroup.get("orden").value,
       afiliado: this.afiliadoFormGroup.get("afiliado").value,
-      fec_afiliacion: this.afiliadoFormGroup.get("fec_afiliacion").value,
       resPlanilla: {
         idResPlanilla: this.datosResPlanilla.idResPlanilla,
         idCoordinador: this.datosResPlanilla.idCoordinador,
         idReferente: this.datosResPlanilla.idReferente,
-        role: this.datosResPlanilla.role,
       },
+    };
+    let esc: any = {
+      esc: this.votoAdH.establecimiento,
+      mesa: this.votoAdH.mesa,
     };
     //   console.log("voto", this.votoAdH);
 
