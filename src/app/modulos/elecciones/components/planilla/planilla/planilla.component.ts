@@ -36,6 +36,7 @@ export class PlanillaComponent implements OnInit {
   datosPadronNqn: {};
   datosAfiliados: {};
   datosResPlanilla: any;
+  nombreCompleto: string;
   votoAdH: IvotoADH;
   cargando: boolean = false;
   constructor(
@@ -195,11 +196,13 @@ export class PlanillaComponent implements OnInit {
     }
   }
   guardar() {
+    this.nombreCompleto = `${this.secondFormGroup.get("apellido").value} ${
+      this.secondFormGroup.get("nombre").value
+    }`;
     this.votoAdH = {
       dni: this.firstFormGroup.get("dni").value,
       sexo: this.firstFormGroup.get("sexo").value,
-      apellido: this.secondFormGroup.get("apellido").value,
-      nombre: this.secondFormGroup.get("nombre").value,
+      nombreCompleto: this.nombreCompleto,
       clase: this.secondFormGroup.get("clase").value,
       genero: this.secondFormGroup.get("genero").value,
       telefono: this.secondFormGroup.get("telefono").value,
@@ -220,7 +223,7 @@ export class PlanillaComponent implements OnInit {
       esc: this.votoAdH.establecimiento,
       mesa: this.votoAdH.mesa,
     };
-    //   console.log("voto", this.votoAdH);
+    // console.log("voto", this.votoAdH);
 
     this.votoProvService
       .postVotoProv(this.votoAdH)

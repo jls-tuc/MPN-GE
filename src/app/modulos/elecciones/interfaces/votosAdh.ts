@@ -1,8 +1,7 @@
 export interface IvotoADH {
   dni: string;
   sexo: string;
-  apellido: string;
-  nombre: string;
+  nombreCompleto: string;
   clase: string;
   genero: string;
   telefono: string;
