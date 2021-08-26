@@ -56,7 +56,9 @@
         </ng-container>
         <ng-container matColumnDef="mesa">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Mesa</th>
-            <td mat-cell *matCellDef='let votosCargados'>{{votosCargados.mesa }}</td>
+            <td mat-cell *matCellDef='let votosCargados'>
+                <div class="text-dark-75 font-weight-bolder font-size-lg mb-0">{{votosCargados.mesa }}</div>
+            </td>
         </ng-container>
 
 

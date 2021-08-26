@@ -86,7 +86,7 @@
 
                             </mat-form-field>
                         </div>
-                        <span fxFlex="10px"></span>
+                        <!-- <span fxFlex="10px"></span>
                         <div class="col-xl-3 col-xs-3 col-sm-3 col-apellido padding-1">
                             <div class="">
                                 <mat-form-field class="example-full-width" appearance="fill">
@@ -96,9 +96,22 @@
                                 </mat-form-field>
                             </div>
                         </div>
+ -->
+                        <span fxFlex="10px"></span>
+
+
+                        <mat-form-field class="example-full-width" appearance="fill">
+                            <mat-label>Telefono</mat-label>
+                            <span matPrefix>+54 &nbsp;</span>
+                            <input type="tel" matInput class="form-control" formControlName="telefono"
+                                placeholder="299-475-1234">
+                            <mat-icon matSuffix>mode_edit</mat-icon>
+                        </mat-form-field>
+
+
 
                         <span fxFlex="10px"></span>
-                        <div class="col-xl-3 col-xs-3 col-sm-3 col-apellido padding-1">
+                        <!--  <div class="col-xl-3 col-xs-3 col-sm-3 col-apellido padding-1">
                             <div class="">
                                 <mat-form-field class="example-full-width" appearance="fill">
                                     <mat-label>Clase</mat-label>
@@ -106,7 +119,7 @@
                                         placeholder="Clase">
                                 </mat-form-field>
                             </div>
-                        </div>
+                        </div> -->
 
 
                     </div>
@@ -122,6 +135,19 @@
                         </div>
 
                         <span fxFlex="10px"></span>
+                        <div class="col-xl-3 col-xs-3 col-sm-3 col-nombre padding-1">
+
+                            <mat-form-field class="example-full-width" appearance="fill">
+                                <mat-label>Escuela</mat-label>
+                                <input type="tel" matInput class="form-control" formControlName="establecimiento"
+                                    readonly placeholder="">
+                                <mat-icon matSuffix>home_work</mat-icon>
+                            </mat-form-field>
+                        </div>
+
+                        <span fxFlex="10px"></span>
+
+
                         <div class="col-xl-4 col-xs-4 col-sm-4 col-apellido padding-1">
                             <div class="">
                                 <mat-form-field class="example-full-width" appearance="fill">
@@ -132,16 +158,7 @@
                                 </mat-form-field>
                             </div>
                         </div>
-                        <span fxFlex="10px"></span>
-                        <div class="col-xl-3 col-xs-3 col-sm-3 col-nombre padding-1">
 
-                            <mat-form-field class="example-full-width" appearance="fill">
-                                <mat-label>Escuela</mat-label>
-                                <input type="tel" matInput class="form-control" formControlName="establecimiento"
-                                    readonly placeholder="">
-                                <mat-icon matSuffix>home_work</mat-icon>
-                            </mat-form-field>
-                        </div>
 
                     </div>
                     <div fxLayout="row">
