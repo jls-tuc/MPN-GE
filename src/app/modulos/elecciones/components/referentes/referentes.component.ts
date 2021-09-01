@@ -20,6 +20,8 @@ import { Router, Params } from "@angular/router";
 export class ReferentesComponent implements OnInit {
   user$: Observable<UserModel>;
   users = [];
+  totalVotos = [];
+
   usurioLog: any;
   usLogRole: any;
   constructor(
@@ -152,6 +154,7 @@ export class ReferentesComponent implements OnInit {
     const params: {} = `id=${this.usurioLog.source._value.id}`;
     await this.referenteService.getResPlanila(params).subscribe((res: any) => {
       this.users = res.resp;
+      this.totalVotos = res.total;
     });
   }
   cargarPlanillero() {
