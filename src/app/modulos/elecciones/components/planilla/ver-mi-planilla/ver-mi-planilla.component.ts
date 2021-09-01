@@ -42,6 +42,7 @@ export class VerMiPlanillaComponent implements OnInit {
     "localidad",
     "establecimiento",
     "mesa",
+    "voto",
   ];
   dataSource: MatTableDataSource<any>;
   sortedData: any[];
