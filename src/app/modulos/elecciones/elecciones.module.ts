@@ -22,10 +22,6 @@ import { ResponsablesPComponent } from "./components/responsablesPlanilla/respon
 import { PopUpCoorComponent } from "./components/coordinador/pop-up-coor/pop-up-coor.component";
 import { VerPlanillaComponent } from "./components/planilla/ver-planilla/ver-planilla.component";
 
-
-
-
-
 import { MapaComponent } from "./components/mapa/mapa.component";
 
 import { DatacoordComponent } from './components/indicadores/datacoord/datacoord.component';
@@ -35,7 +31,7 @@ import { VerMiPlanillaComponent } from './components/planilla/ver-mi-planilla/ve
 import { GraficaComponent } from './components/indicadores/grafica/grafica.component';
 import { CardComponent } from './components/indicadores/grafica/card/card.component';
 import { PiechartComponent } from './components/indicadores/grafica/piechart/piechart.component';
-
+import { NgCircleProgressModule } from 'ng-circle-progress';
 
 @NgModule({
   imports: [
@@ -54,6 +50,21 @@ import { PiechartComponent } from './components/indicadores/grafica/piechart/pie
     NgApexchartsModule,
     NgxDatatableModule,
     SharedPipesModule,
+    NgCircleProgressModule.forRoot({
+      // set defaults here
+      "radius": 60,
+      "space": -5,
+      "outerStrokeWidth": 5,
+      "outerStrokeColor": "#76C2AF",
+      "innerStrokeColor": "#ffffff",
+      "innerStrokeWidth": 5,
+      "imageSrc": "assets/images/music.svg",
+      "imageHeight": 105,
+      "imageWidth": 105,
+      "showImage": true,
+      "showBackground": false
+
+    }),
     RouterModule.forChild(EleccionesRoutes),
   ],
   declarations: [
@@ -77,4 +88,4 @@ import { PiechartComponent } from './components/indicadores/grafica/piechart/pie
 
   ],
 })
-export class EleccionesModule {}
+export class EleccionesModule { }

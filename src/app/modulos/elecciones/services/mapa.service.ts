@@ -10,7 +10,7 @@ export class MapaService {
   apiURL = environment.apiURL;
   mapa: Mapboxgl.Map;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   mostrarMapa(data: IntMapBox) {
     (Mapboxgl as any).accessToken = environment.apiMapBox;
@@ -48,20 +48,20 @@ export class MapaService {
 
   graficosDonas(dataGeo?) {
     //console.log(dataGeo);
-    const total1 = ["<", ["get", "total"], 2];
+    const total1 = ["<", ["get", "total"], 5];
     const total2 = [
       "all",
-      [">=", ["get", "total"], 2],
-      ["<", ["get", "total"], 3],
+      [">=", ["get", "total"], 5],
+      ["<", ["get", "total"], 5],
     ];
     const total3 = [
       "all",
-      [">=", ["get", "total"], 3],
-      ["<", ["get", "total"], 4],
+      [">=", ["get", "total"], 5],
+      ["<", ["get", "total"], 5],
     ];
     const total4 = [
       "all",
-      [">=", ["get", "total"], 4],
+      [">=", ["get", "total"], 5],
       ["<", ["get", "total"], 5],
     ];
     const total5 = [">=", ["get", "total"], 5];
@@ -222,13 +222,10 @@ export class MapaService {
       const largeArc = end - start > 0.5 ? 1 : 0;
 
       // draw an SVG path
-      return `<path d="M ${r + r0 * x0} ${r + r0 * y0} L ${r + r * x0} ${
-        r + r * y0
-      } A ${r} ${r} 0 ${largeArc} 1 ${r + r * x1} ${r + r * y1} L ${
-        r + r0 * x1
-      } ${r + r0 * y1} A ${r0} ${r0} 0 ${largeArc} 0 ${r + r0 * x0} ${
-        r + r0 * y0
-      }" fill="${color}" />`;
+      return `<path d="M ${r + r0 * x0} ${r + r0 * y0} L ${r + r * x0} ${r + r * y0
+        } A ${r} ${r} 0 ${largeArc} 1 ${r + r * x1} ${r + r * y1} L ${r + r0 * x1
+        } ${r + r0 * y1} A ${r0} ${r0} 0 ${largeArc} 0 ${r + r0 * x0} ${r + r0 * y0
+        }" fill="${color}" />`;
     }
   }
 

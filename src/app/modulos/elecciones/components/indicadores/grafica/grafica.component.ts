@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 
 import { MatTableDataSource } from "@angular/material/table";
 import { MatPaginator } from "@angular/material/paginator";
@@ -10,12 +10,34 @@ import { IgraficaTarjeta } from '../../../interfaces/grafica.interface';
 import { VotoProvService } from 'app/modulos/elecciones/services/voto-prov.service';
 import { MatDialog } from '@angular/material/dialog';
 import Swal from "sweetalert2";
+import { timer } from 'rxjs';
 @Component({
   selector: 'app-grafica',
   templateUrl: './grafica.component.html',
   styleUrls: ['./grafica.component.scss']
 })
-export class GraficaComponent implements OnInit {
+export class GraficaComponent implements OnInit, AfterViewInit {
+  _second = 1000;
+  _minute = this._second * 60;
+  _hour = this._minute * 60;
+  _day = this._hour * 24;
+  end: any;
+  now: any;
+  day: any;
+  hours: any;
+  minutes: any;
+  seconds: any;
+  source = timer(0, 1000);
+  clock: any;
+  listaColumnas: string[] = [
+    "organizacion",
+    "nombrecompleto",
+    "totalvotos",
+    "votaron",
+    "porcentaje",
+  ];
+
+  @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   cargar: boolean = false;
   dataSource: MatTableDataSource<any>;
@@ -41,16 +63,17 @@ export class GraficaComponent implements OnInit {
   calculos: any;
   votosCargados: any;
   votosCoordinadores: any;
+  votosReferentes: any;
   totalVotos: number;
+  votaron: number;
+  novotaron: number;
+  porVotaron: number;
+  pornoVotaron: number;
   totalDNI: any;
   duplicados: number;
-  listaColumnas: string[] = [
-    "organizacion",
-    "nombrecompleto",
-    "totalafiliados",
-    "totalnoafiliados",
-    "totalvotos",
-  ];
+  timeLeft: number = 600;
+  interval;
+  valor = 10000;
   constructor(private cdr: ChangeDetectorRef,
     public authServ: JwtAuthService,
     public grafServ: GraficaService,
@@ -64,99 +87,158 @@ export class GraficaComponent implements OnInit {
     };
     this.grafServ.data = data;
   }
+  ngAfterViewInit(): void {
+
+    //this.showDate();
+
+    this.cdr.detectChanges();
+    this.cdr.markForCheck();
+  }
 
   ngOnInit(): void {
-
+    console.log(`reiniciooooo`)
     this.buscarDatosGraficaRol(this.grafServ.data);
     this.cargarDatosUs();
+    this.startTimer();
+    this.cdr.detectChanges();
+    this.cdr.markForCheck();
   }
+  startTimer() {
+    this.interval = setInterval(() => {
+      if (this.timeLeft > 0) {
+        this.minutes = Math.trunc(this.timeLeft / 60);
+        this.seconds = this.timeLeft % 60;
+        this.timeLeft--;
+      } else {
+        this.timeLeft = 600;
+        this.authServ.getJwtToken();
+        this.buscarDatosGraficaRol(this.grafServ.data);
+        this.cargarDatosUs();
+        this.cdr.detectChanges();
+        this.cdr.markForCheck();
+      }
+    }, 1000)
+  }
+
+  pauseTimer() {
+    clearInterval(this.interval);
+  }
+
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
   async buscarDatosGraficaRol(data: any) {
     let usr = this.authServ.getUser();
-    console.log(``,)
+    console.log(`Daaaaata :`, data)
     this.calculos = await this.grafServ
-      .getvotosGrafica(data)
+      .getvotosGraficaEleccion(data)
       .subscribe((res: any) => {
         console.log(`res`, res)
-        this.votosTotal = res.coordinadores;
-        this.afiliados = res.referentes;
-        this.femenino = res.responsables;
+        this.votosTotal = res.votosTotal;
+        if (res.votaron === null) { this.votaron = 0; } else { this.votaron = res.votaron; };
+        this.novotaron = this.votosTotal - this.votaron;
+        this.porVotaron = res.porcentaje.toFixed(2);
+        this.pornoVotaron = (100 - this.porVotaron);
         this.grafVotos = {
           baseColor: "#1a3a83",
           baseColorLigth: "#DEE8FF",
-          tituloData: "Votos Cargados",
-          logoData: "assets/images/mpn/mujer_hombre.png",
+          tituloData: "Votos Cargados DNI",
+          logoData: "/assets/images/mpn/mujer_hombre.png",
           datosData: [this.votosTotal],
+          porcentaje: 100,
           labelsData: ["Votos Cargados"],
+          cardColor: "#F0F4FE",
+          mostrar: false,
         }
         this.grafVotosVoto = {
-          baseColor: "#1A8383",
-          baseColorLigth: "#DEFFFF",
+          baseColor: "#00D51E",
+          baseColorLigth: "#ABFFB7",
           tituloData: "Ya Votaron",
-          logoData: "assets/images/mpn/votos.png",
-          datosData: [this.afiliados],
+          logoData: "/assets/images/mpn/votos.png",
+          datosData: [this.votaron],
+          porcentaje: this.porVotaron,
           labelsData: ["Votos Cargados"],
+          cardColor: "#EDFFFF",
+          mostrar: true,
         }
         this.grafVotosFalta = {
-          baseColor: "#831A2D",
+          baseColor: "#FF0000",
           baseColorLigth: "#FFE1E7",
           tituloData: "Faltan Votar",
-          logoData: "assets/images/mpn/no_votar.png",
-          datosData: [this.femenino],
+          logoData: "/assets/images/mpn/no_votar.png",
+          datosData: [this.novotaron],
+          porcentaje: this.pornoVotaron,
           labelsData: ["Votos Cargados"],
+          cardColor: "#FFF0F3",
+          mostrar: true,
         }
 
         this.cdr.detectChanges();
+        this.cdr.markForCheck();
       });
   }
   cargarDatosUs() {
-    this.grafServ.getvotosCalculoTotal().subscribe((res: any) => {
-      //  console.log(`Respuesta de CalculoTotal; `, res.data);
-      this.votosCargados = res.data;
-      this.votosCoordinadores = this.votosCargados.filter(
-        (data) => data.role === "user-coord"
-      );
-      // console.log(`this.votosCoordinadores`, this.votosCoordinadores);
-      this.totalVotos = 0;
-      for (let voto of this.votosCoordinadores) {
-        this.totalVotos = this.totalVotos + voto.totalvotos;
-        //   console.log(`this.totalVotos`, this.totalVotos);
-      }
-      //console.log(`res`, res)
-      this.totalDNI = res.totalDNI;
-      //console.log(`this.totalDNI`, this.totalDNI);
-      this.duplicados = this.totalVotos - this.totalDNI;
-      //   console.log(`Saliooooooooooo`);
-      this.dataSource = new MatTableDataSource(this.votosCoordinadores);
-      this.dataSource.paginator = this.paginator;
-      this.cdr.markForCheck();
-      this.cargar = true;
-    });
-  }
-  cargarPlanilla(data?) {
-    this.votoService.getVotosById(data).subscribe((res: any) => {
-      if (res.ok) {
-        //   console.log(res);
-        this.votosCargados = res.votosUnicos;
-        this.totalVotos = res.totalV;
+    console.log(`El usuario es: `, this.grafServ.data)
+    let role = {
+      usuario: this.grafServ.data.role,
+      id: this.grafServ.data.id
+    }
+    if (this.grafServ.data.role === "user-sys" || this.grafServ.data.role === "user-calc") {
+      console.log(`entro a sys calc`, role)
+      this.grafServ.getvotosCalculoEleccion(role).subscribe((res: any) => {
+        console.log(`Respuesta de CalculoTotal; `, res.data);
+        this.votosCargados = res.data;
+        this.votosCoordinadores = this.votosCargados.filter(
+          (data) => data.role === "user-coord"
+        );
+        // console.log(`this.votosCoordinadores`, this.votosCoordinadores);
+        this.totalVotos = 0;
+        for (let voto of this.votosCoordinadores) {
+          this.totalVotos = this.totalVotos + voto.totalvotos;
+          //   console.log(`this.totalVotos`, this.totalVotos);
+        }
+        //console.log(`res`, res)
+        this.totalDNI = res.totalDNI;
+        //console.log(`this.totalDNI`, this.totalDNI);
+        this.duplicados = this.totalVotos - this.totalDNI;
+        //   console.log(`Saliooooooooooo`);
+        console.log(`this.votosCoordinadores`, this.votosCoordinadores)
         this.dataSource = new MatTableDataSource(this.votosCoordinadores);
         this.dataSource.paginator = this.paginator;
-
+        this.cargar = true;
+        this.cdr.detectChanges();
         this.cdr.markForCheck();
-      } else {
-        Swal.fire({
-          position: "center",
-          icon: "warning",
-          title: "Por favor, verifique los datos ingresados.",
-          showConfirmButton: false,
-          timer: 3500,
-        });
-      }
-    });
+      });
+    } else {
+      console.log(`entro a sys calc`)
+      this.grafServ.getvotosCalculoEleccion(role).subscribe((res: any) => {
+        console.log(`Respuesta de CalculoTotal; `, res.data);
+        this.votosCargados = res.data;
+        this.votosCoordinadores = this.votosCargados.filter(
+          (data) => data.role === "user-ref" || data.role === "user-coord"
+        );
+        // console.log(`this.votosCoordinadores`, this.votosCoordinadores);
+        this.totalVotos = 0;
+        for (let voto of this.votosCoordinadores) {
+          this.totalVotos = this.totalVotos + voto.totalvotos;
+          //   console.log(`this.totalVotos`, this.totalVotos);
+        }
+        //console.log(`res`, res)
+        this.totalDNI = res.totalDNI;
+        //console.log(`this.totalDNI`, this.totalDNI);
+        this.duplicados = this.totalVotos - this.totalDNI;
+        //   console.log(`Saliooooooooooo`);
+        console.log(`this.votosCoordinadores`, this.votosCoordinadores)
+        this.dataSource = new MatTableDataSource(this.votosCoordinadores);
+        this.dataSource.paginator = this.paginator;
+        this.cargar = true;
+        this.cdr.detectChanges();
+        this.cdr.markForCheck();
+      });
+    }
   }
+
   sortData(sort: Sort) {
     const data = this.votosCoordinadores.slice();
     if (!sort.active || sort.direction === "") {
