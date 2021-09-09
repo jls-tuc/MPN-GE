@@ -1,22 +1,28 @@
-<mat-card class="p-0 " [@animate]="{ value: '*', params: { opacity: '0', y: '40px', delay: '300ms' } }">
+<mat-card class="p-0" [@animate]="{ value: '*', params: { opacity: '0', y: '40px', delay: '300ms' } }">
     <!-- Body -->
     <div class="card-body p-0">
-        <div class="d-flex align-items-center justify-content-between card-spacer flex-grow-1">
+        <div class="d-flex justify-content-between card-spacer flex-grow-1">
 
-            <img class="img-datos mt-0" src="{{this.logo}}" alt="" />
+            <circle-progress [percent]="porcentaje" [radius]="110" [space]="5" [outerStrokeWidth]="16" [innerStrokeWidth]="10" [outerStrokeWidth]="15" [outerStrokeColor]=baseColor [innerStrokeColor]=baseColorLigth [animation]="true" [animationDuration]="1000" [showImage]="true"
+                [imageSrc]=logo [imageHeight]="100" [imageWidth]="100" [showBackground]="false" [responsive]="false">
+            </circle-progress>
 
-
-            <div class="d-flex flex-column text-right mr-2 mt-1">
-                <p class="font-weight-bolder font-nro">{{this.valor}}</p>
-                <span class="text-muted font-weight-bold">{{this.titulo}}</span>
+            <div *ngIf="mostrar">
+                <div class="d-flex flex-column text-right mr-2 mt-0">
+                    <p class="font-weight-bolder font-nro">{{valor}}</p>
+                    <span class="text-muted font-weight-bold">{{this.titulo}}</span>
+                    <p class="font-weight-bolder font-nro-lab">{{this.porcentaje}}</p>
+                    <span class="text-muted font-weight-bold">Porcentaje</span>
+                </div>
+            </div>
+            <div *ngIf="!mostrar">
+                <div class="d-flex flex-column text-right mr-2 mt-0">
+                    <p class="font-weight-bolder font-nro">{{valor}}</p>
+                    <span class="text-muted font-weight-bold">{{this.titulo}}</span>
+                </div>
             </div>
         </div>
         <!--begin::Chart-->
-        <div id="kt_stats_widget_11_chart" class="card-rounded-bottom" [style.height]="'80px'">
-            <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart" [xaxis]="chartOptions.xaxis" [yaxis]="chartOptions.yaxis" [dataLabels]="chartOptions.dataLabels" [stroke]="chartOptions.stroke" [legend]="chartOptions.legend" [fill]="chartOptions.fill"
-                [states]="chartOptions.states" [tooltip]="chartOptions.tooltip" [colors]="chartOptions.colors" [markers]="chartOptions.markers" [plotOptions]="chartOptions.plotOptions">
-            </apx-chart>
-        </div>
         <!--end::Chart-->
         <!--end::Stats-->
     </div>

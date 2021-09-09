@@ -14,7 +14,7 @@ export class UserRoleGuard implements CanActivate {
     private router: Router,
     private jwtAuth: JwtAuthService,
     private snack: MatSnackBar
-  ) {}
+  ) { }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     var user = this.jwtAuth.getUser();
