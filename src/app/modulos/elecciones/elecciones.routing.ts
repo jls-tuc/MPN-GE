@@ -14,7 +14,7 @@ import { VerMiPlanillaComponent } from "./components/planilla/ver-mi-planilla/ve
 import { MapaComponent } from "./components/mapa/mapa.component";
 
 import { GraficaComponent } from "./components/indicadores/grafica/grafica.component";
-
+import { LocalidadesComponent } from './components/indicadores/grafica/localidades/localidades.component';
 
 export const EleccionesRoutes: Routes = [
   {
@@ -96,6 +96,15 @@ export const EleccionesRoutes: Routes = [
         data: {
           title: "Estadisticas Totales de la Eleccion",
           breadcrumb: "ESTADISTICAS ELECCION",
+
+        },
+      },
+      {
+        path: "localidades",
+        component: LocalidadesComponent,
+        data: {
+          title: "Estadisticas por Localidad de la Eleccion",
+          breadcrumb: "ESTADISTICAS ELECCION LOCALIDAD",
 
         },
       },

@@ -120,6 +120,30 @@ export class JwtAuthService implements OnDestroy {
     return this.ls.getItem(this.APP_USER);
   }
 
+  renewJwtToken(id): Observable<UserModel> {
+    console.log(`Entro a Renew Token`, id);
+    let url = `${apiURL}/auth/renewToken`;
+    return this.http.post(url, id).pipe(
+      delay(1000),
+      map((auth: AuthModel) => {
+        this.setAuthFromSessionStorage(auth);
+        return auth;
+        this.signingIn = false;
+      }),
+      switchMap(() => this.getUserByToken()),
+      catchError((err) => {
+        Swal.fire({
+          position: "center",
+          icon: "warning",
+          title: `${err.error.msg}`,
+          showConfirmButton: false,
+          timer: 3500,
+        });
+        return of(undefined);
+      }),
+      finalize(() => this.isLoadingSubject.next(false))
+    );
+  }
   getJwtToken(): any {
     return this.ls.getItem(this.JWT_TOKEN);
   }

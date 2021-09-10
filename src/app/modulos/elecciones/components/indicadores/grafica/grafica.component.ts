@@ -111,7 +111,10 @@ export class GraficaComponent implements OnInit, AfterViewInit {
         this.timeLeft--;
       } else {
         this.timeLeft = 600;
-        this.authServ.getJwtToken();
+        let usr = {
+          id: this.grafServ.data.id
+        }
+        this.authServ.renewJwtToken(usr);
         this.buscarDatosGraficaRol(this.grafServ.data);
         this.cargarDatosUs();
         this.cdr.detectChanges();
@@ -190,7 +193,7 @@ export class GraficaComponent implements OnInit, AfterViewInit {
         console.log(`Respuesta de CalculoTotal; `, res.data);
         this.votosCargados = res.data;
         this.votosCoordinadores = this.votosCargados.filter(
-          (data) => data.role === "user-coord"
+          (data) => data.role === "user-coord" && data.totalvotos !== 0
         );
         // console.log(`this.votosCoordinadores`, this.votosCoordinadores);
         this.totalVotos = 0;
@@ -218,7 +221,7 @@ export class GraficaComponent implements OnInit, AfterViewInit {
         this.votosCoordinadores = this.votosCargados.filter(
           (data) => data.role === "user-ref" || data.role === "user-coord"
         );
-        // console.log(`this.votosCoordinadores`, this.votosCoordinadores);
+        console.log(`this.votosCoordinadores`, this.votosCoordinadores);
         this.totalVotos = 0;
         for (let voto of this.votosCoordinadores) {
           this.totalVotos = this.totalVotos + voto.totalvotos;

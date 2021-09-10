@@ -32,6 +32,7 @@ import { GraficaComponent } from './components/indicadores/grafica/grafica.compo
 import { CardComponent } from './components/indicadores/grafica/card/card.component';
 import { PiechartComponent } from './components/indicadores/grafica/piechart/piechart.component';
 import { NgCircleProgressModule } from 'ng-circle-progress';
+import { LocalidadesComponent } from './components/indicadores/grafica/localidades/localidades.component';
 
 @NgModule({
   imports: [
@@ -85,6 +86,7 @@ import { NgCircleProgressModule } from 'ng-circle-progress';
     GraficaComponent,
     CardComponent,
     PiechartComponent,
+    LocalidadesComponent,
 
   ],
 })

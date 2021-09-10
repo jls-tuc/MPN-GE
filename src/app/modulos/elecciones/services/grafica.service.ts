@@ -1,13 +1,19 @@
+
 import { HttpClient } from "@angular/common/http";
+
 import { Injectable } from "@angular/core";
 import { environment } from "environments/environment";
+import axios from 'axios';
+import { Observable } from 'rxjs';
 const apiURL = environment.apiURL;
 @Injectable({
   providedIn: "root",
 })
 export class GraficaService {
   public data: any;
-  constructor(private http: HttpClient) { }
+  public dataLocalidad: any;
+  constructor(public http: HttpClient,
+  ) { }
   getvotosGrafica(usr: any) {
     let url = `${apiURL}/estadistica/graficatotal`;
     return this.http.post(url, usr);
@@ -22,7 +28,12 @@ export class GraficaService {
 
   getvotosCalculoTotal() {
     let url = `${apiURL}/estadistica/calculototal`;
-    return this.http.get(url);
+    return this.http.get(url, { responseType: 'json' });
+  }
+  getvotosLocalidad() {
+    let url = `${apiURL}/estadistica/votosLocalidades`;
+    return this.http.get(url, { responseType: 'json' });
+
   }
   getvotosCalculoEleccion(usuario: any) {
     console.log(`Mando usr`, usuario)
