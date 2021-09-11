@@ -4,6 +4,8 @@ export interface IgraficaTarjeta {
   tituloData: string;
   logoData: string;
   datosData: number[];
+  porcentaje: number;
   labelsData: string[];
-
+  cardColor: string;
+  mostrar: boolean;
 }

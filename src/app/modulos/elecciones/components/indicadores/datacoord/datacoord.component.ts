@@ -65,7 +65,7 @@ export class DatacoordComponent implements OnInit {
     private votoService: VotoProvService,
     private grafCalc: GraficaService,
     private router: Router
-  ) {}
+  ) { }
   title = "htmltopdf";
 
   ngOnInit(): void {
@@ -83,7 +83,7 @@ export class DatacoordComponent implements OnInit {
   }
   cargarDatosUs() {
     this.grafCalc.getvotosCalculoTotal().subscribe((res: any) => {
-      //  console.log(`Respuesta de CalculoTotal; `, res.data);
+      console.log(`Respuesta de CalculoTotal; `, res.totalDNI);
       this.votosCargados = res.data;
       this.votosCoordinadores = this.votosCargados.filter(
         (data) => data.role === "user-coord"

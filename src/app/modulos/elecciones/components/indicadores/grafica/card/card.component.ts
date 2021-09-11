@@ -10,10 +10,13 @@ export class CardComponent implements OnInit, AfterViewInit {
   @Input() cssClass;
   @Input() symbolShape;
   @Input() baseColor;
+  @Input() cardColor;
   @Input() baseColorLigth;
   @Input() titulo;
   @Input() valor;
+  @Input() porcentaje;
   @Input() logo;
+  @Input() mostrar;
   chartOptions: any = {};
   fontFamily = '';
   colorsGrayGray500 = '#8C8C8C';
