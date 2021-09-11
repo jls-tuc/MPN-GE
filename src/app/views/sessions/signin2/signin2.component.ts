@@ -42,9 +42,11 @@ export class Signin2Component implements OnInit {
       // do what you wnat with your data
       /* console.log(this.signupForm.value); */
       this.authService.signin(this.signupForm.value).subscribe((resp) => {
-        // console.log(`resp`, resp);
-
-        this.router.navigateByUrl(this.authService.return);
+        if (resp.role === "app-movil") {
+          this.router.navigateByUrl("/elecciones/cargarVoto");
+        } else {
+          this.router.navigateByUrl(this.authService.return);
+        }
       });
     }
   }

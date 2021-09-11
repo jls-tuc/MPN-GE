@@ -14,7 +14,9 @@ import { VerMiPlanillaComponent } from "./components/planilla/ver-mi-planilla/ve
 import { MapaComponent } from "./components/mapa/mapa.component";
 
 import { GraficaComponent } from "./components/indicadores/grafica/grafica.component";
-
+import { CargarVotoComponent } from "./components/cargar-voto/cargar-voto.component";
+import { Title } from "@angular/platform-browser";
+import { PopupComponent } from "./components/cargar-voto/popup/popup/popup.component";
 
 export const EleccionesRoutes: Routes = [
   {
@@ -82,7 +84,6 @@ export const EleccionesRoutes: Routes = [
         },
       },
       {
-
         path: "mapa",
         component: MapaComponent,
         data: {
@@ -96,7 +97,23 @@ export const EleccionesRoutes: Routes = [
         data: {
           title: "Estadisticas Totales de la Eleccion",
           breadcrumb: "ESTADISTICAS ELECCION",
+        },
+      },
 
+      {
+        path: "cargarVoto",
+        component: CargarVotoComponent,
+        data: {
+          title: "Cargar voto por escuela y mesa",
+          breadcrumb: "Cargar Votos",
+        },
+      },
+      {
+        path: "popupCargarVoto",
+        component: PopupComponent,
+        data: {
+          title: "Cargar Orden",
+          breadcrumb: "Cargar Orden",
         },
       },
     ],
