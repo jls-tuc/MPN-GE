@@ -7,12 +7,14 @@ const apiURL = environment.apiURL;
 })
 export class GraficaService {
   public data: any;
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
   getvotosGrafica(usr: any) {
-    let url = `${apiURL}/estadistica/graficatotal`;
+
+  let url = `${apiURL}/estadistica/graficatotal`;
     return this.http.post(url, usr);
   }
   getvotosGraficaEleccion(usr: any) {
+
 
     //console.log(`Mando usr`, usr)
 

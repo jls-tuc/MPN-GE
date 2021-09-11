@@ -31,7 +31,12 @@ import { VerMiPlanillaComponent } from './components/planilla/ver-mi-planilla/ve
 import { GraficaComponent } from './components/indicadores/grafica/grafica.component';
 import { CardComponent } from './components/indicadores/grafica/card/card.component';
 import { PiechartComponent } from './components/indicadores/grafica/piechart/piechart.component';
+
+import { CargarVotoComponent } from './components/cargar-voto/cargar-voto.component';
+import { PopupComponent } from './components/cargar-voto/popup/popup/popup.component';
+
 import { NgCircleProgressModule } from 'ng-circle-progress';
+
 
 @NgModule({
   imports: [
@@ -85,6 +90,8 @@ import { NgCircleProgressModule } from 'ng-circle-progress';
     GraficaComponent,
     CardComponent,
     PiechartComponent,
+    CargarVotoComponent,
+    PopupComponent,
 
   ],
 })
