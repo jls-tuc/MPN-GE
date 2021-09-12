@@ -18,11 +18,10 @@ export class GraficaService {
 
   getvotosGrafica(usr: any) {
 
-  let url = `${apiURL}/estadistica/graficatotal`;
+    let url = `${apiURL}/estadistica/graficatotal`;
     return this.http.post(url, usr);
   }
   getvotosGraficaEleccion(usr: any) {
-
 
     //console.log(`Mando usr`, usr)
 
@@ -41,8 +40,7 @@ export class GraficaService {
   }
   getvotosLocalidadNqn() {
     let url = `${apiURL}/mesa/votosnqn`;
-    return this.http.get(url, { responseType: 'json' });
-
+    return this.http.get(url);
   }
   getvotosCalculoEleccion(usuario: any) {
     console.log(`Mando usr`, usuario)

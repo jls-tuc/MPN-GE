@@ -5,28 +5,58 @@
     </div>
 </div>
 <div class="text-center" *ngIf="cargar">
-    <div fxLayout="row wrap">
-        <div fxFlex="100" fxFlex.gt-sm="100" fxFlex.sm="100">
-            <div id="chartNqn">
-                <apx-chart [series]="chartOptionsNqn.series" [chart]="chartOptionsNqn.chart" [dataLabels]="chartOptionsNqn.dataLabels" [plotOptions]="chartOptionsNqn.plotOptions" [xaxis]="chartOptionsNqn.xaxis" [stroke]="chartOptionsNqn.stroke" [colors]="chartOptionsNqn.colors">
-                </apx-chart>
+    <mat-card class="p-0" [@animate]="{ value: '*', params: { opacity: '0', y: '40px', delay: '300ms' } }">
+        <!-- Body -->
+        <div class="card-body p-0">
+            <div fxLayout="row wrap">
+                <div fxFlex="100" fxFlex.gt-sm="60" fxFlex.sm="100">
+                    <div id="chartNqn">
+                        <apx-chart [series]="chartOptionsNqn.series" [chart]="chartOptionsNqn.chart" [dataLabels]="chartOptionsNqn.dataLabels" [plotOptions]="chartOptionsNqn.plotOptions" [xaxis]="chartOptionsNqn.xaxis" [stroke]="chartOptionsNqn.stroke" [colors]="chartOptionsNqn.colors"
+                            [legend]=" chartOptionsNqn.legend">
+                        </apx-chart>
+                    </div>
+                </div>
+
+                <div fxFlex="100" fxFlex.gt-sm="40" fxFlex.sm="100">
+                    <div id="chartNqn">
+                        <apx-chart [series]="chartOptionsNqnP.series" [chart]="chartOptionsNqnP.chart" [labels]="chartOptionsNqnP.labels" [responsive]="chartOptionsNqnP.responsive" [colors]=" chartOptionsNqnP.colors" [dataLabels]=" chartOptionsNqnP.dataLabels" [legend]=" chartOptionsNqnP.legend"></apx-chart>
+                    </div>
+                </div>
             </div>
         </div>
+    </mat-card>
 
+    <mat-card class="p-0" [@animate]="{ value: '*', params: { opacity: '0', y: '40px', delay: '300ms' } }">
+        <!-- Body -->
+        <div class="card-body p-0">
+            <div fxLayout="row wrap">
+                <div fxFlex="100" fxFlex.gt-sm="60" fxFlex.sm="100">
+                    <div id="chartNqnCAP">
+                        <apx-chart [series]="chartOptionsNqnV.series" [chart]="chartOptionsNqnV.chart" [dataLabels]="chartOptionsNqnV.dataLabels" [plotOptions]="chartOptionsNqnV.plotOptions" [xaxis]="chartOptionsNqnV.xaxis" [stroke]="chartOptionsNqnV.stroke" [colors]="chartOptionsNqnV.colors"
+                            [legend]=" chartOptionsNqnV.legend">
+                        </apx-chart>
+                    </div>
+                </div>
+                <div fxFlex="100" fxFlex.gt-sm="40" fxFlex.sm="100">
+                    <div id="chartNqn">
+                        <apx-chart [series]="chartOptionsNqnVP.series" [chart]="chartOptionsNqnVP.chart" [labels]="chartOptionsNqnVP.labels" [responsive]="chartOptionsNqnVP.responsive" [colors]="chartOptionsNqnVP.colors" [dataLabels]=" chartOptionsNqnVP.dataLabels" [legend]=" chartOptionsNqnVP.legend"></apx-chart>
+                    </div>
+                </div>
+            </div>
 
-        <div fxFlex="100" fxFlex.gt-sm="100" fxFlex.sm="100">
-            <div id="chartNqnCAP">
-                <apx-chart [series]="chartOptionsNqnV.series" [chart]="chartOptionsNqnV.chart" [dataLabels]="chartOptionsNqnV.dataLabels" [plotOptions]="chartOptionsNqnV.plotOptions" [xaxis]="chartOptionsNqnV.xaxis" [stroke]="chartOptionsNqnV.stroke" [colors]="chartOptionsNqnV.colors">
-                </apx-chart>
+        </div>
+    </mat-card>
+    <mat-card class="p-0" [@animate]="{ value: '*', params: { opacity: '0', y: '40px', delay: '300ms' } }">
+        <!-- Body -->
+        <div class="card-body p-0">
+            <div fxLayout="row wrap">
+                <div fxFlex="100" fxFlex.gt-sm="100" fxFlex.sm="100">
+                    <div id="chart">
+                        <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart" [dataLabels]="chartOptions.dataLabels" [plotOptions]="chartOptions.plotOptions" [xaxis]="chartOptions.xaxis" [stroke]="chartOptions.stroke">
+                        </apx-chart>
+                    </div>
+                </div>
             </div>
         </div>
-
-
-        <div fxFlex="100" fxFlex.gt-sm="100" fxFlex.sm="100">
-            <div id="chart">
-                <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart" [dataLabels]="chartOptions.dataLabels" [plotOptions]="chartOptions.plotOptions" [xaxis]="chartOptions.xaxis" [stroke]="chartOptions.stroke">
-                </apx-chart>
-            </div>
-        </div>
-    </div>
+    </mat-card>
 </div>
