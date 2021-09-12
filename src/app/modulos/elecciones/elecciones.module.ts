@@ -36,6 +36,8 @@ import { CargarVotoComponent } from './components/cargar-voto/cargar-voto.compon
 import { PopupComponent } from './components/cargar-voto/popup/popup/popup.component';
 
 import { NgCircleProgressModule } from 'ng-circle-progress';
+import { LocalidadesComponent } from './components/indicadores/grafica/localidades/localidades.component';
+import { VerPlanillaEleccionComponent } from "./components/planilla/ver-planilla-eleccion/ver-planilla-eleccion.component";
 
 
 @NgModule({
@@ -82,6 +84,7 @@ import { NgCircleProgressModule } from 'ng-circle-progress';
     ResponsablesPComponent,
     PopUpCoorComponent,
     VerPlanillaComponent,
+    VerPlanillaEleccionComponent,
     DatacoordComponent,
     DatarefComponent,
     DatarespComponent,
@@ -90,8 +93,10 @@ import { NgCircleProgressModule } from 'ng-circle-progress';
     GraficaComponent,
     CardComponent,
     PiechartComponent,
+    LocalidadesComponent,
     CargarVotoComponent,
     PopupComponent,
+
 
   ],
 })

@@ -14,9 +14,14 @@ import { VerMiPlanillaComponent } from "./components/planilla/ver-mi-planilla/ve
 import { MapaComponent } from "./components/mapa/mapa.component";
 
 import { GraficaComponent } from "./components/indicadores/grafica/grafica.component";
+
+import { LocalidadesComponent } from './components/indicadores/grafica/localidades/localidades.component';
+import { VerPlanillaEleccionComponent } from "./components/planilla/ver-planilla-eleccion/ver-planilla-eleccion.component";
+
 import { CargarVotoComponent } from "./components/cargar-voto/cargar-voto.component";
 import { Title } from "@angular/platform-browser";
 import { PopupComponent } from "./components/cargar-voto/popup/popup/popup.component";
+
 
 export const EleccionesRoutes: Routes = [
   {
@@ -56,6 +61,11 @@ export const EleccionesRoutes: Routes = [
         path: "verPlanilla",
         component: VerMiPlanillaComponent,
         data: { title: "Planilla", breadcrumb: "VER MI PLANILLA" },
+      },
+      {
+        path: "verPlanillaEleccion",
+        component: VerPlanillaEleccionComponent,
+        data: { title: "Planilla Eleccion", breadcrumb: "VER PLANILLA ELECCION" },
       },
       {
         path: "coordinador",
@@ -114,6 +124,15 @@ export const EleccionesRoutes: Routes = [
         data: {
           title: "Cargar Orden",
           breadcrumb: "Cargar Orden",
+        },
+      },
+      {
+        path: "localidades",
+        component: LocalidadesComponent,
+        data: {
+          title: "Estadisticas por Localidad de la Eleccion",
+          breadcrumb: "ESTADISTICAS ELECCION LOCALIDAD",
+
         },
       },
     ],

@@ -14,6 +14,7 @@ import {
 import { environment } from "environments/environment";
 import Swal from "sweetalert2";
 import { AuthModel } from "./auth.model";
+import { json } from "ngx-custom-validators/src/app/json/validator";
 const apiURL = environment.apiURL;
 // ================= only for demo purpose ===========
 
@@ -49,7 +50,7 @@ interface IBadge {
 export class JwtAuthService implements OnDestroy {
   private unsubscribe: Subscription[] = [];
   private isLoadingSubject: BehaviorSubject<boolean>;
-
+  public datosUsr: any;
   token;
   user: UserModel;
   isAuthenticated: Boolean;
@@ -120,6 +121,30 @@ export class JwtAuthService implements OnDestroy {
     return this.ls.getItem(this.APP_USER);
   }
 
+  renewJwtToken(id): Observable<UserModel> {
+    console.log(`Entro a Renew Token`, id);
+    let url = `${apiURL}/auth/renewToken`;
+    return this.http.post(url, id, { responseType: "json" }).pipe(
+      delay(1000),
+      map((auth: AuthModel) => {
+        this.setAuthFromSessionStorage(auth);
+        return auth;
+        this.signingIn = false;
+      }),
+      switchMap(() => this.getUserByToken()),
+      catchError((err) => {
+        Swal.fire({
+          position: "center",
+          icon: "warning",
+          title: `${err.error.msg}`,
+          showConfirmButton: false,
+          timer: 3500,
+        });
+        return of(undefined);
+      }),
+      finalize(() => this.isLoadingSubject.next(false))
+    );
+  }
   getJwtToken(): any {
     return this.ls.getItem(this.JWT_TOKEN);
   }
