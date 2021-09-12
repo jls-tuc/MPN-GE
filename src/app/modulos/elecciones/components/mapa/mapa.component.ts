@@ -18,7 +18,7 @@ export class MapaComponent implements OnInit {
   datosMapbox: IntMapBox = {
     latitud: -38.951667,
     longitud: -68.074444,
-    zoom: 7,
+    zoom: 12,
     mapTypeId: "roadmap",
   };
   places = {

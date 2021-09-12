@@ -44,6 +44,12 @@ export class Signin2Component implements OnInit {
       this.authService.signin(this.signupForm.value).subscribe((resp) => {
         if (resp.role === "app-movil") {
           this.router.navigateByUrl("/elecciones/cargarVoto");
+        } else if (
+          resp.role === "user-coord" ||
+          resp.role === "user-ref" ||
+          resp.role === "user-resp"
+        ) {
+          this.router.navigateByUrl("/elecciones/referentes");
         } else {
           this.router.navigateByUrl(this.authService.return);
         }
