@@ -7,7 +7,7 @@ const apiURL = environment.apiURL;
   providedIn: "root",
 })
 export class ReferentesService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   crearRefernte(data) {
     let url = `${apiURL}/auth/registro`;
