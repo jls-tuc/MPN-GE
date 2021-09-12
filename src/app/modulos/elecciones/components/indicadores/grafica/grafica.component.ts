@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
 
 import { MatTableDataSource } from "@angular/material/table";
 import { MatPaginator } from "@angular/material/paginator";
@@ -16,7 +16,7 @@ import { timer } from 'rxjs';
   templateUrl: './grafica.component.html',
   styleUrls: ['./grafica.component.scss']
 })
-export class GraficaComponent implements OnInit, AfterViewInit {
+export class GraficaComponent implements OnInit, AfterViewInit, OnDestroy {
   _second = 1000;
   _minute = this._second * 60;
   _hour = this._minute * 60;
@@ -71,7 +71,7 @@ export class GraficaComponent implements OnInit, AfterViewInit {
   pornoVotaron: number;
   totalDNI: any;
   duplicados: number;
-  timeLeft: number = 600;
+  timeLeft: number = 900;
   interval;
   valor = 10000;
   constructor(private cdr: ChangeDetectorRef,
@@ -86,6 +86,9 @@ export class GraficaComponent implements OnInit, AfterViewInit {
       role: Usuario.role,
     };
     this.grafServ.data = data;
+  }
+  ngOnDestroy(): void {
+
   }
   ngAfterViewInit(): void {
 
@@ -110,10 +113,11 @@ export class GraficaComponent implements OnInit, AfterViewInit {
         this.seconds = this.timeLeft % 60;
         this.timeLeft--;
       } else {
-        this.timeLeft = 600;
+        this.timeLeft = 900;
         let usr = {
           id: this.grafServ.data.id
         }
+        console.log(`usr`, usr)
         this.authServ.renewJwtToken(usr);
         this.buscarDatosGraficaRol(this.grafServ.data);
         this.cargarDatosUs();
@@ -133,7 +137,7 @@ export class GraficaComponent implements OnInit, AfterViewInit {
   }
   async buscarDatosGraficaRol(data: any) {
     let usr = this.authServ.getUser();
-    console.log(`Daaaaata :`, data)
+    //console.log(`Daaaaata :`, data)
     this.calculos = await this.grafServ
       .getvotosGraficaEleccion(data)
       .subscribe((res: any) => {
@@ -188,9 +192,9 @@ export class GraficaComponent implements OnInit, AfterViewInit {
       id: this.grafServ.data.id
     }
     if (this.grafServ.data.role === "user-sys" || this.grafServ.data.role === "user-calc") {
-      console.log(`entro a sys calc`, role)
+      // console.log(`entro a sys calc`, role)
       this.grafServ.getvotosCalculoEleccion(role).subscribe((res: any) => {
-        console.log(`Respuesta de CalculoTotal; `, res.data);
+        //console.log(`Respuesta de CalculoTotal; `, res.data);
         this.votosCargados = res.data;
         this.votosCoordinadores = this.votosCargados.filter(
           (data) => data.role === "user-coord" && data.totalvotos !== 0
@@ -206,7 +210,7 @@ export class GraficaComponent implements OnInit, AfterViewInit {
         //console.log(`this.totalDNI`, this.totalDNI);
         this.duplicados = this.totalVotos - this.totalDNI;
         //   console.log(`Saliooooooooooo`);
-        console.log(`this.votosCoordinadores`, this.votosCoordinadores)
+        // console.log(`this.votosCoordinadores`, this.votosCoordinadores)
         this.dataSource = new MatTableDataSource(this.votosCoordinadores);
         this.dataSource.paginator = this.paginator;
         this.cargar = true;
@@ -216,12 +220,12 @@ export class GraficaComponent implements OnInit, AfterViewInit {
     } else {
       console.log(`entro a sys calc`)
       this.grafServ.getvotosCalculoEleccion(role).subscribe((res: any) => {
-        console.log(`Respuesta de CalculoTotal; `, res.data);
+        //console.log(`Respuesta de CalculoTotal; `, res.data);
         this.votosCargados = res.data;
         this.votosCoordinadores = this.votosCargados.filter(
           (data) => data.role === "user-ref" || data.role === "user-coord"
         );
-        console.log(`this.votosCoordinadores`, this.votosCoordinadores);
+        // console.log(`this.votosCoordinadores`, this.votosCoordinadores);
         this.totalVotos = 0;
         for (let voto of this.votosCoordinadores) {
           this.totalVotos = this.totalVotos + voto.totalvotos;

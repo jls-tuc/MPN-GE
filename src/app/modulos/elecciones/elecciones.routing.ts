@@ -15,6 +15,7 @@ import { MapaComponent } from "./components/mapa/mapa.component";
 
 import { GraficaComponent } from "./components/indicadores/grafica/grafica.component";
 import { LocalidadesComponent } from './components/indicadores/grafica/localidades/localidades.component';
+import { VerPlanillaEleccionComponent } from "./components/planilla/ver-planilla-eleccion/ver-planilla-eleccion.component";
 
 export const EleccionesRoutes: Routes = [
   {
@@ -54,6 +55,11 @@ export const EleccionesRoutes: Routes = [
         path: "verPlanilla",
         component: VerMiPlanillaComponent,
         data: { title: "Planilla", breadcrumb: "VER MI PLANILLA" },
+      },
+      {
+        path: "verPlanillaEleccion",
+        component: VerPlanillaEleccionComponent,
+        data: { title: "Planilla Eleccion", breadcrumb: "VER PLANILLA ELECCION" },
       },
       {
         path: "coordinador",

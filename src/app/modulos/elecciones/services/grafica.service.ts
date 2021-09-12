@@ -35,6 +35,11 @@ export class GraficaService {
     return this.http.get(url, { responseType: 'json' });
 
   }
+  getvotosLocalidadNqn() {
+    let url = `${apiURL}/mesa/votosnqn`;
+    return this.http.get(url, { responseType: 'json' });
+
+  }
   getvotosCalculoEleccion(usuario: any) {
     console.log(`Mando usr`, usuario)
     let url = `${apiURL}/estadistica/calculoEleccion`;

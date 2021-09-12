@@ -7,7 +7,7 @@ const apiURL = environment.apiURL;
   providedIn: "root",
 })
 export class VotoProvService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   postVotoProv(data) {
     let url = `${apiURL}/votoAdh`;
@@ -26,6 +26,10 @@ export class VotoProvService {
   getVotosByIdUser(id) {
     let url = `${apiURL}/votoAdh`;
     return this.http.get(url + `/idu?${id}`);
+  }
+  getvotosFaltan(id) {
+    let url = `${apiURL}/votoAdh`;
+    return this.http.get(url + `/idf?${id}`);
   }
 
   getVotos() {

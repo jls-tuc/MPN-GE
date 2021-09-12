@@ -33,6 +33,7 @@ import { CardComponent } from './components/indicadores/grafica/card/card.compon
 import { PiechartComponent } from './components/indicadores/grafica/piechart/piechart.component';
 import { NgCircleProgressModule } from 'ng-circle-progress';
 import { LocalidadesComponent } from './components/indicadores/grafica/localidades/localidades.component';
+import { VerPlanillaEleccionComponent } from "./components/planilla/ver-planilla-eleccion/ver-planilla-eleccion.component";
 
 @NgModule({
   imports: [
@@ -78,6 +79,7 @@ import { LocalidadesComponent } from './components/indicadores/grafica/localidad
     ResponsablesPComponent,
     PopUpCoorComponent,
     VerPlanillaComponent,
+    VerPlanillaEleccionComponent,
     DatacoordComponent,
     DatarefComponent,
     DatarespComponent,
