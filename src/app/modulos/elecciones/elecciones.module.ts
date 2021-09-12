@@ -24,13 +24,14 @@ import { VerPlanillaComponent } from "./components/planilla/ver-planilla/ver-pla
 
 import { MapaComponent } from "./components/mapa/mapa.component";
 
-import { DatacoordComponent } from './components/indicadores/datacoord/datacoord.component';
-import { DatarefComponent } from './components/indicadores/dataref/dataref.component';
-import { DatarespComponent } from './components/indicadores/dataresp/dataresp.component';
-import { VerMiPlanillaComponent } from './components/planilla/ver-mi-planilla/ver-mi-planilla.component';
-import { GraficaComponent } from './components/indicadores/grafica/grafica.component';
-import { CardComponent } from './components/indicadores/grafica/card/card.component';
-import { PiechartComponent } from './components/indicadores/grafica/piechart/piechart.component';
+import { DatacoordComponent } from "./components/indicadores/datacoord/datacoord.component";
+import { DatarefComponent } from "./components/indicadores/dataref/dataref.component";
+import { DatarespComponent } from "./components/indicadores/dataresp/dataresp.component";
+import { VerMiPlanillaComponent } from "./components/planilla/ver-mi-planilla/ver-mi-planilla.component";
+import { GraficaComponent } from "./components/indicadores/grafica/grafica.component";
+import { CardComponent } from "./components/indicadores/grafica/card/card.component";
+import { PiechartComponent } from "./components/indicadores/grafica/piechart/piechart.component";
+
 
 import { CargarVotoComponent } from './components/cargar-voto/cargar-voto.component';
 import { PopupComponent } from './components/cargar-voto/popup/popup/popup.component';
@@ -40,10 +41,12 @@ import { LocalidadesComponent } from './components/indicadores/grafica/localidad
 import { VerPlanillaEleccionComponent } from "./components/planilla/ver-planilla-eleccion/ver-planilla-eleccion.component";
 
 
+import { NgCircleProgressModule } from "ng-circle-progress";
+import { MapaPopupComponent } from "./components/mapa/popup/popup.component";
+
 @NgModule({
   imports: [
     CommonModule,
-
     SharedModule,
     FormsModule,
     ReactiveFormsModule,
@@ -59,18 +62,17 @@ import { VerPlanillaEleccionComponent } from "./components/planilla/ver-planilla
     SharedPipesModule,
     NgCircleProgressModule.forRoot({
       // set defaults here
-      "radius": 60,
-      "space": -5,
-      "outerStrokeWidth": 5,
-      "outerStrokeColor": "#76C2AF",
-      "innerStrokeColor": "#ffffff",
-      "innerStrokeWidth": 5,
-      "imageSrc": "assets/images/music.svg",
-      "imageHeight": 105,
-      "imageWidth": 105,
-      "showImage": true,
-      "showBackground": false
-
+      radius: 60,
+      space: -5,
+      outerStrokeWidth: 5,
+      outerStrokeColor: "#76C2AF",
+      innerStrokeColor: "#ffffff",
+      innerStrokeWidth: 5,
+      imageSrc: "assets/images/music.svg",
+      imageHeight: 105,
+      imageWidth: 105,
+      showImage: true,
+      showBackground: false,
     }),
     RouterModule.forChild(EleccionesRoutes),
   ],
@@ -96,8 +98,8 @@ import { VerPlanillaEleccionComponent } from "./components/planilla/ver-planilla
     LocalidadesComponent,
     CargarVotoComponent,
     PopupComponent,
-
+    MapaPopupComponent,
 
   ],
 })
-export class EleccionesModule { }
+export class EleccionesModule {}
