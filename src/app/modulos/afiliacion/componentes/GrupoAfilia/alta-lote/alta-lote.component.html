@@ -1,0 +1,89 @@
+<div class="m-333">
+    <!-- <span fxFlex></span> -->
+    <button mat-raised-button class="mb-8" color="primary" (click)="openPopUp({}, true)">{{"Crear" | translate }}
+        {{"Lote" | translate }}</button>
+</div>
+<mat-card class="p-0" [@animate]="{value:'*',params:{y:'50px',delay:'300ms'}}">
+    <mat-card-content class="p-0">
+        <ngx-datatable class="material ml-0 mr-0" [rows]="items" [columnMode]="'force'" [headerHeight]="50"
+            [footerHeight]="50" [scrollbarH]="true" [limit]="10" [rowHeight]="50">
+            <ngx-datatable-column name="Lote:.Nro" [flexGrow]="1">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    {{ row?.nro }}
+                </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column name="Usuario Responsable" [flexGrow]="1">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    {{ row?.usuarioResponsable.apellido|titlecase}}{{ row?.usuarioResponsable.nombres|titlecase}}
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Localidad" [flexGrow]="1">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    {{ row?.lugarAfiliacion.localidad|titlecase }}
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Lugar Afiliación" [flexGrow]="1">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    {{ row?.lugarAfiliacion.nombreEdificio|titlecase }}
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Estado" [flexGrow]="1">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    <mat-chip *ngIf="row.estadoAfiliacion==='activo'" mat-sm-chip color="primary"
+                        [selected]=" row.estadoAfiliacion">
+                        {{row.estadoAfiliacion|titlecase
+                        }}</mat-chip>
+                    <mat-chip *ngIf="row.estadoAfiliacion==='cerrado'" mat-sm-chip color="warn"
+                        [selected]="row.estadoAfiliacion">
+                        {{row.estadoAfiliacion|titlecase
+                        }}</mat-chip>
+                    <mat-chip *ngIf="row.estadoAfiliacion==='pausado'" mat-sm-chip color="accent"
+                        [selected]="row.estadoAfiliacion">
+                        {{row.estadoAfiliacion|titlecase
+                        }}</mat-chip>
+                    <mat-chip *ngIf="row.estadoAfiliacion==='presentado'" mat-sm-chip
+                        [ngStyle]="{'background-color': ' #6fd26f'}" [selected]="row.estadoAfiliacion">
+                        {{row.estadoAfiliacion|titlecase
+                        }}</mat-chip>
+                    <mat-chip *ngIf="row.estadoAfiliacion==='devuelto CNE'" mat-sm-chip
+                        [ngStyle]="{'background-color': '#b245da'}" [selected]="row.estadoAfiliacion">
+                        {{row.estadoAfiliacion|titlecase
+                        }}</mat-chip>
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Opciones" [flexGrow]="1">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    <button mat-icon-button mat-sm-button color="primary" class="mr-16" (click)="openPopUp(row)"
+                        [disabled]="row.estadoAfiliacion==='presentado'" matTooltip="Editar Lote">
+                        <mat-icon> <span class="material-symbols-outlined">
+                                <span class="material-symbols-outlined">
+                                    manage_accounts
+                                </span>
+                            </span></mat-icon>
+                    </button>
+
+                    <button mat-icon-button mat-sm-button class="material-icons color_green mr-16"
+                        [disabled]="row.estadoAfiliacion==='presentado'" matTooltip="Presentar Lote"
+                        (click)="presentarLote(row)">
+                        <mat-icon><span class="material-symbols-outlined">
+                                contact_mail
+                            </span></mat-icon>
+                    </button>
+                    <button *ngIf="row.estadoAfiliacion==='presentado'" mat-icon-button mat-sm-button color="accent"
+                        (click)="devolucionCNE(row)">
+                        <mat-icon><span matTooltip="Cargar Informe CNE" class="material-symbols-outlined">
+                                browser_updated
+                            </span></mat-icon>
+                    </button>
+                    <button *ngIf="row.estadoAfiliacion==='devuelto CNE'" mat-icon-button mat-sm-button
+                        [ngStyle]="{'color': '#0fadb8'}" (click)="verInfoCne(row)">
+                        <mat-icon><span matTooltip="Ver info CNE" class="material-symbols-outlined">
+                                remove_red_eye
+                            </span></mat-icon>
+                    </button>
+                </ng-template>
+            </ngx-datatable-column>
+        </ngx-datatable>
+    </mat-card-content>
+</mat-card>

@@ -1,0 +1,66 @@
+<div class="card-header flex-wrap border-0 pt-6 pb-0">
+    <div class="card-title">
+        <h3 class="card-label">Planillas Cargadas en el Lote
+
+        </h3>
+    </div>
+</div>
+
+<mat-form-field appearance="standard">
+    <mat-label>Buscar</mat-label>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Ingrese un valor..." #input>
+</mat-form-field>
+<div class="card-body">
+
+    <table mat-table [dataSource]="dataSource" matSort>
+        <ng-container matColumnDef='dni'>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Dni</th>
+            <td mat-cell *matCellDef='let planillas'>
+                <div class="text-dark-75 font-weight-bolder font-size-lg mb-0">
+                    {{planillas.documento}}
+                </div>
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef='nombreCompleto'>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Apellido y Nombre</th>
+            <td mat-cell *matCellDef='let planillas'>{{planillas.apellido |titlecase}}{{planillas.nombre |titlecase}}
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="localidad">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Localidad</th>
+            <td mat-cell *matCellDef='let planillas'>{{planillas.domicilioPostal.localidad |titlecase}}
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="telefono">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Telefono </th>
+            <div class="text-dark-75 font-weight-bolder font-size-lg mb-0">
+                <td mat-cell *matCellDef='let planillas'>{{planillas.domicilioPostal.telPar |titlecase}}
+                </td>
+            </div>
+        </ng-container>
+        <span fxFlex="8px"></span>
+        <ng-container matColumnDef="opciones" class="mr-1">
+            <th class="texto-derecha" mat-header-cell *matHeaderCellDef> Opciones </th>
+            <td class="texto-derecha pl-2" mat-cell *matCellDef="let planillas"
+                style="margin-left: 10%; margin-right: 10%; margin-top: 20%; margin-bottom: 20%;">
+                <button mat-icon-button mat-sm-button color="primary" class="mr-1" (click)="generarPdf(planillas)">
+                    <mat-icon>print_icon</mat-icon>
+                </button>
+                <span fxFlex="5px"></span>
+                <button mat-icon-button mat-sm-button color="warn" (click)="verPlanilla(planillas)">
+                    <mat-icon>preview</mat-icon>
+                </button>
+            </td>
+        </ng-container>
+
+        <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell" colspan="4">Dato no encontrado "{{input.value}}"</td>
+        </tr>
+        <tr mat-header-row *matHeaderRowDef="listaColumnas"></tr>
+        <tr mat-row *matRowDef="let row; columns: listaColumnas;" class="table-row"></tr>
+    </table>
+    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons></mat-paginator>
+</div>

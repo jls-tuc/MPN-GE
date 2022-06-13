@@ -1,0 +1,359 @@
+<mat-card class="p-0">
+    <mat-card-title class="">
+    </mat-card-title>
+    <mat-card-content>
+        <mat-vertical-stepper [linear]="true" linear #stepper>
+            <mat-step [stepControl]="firstFormGroup">
+                <form [formGroup]="firstFormGroup">
+                    <div class="mb-1-5">
+                        <ng-template matStepLabel>Ingrese el número de documento</ng-template>
+                    </div>
+
+                    <ng-container *ngIf='!ocultarBusqueda'>
+                        <div class='row justify-content-center'>
+                            <div class="col-6">
+                                <mat-form-field appearance="fill">
+                                    <mat-label>Nro. Documento</mat-label>
+                                    <input type="text" class="form-control" matInput formControlName="dni" soloNumeros
+                                        [max]='123456789' placeholder="Ingrese el número de documento"
+                                        [class.is-invalid]='dniNoValido'>
+                                    <mat-error *ngIf='dniNoValido' class="text-danger col-lg-6">
+                                        <strong>Es necesario completar el campo.</strong>
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="row mt-1 text-center">
+                            <div class="form-group">
+                                <label>Seleccione Sexo</label>
+                                <div class="radio-inline">
+                                    <mat-radio-group aria-labelledby="example-radio-group-label"
+                                        class="example-full-width" appearance="fill" formControlName="sexo">
+                                        <mat-radio-button class="pr-1 mb-1-5" *ngFor="let s of sexo" [value]="s"
+                                            [class.is-invalid]='sexoNoValido'>
+                                            {{s}}
+                                        </mat-radio-button>
+                                        <mat-error *ngIf='sexoNoValido' class="text-danger col-lg-6">
+                                            <strong>Seleccioná el sexo como figura en el DNI</strong>
+                                        </mat-error>
+                                    </mat-radio-group>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-container>
+                </form>
+                <div class="row" class="mt-1 text-center">
+                    <ng-container *ngIf='!ocultarBusqueda'>
+                        <button mat-raised-button color="accent" type="button" (click)="cerrarPopUP()">Volver</button>
+                        <button mat-raised-button color="primary" type="button"
+                            (click)="buscarDatos(firstFormGroup.value)" [disabled]="!firstFormGroup.valid "
+                            matStepperNext>Verificar Datos</button>
+                        <div *ngIf='cargando===true' class="loader">Cargando...</div>
+                    </ng-container>
+                    <!-- <ng-container *ngIf='ocultarBusqueda'>
+                        <button mat-raised-button color="warn" (click)="stepper.reset()"
+                            matStepperPrevious>Cancelar</button>
+                        <span fxFlex="10px"></span>
+                        <button mat-raised-button color="primary" type="button" matStepperNext>Siguiente</button>
+                    </ng-container> -->
+                </div>
+            </mat-step>
+            <ng-container *ngIf='ocultarBusqueda'>
+                <mat-step [stepControl]="secondFormGroup">
+                    <form [formGroup]="secondFormGroup">
+                        <div class="mb-1-5">
+                            <ng-template matStepLabel>Datos personales</ng-template>
+                        </div>
+                        <div class='row'>
+                            <div class="col-lg-6">
+                                <mat-form-field appearance="fill">
+                                    <mat-label>Apellido</mat-label>
+                                    <input type="text" class="form-control" matInput formControlName="apellido"
+                                        [readonly]='editar' placeholder="" required>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-lg-6">
+                                <mat-form-field appearance="fill">
+                                    <mat-label>Nombre</mat-label>
+                                    <input type="text" class="form-control" matInput formControlName="nombre"
+                                        [readonly]='editar' placeholder="" required>
+                                </mat-form-field>
+                            </div>
+
+                        </div>
+                        <div class='row'>
+                            <div class="col">
+                                <mat-form-field class="sepa" appearance="fill">
+                                    <mat-label>Distrito Militar</mat-label>
+                                    <input type="text" class="form-control" matInput formControlName="dm"
+                                        [readonly]='editar' placeholder="">
+                                </mat-form-field>
+                            </div>
+                            <div class="col">
+                                <mat-form-field class="sepa" appearance="fill">
+                                    <mat-label>Regimiento</mat-label>
+                                    <input type="text" class="form-control" matInput formControlName="rg"
+                                        [readonly]='editar' placeholder="">
+                                </mat-form-field>
+                            </div>
+                            <div class="col">
+                                <mat-form-field class="sepa" appearance="fill">
+                                    <mat-label>Clase</mat-label>
+                                    <input type="text" class="form-control" matInput formControlName="clase"
+                                        [readonly]='editar' placeholder="" required>
+                                </mat-form-field>
+                            </div>
+
+                        </div>
+                        <div class='row'>
+                            <div class="col">
+                                <mat-form-field class="sepa" appearance="fill">
+                                    <mat-label>Sexo/Genero</mat-label>
+                                    <input type="text" class="form-control" matInput formControlName="genero"
+                                        [readonly]='editar' placeholder="" required>
+                                </mat-form-field>
+                            </div>
+                            <div class="col">
+                                <mat-form-field class="sepa" appearance="fill">
+                                    <mat-label>Fecha de Nacimiento</mat-label>
+                                    <input type="date" class="form-control" matInput formControlName="fechaNacimiento"
+                                        [readonly]='editar' placeholder="" required>
+                                </mat-form-field>
+                            </div>
+                            <div class="col">
+                                <mat-form-field class="sepa" appearance="fill">
+                                    <mat-label>lugar de Nacimiento</mat-label>
+                                    <input type="text" class="form-control" matInput formControlName="lugar"
+                                        [readonly]='editar' placeholder="">
+                                </mat-form-field>
+                            </div>
+
+                        </div>
+                        <div class='row'>
+                            <div class="col">
+                                <mat-form-field class="sepa" appearance="fill">
+                                    <mat-label>Profesión u Oficio</mat-label>
+                                    <input type="text" class="form-control" matInput formControlName="profOficio"
+                                        [readonly]='editar' placeholder="" required>
+                                </mat-form-field>
+                            </div>
+                            <div class="col">
+                                <mat-form-field class="sepa" appearance="fill">
+                                    <mat-label>Estado Civil</mat-label>
+                                    <input type="text" class="form-control " matInput formControlName="estadoCivil"
+                                        [readonly]='editar' placeholder="" required>
+                                </mat-form-field>
+                            </div>
+
+
+                        </div>
+
+
+
+
+                        <div fxLayout="row">
+
+                            <!--  <button mat-raised-button color="accent" matStepperPrevious type="button">Volver</button> -->
+                            <span fxFlex="8px"></span>
+
+                            <button mat-raised-button color="primary" type="button" matStepperNext>Siguiente</button>
+
+                        </div>
+                        <mat-step stepControl="ultDomicilio">
+                            <div formGroupName="ultDomicilio">
+                                <div class="mb-1-5">
+                                    <ng-template matStepLabel>Último Domicilio</ng-template>
+                                </div>
+                                <div class='row'>
+                                    <div class="col">
+                                        <mat-form-field class="sepa" appearance="fill">
+                                            <mat-label>Distrito Electoral</mat-label>
+                                            <input type="text" class="form-control" matInput [readonly]='editar'
+                                                formControlName="distritoElec" placeholder="">
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div class='row'>
+                                    <div class="col">
+                                        <mat-form-field class="sepa" appearance="fill">
+                                            <mat-label>Partido o Departamento</mat-label>
+                                            <input type="text" class="form-control" matInput [readonly]='editar'
+                                                formControlName="partidoDepto" placeholder="">
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div class='row'>
+                                    <div class="col">
+                                        <mat-form-field class="sepa" appearance="fill">
+                                            <mat-label>Cuartel o Pedanía</mat-label>
+                                            <input type="text" class="form-control" matInput [readonly]='editar'
+                                                formControlName="cuartelPedania" placeholder="">
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div class='row'>
+                                    <div class="col">
+                                        <mat-form-field class="sepa" appearance="fill">
+                                            <mat-label>Ciudad, Pueblo o Localidad</mat-label>
+                                            <input type="text" class="form-control" matInput formControlName="localidad"
+                                                [readonly]='editar' placeholder="">
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div class='row'>
+                                    <div class="col">
+                                        <mat-form-field class="sepa" appearance="fill">
+                                            <mat-label>calle</mat-label>
+                                            <input type="text" class="form-control" matInput formControlName="calle"
+                                                [readonly]='editar' placeholder="">
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col">
+                                        <mat-form-field class="sepa" appearance="fill">
+                                            <mat-label>Nro.</mat-label>
+                                            <input type="text" class="form-control" matInput formControlName="nro"
+                                                [readonly]='opVer' placeholder="">
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col">
+                                        <mat-form-field class="sepa" appearance="fill">
+                                            <mat-label>Piso.</mat-label>
+                                            <input type="text" class="form-control" matInput formControlName="piso"
+                                                [readonly]='editar' placeholder="">
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col">
+                                        <mat-form-field class="sepa" appearance="fill">
+                                            <mat-label>Dep:.</mat-label>
+                                            <input type="text" class="form-control" matInput formControlName="dep"
+                                                [readonly]='editar' placeholder="">
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+
+                                <div fxLayout="row">
+
+                                    <button mat-raised-button class="color-texto-blanco" color="accent"
+                                        matStepperPrevious type="button">Volver</button>
+                                    <span fxFlex="8px"></span>
+
+                                    <button mat-raised-button color="primary" type="button"
+                                        matStepperNext>Siguiente</button>
+                                </div>
+                            </div>
+                        </mat-step>
+                        <mat-step stepControl="domicilioPostal">
+                            <div formGroupName="domicilioPostal">
+                                <div class="mb-1-5">
+                                    <ng-template matStepLabel>Domicilio Postal</ng-template>
+                                </div>
+                                <div class='row'>
+                                    <div class="col">
+                                        <mat-form-field class="sepa" appearance="fill">
+                                            <mat-label>calle</mat-label>
+                                            <input type="text" class="form-control" matInput formControlName="calle"
+                                                [readonly]='editar' placeholder="">
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col">
+                                        <mat-form-field class="sepa" appearance="fill">
+                                            <mat-label>Nro.</mat-label>
+                                            <input type="text" class="form-control" matInput formControlName="nro"
+                                                [readonly]='editar' placeholder="">
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col">
+                                        <mat-form-field class="sepa" appearance="fill">
+                                            <mat-label>Piso.</mat-label>
+                                            <input type="text" class="form-control" matInput formControlName="piso"
+                                                [readonly]='editar' placeholder="">
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col">
+                                        <mat-form-field class="sepa" appearance="fill">
+                                            <mat-label>Dep:.</mat-label>
+                                            <input type="text" class="form-control" matInput formControlName="dep"
+                                                [readonly]='editar' placeholder="">
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div class='row'>
+                                    <div class="col">
+                                        <mat-form-field class="sepa" appearance="fill">
+                                            <mat-label>Barrio</mat-label>
+                                            <input type="text" class="form-control" matInput formControlName="barrio"
+                                                [readonly]='editar' placeholder="">
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col">
+                                        <mat-form-field class="sepa" appearance="fill">
+                                            <mat-label>Circuito.</mat-label>
+                                            <input type="text" class="form-control" matInput formControlName="circuito"
+                                                [readonly]='editar' placeholder="">
+                                        </mat-form-field>
+                                    </div>
+
+                                </div>
+                                <div class='row'>
+                                    <div class="col">
+                                        <mat-form-field class="sepa" appearance="fill">
+                                            <mat-label>Tel.Part.</mat-label>
+                                            <input type="text" class="form-control" matInput formControlName="telPar"
+                                                [readonly]='editar' placeholder="">
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col">
+                                        <mat-form-field class="sepa" appearance="fill">
+                                            <mat-label>Tel.Trabajo</mat-label>
+                                            <input type="text" class="form-control" matInput formControlName="telTrab"
+                                                [readonly]='editar' placeholder="">
+                                        </mat-form-field>
+                                    </div>
+
+                                </div>
+                                <div class='row'>
+                                    <div class="col">
+                                        <mat-form-field class="sepa" appearance="fill">
+                                            <mat-label>Contacto(s).</mat-label>
+                                            <input type="text" class="form-control" matInput formControlName="contacto"
+                                                [readonly]='editar' placeholder="">
+                                        </mat-form-field>
+                                    </div>
+
+                                </div>
+                                <div class='row'>
+                                    <div class="col">
+                                        <mat-form-field class="sepa" appearance="fill">
+                                            <mat-label>Observaciones.</mat-label>
+                                            <input type="text" class="form-control" matInput [readonly]='editar'
+                                                formControlName="observaciones" placeholder="">
+                                        </mat-form-field>
+                                    </div>
+
+                                </div>
+
+                                <div fxLayout="row">
+                                    <button mat-raised-button color="warn" (click)="cerrarPopUP()">Cancelar</button>
+                                    <span fxFlex="8px"></span>
+
+                                    <button *ngIf="!opVer" mat-raised-button color="primary"
+                                        [disabled]="!firstFormGroup.valid "
+                                        (click)="guardar(secondFormGroup.value)">Guardar</button>
+
+
+                                    <button *ngIf="opVer" mat-raised-button color="primary"
+                                        [disabled]="!firstFormGroup.valid " (click)='activarForm()'>Editar</button>
+
+                                    <span fxFlex="8px"></span>
+                                    <button mat-raised-button class="color-texto-blanco" color="accent"
+                                        matStepperPrevious type="button">Volver</button>
+                                </div>
+                            </div>
+                        </mat-step>
+                    </form>
+                </mat-step>
+            </ng-container>
+
+        </mat-vertical-stepper>
+    </mat-card-content>
+</mat-card>

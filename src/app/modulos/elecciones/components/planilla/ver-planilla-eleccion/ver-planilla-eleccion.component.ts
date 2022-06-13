@@ -16,7 +16,7 @@ import {
 
 import { MatTableDataSource } from "@angular/material/table";
 import { MatPaginator } from "@angular/material/paginator";
-import { MatInputModule } from '@angular/material/input';
+import { MatInputModule } from "@angular/material/input";
 import { MatSort } from "@angular/material/sort";
 import { Router } from "@angular/router";
 import { VotoProvService } from "../../../services/voto-prov.service";
@@ -24,7 +24,7 @@ import Swal from "sweetalert2";
 import { UserModel } from "app/shared/models/user.model";
 import { Observable } from "rxjs";
 import { JwtAuthService } from "app/shared/services/auth/jwt-auth.service";
-import { ReferentesService } from '../../../services/referentes.service';
+import { ReferentesService } from "../../../services/referentes.service";
 import jsPDF from "jspdf";
 import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";
@@ -90,10 +90,8 @@ export class VerPlanillaEleccionComponent implements OnInit {
       this.cargarReferentes(this.auhService.datosUsr);
       this.cargar_referentes = true;
 
-      this.cargarHtml(this.auhService.datosUsr)
-
+      this.cargarHtml(this.auhService.datosUsr);
     } else {
-
       this.cargarDatosUs();
     }
   }
@@ -106,19 +104,19 @@ export class VerPlanillaEleccionComponent implements OnInit {
         let refTemp = {
           value: ref._id,
           viewValue: `${ref.datosPersonales.apellido} ${ref.datosPersonales.nombres}`,
-        }
+        };
         await this.lisReferentes.push(refTemp);
-
       }
     });
     this.cargar_referentes = true;
-  };
+  }
   async cargarDatosUs() {
     //console.log(this.data.data);
     if (this.data != null && this.data.data.role === "user-ref") {
       await this.cargarHtml(this.data.data);
-      const consulta: any = `consulta=${"Referente"}&valor=${this.resPlanillas._id
-        }`;
+      const consulta: any = `consulta=${"Referente"}&valor=${
+        this.resPlanillas._id
+      }`;
       this.listaColumnas = [
         "res",
         "dni",
@@ -130,11 +128,11 @@ export class VerPlanillaEleccionComponent implements OnInit {
         "voto",
       ];
       this.cargarPlanilla(consulta);
-
     } else if (this.data != null && this.data.data.role === "user-resp") {
       await this.cargarHtml(this.data.data);
-      const consulta: any = `consulta=${"Resplanilla"}&valor=${this.resPlanillas._id
-        }`;
+      const consulta: any = `consulta=${"Resplanilla"}&valor=${
+        this.resPlanillas._id
+      }`;
       this.cargarPlanilla(consulta);
     } else {
       if (this.datosUser.source._value.role === "user-ref") {
@@ -145,10 +143,10 @@ export class VerPlanillaEleccionComponent implements OnInit {
           apellido: this.datosUser.source._value.apellido,
           localidad: this.datosUser.source._value.localidad,
         };
-        const consulta: {} = `consulta=${"Referente"}&valor=${this.resPlanillas._id
-          }`;
+        const consulta: {} = `consulta=${"Referente"}&valor=${
+          this.resPlanillas._id
+        }`;
         this.cargarPlanilla(consulta);
-
       } else if (this.datosUser.source._value.role === "user-coord") {
         this.coord = true;
 
@@ -169,20 +167,19 @@ export class VerPlanillaEleccionComponent implements OnInit {
           apellido: this.datosUser.source._value.apellido,
           localidad: this.datosUser.source._value.localidad,
         };
-        const consulta: {} = `consulta=${"Coord"}&valor=${this.resPlanillas._id
-          }`;
+        const consulta: {} = `consulta=${"Coord"}&valor=${
+          this.resPlanillas._id
+        }`;
 
         this.cargarPlanilla(consulta);
-
       }
     }
   }
   async cargarReferente(data: any) {
-    console.log(`data`, data)
+    console.log(`data`, data);
     this.coord = false;
 
     this.listaColumnas = [
-
       "res",
       "dni",
       "nombreCompleto",
@@ -192,14 +189,12 @@ export class VerPlanillaEleccionComponent implements OnInit {
       "mesa",
       "voto",
     ];
-    const consulta: {} = `consulta=${"Referente"}&valor=${data
-      }`;
+    const consulta: {} = `consulta=${"Referente"}&valor=${data}`;
 
     await this.cargarPlanilla(consulta);
     this.coord = true;
   }
   cargarHtml(data) {
-
     if (data.role === "user-ref") {
       this.cargar_datos = true;
       this.resPlanillas = {
@@ -225,7 +220,6 @@ export class VerPlanillaEleccionComponent implements OnInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
   async cargarPlanilla(data?) {
-    console.log(`data`, data)
     this.cargar_votos = false;
     await this.votoService.getvotosFaltan(data).subscribe((res: any) => {
       if (res.ok) {
@@ -247,16 +241,19 @@ export class VerPlanillaEleccionComponent implements OnInit {
       }
       this.cargar_votos = true;
     });
-
   }
   public downloadAsPDF() {
-    const doc = new jsPDF('l', 'mm', 'a4');
+    const doc = new jsPDF("l", "mm", "a4");
 
     const pdfTable = this.pdfTable.nativeElement;
 
     var html = htmlToPdfmake(pdfTable.innerHTML);
 
-    const documentDefinition = { content: html, pageSize: 'A4', pageOrientation: 'landscape' };
+    const documentDefinition = {
+      content: html,
+      pageSize: "A4",
+      pageOrientation: "landscape",
+    };
     pdfMake.createPdf(documentDefinition).open();
   }
 }

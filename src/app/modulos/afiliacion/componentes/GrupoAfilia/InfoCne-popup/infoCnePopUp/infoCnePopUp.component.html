@@ -1,0 +1,28 @@
+<h2 matDialogTitle>{{data.title}}</h2>
+
+<mat-card>
+
+  <div class="card-title">
+    <h3 class="card-label"> Datos del lote Nro.:{{data.payload.nro}}
+      <span class="d-block text-muted pt-2 font-size-sm"> Fecha de Alta del Lote:
+        {{data.payload.fechaInicioAfiliacion | date: 'dd/MM/yyyy'}}</span>
+      <span class="d-block text-muted pt-2 font-size-sm"> Total de fichas presentadas:
+        {{data.payload.planillas.length }}</span>
+    </h3>
+    <h3 class="card-label"> Información de la CNE.:
+      <span class="d-block text-muted pt-2 font-size-sm"> Estado del lote, ante la CNE:
+        {{data.payload.datosJusElc.estadoJunta | uppercase}}</span>
+      <span class="d-block text-muted pt-2 font-size-sm"> Fecha de presentación ante la CNE:
+        {{data.payload.datosJusElc.fechaIngresoJunta | date: 'dd/MM/yyyy'}}</span>
+      <span class="d-block text-muted pt-2 font-size-sm"> Fecha de respuesta de la CNE:
+        {{data.payload.datosJusElc.fechaRespuestaJunta | date: 'dd/MM/yyyy'}}</span>
+      <span class="d-block text-muted pt-2 font-size-sm"> Observación de la CNE:
+        {{data.payload.datosJusElc.obserJunta }}</span>
+
+    </h3>
+  </div>
+  <div class="card-toolbar">
+    <button (click)="cerrar()" mat-button color="primary">Volver</button>
+  </div>
+</mat-card>
+<div class="d-flex flex-column-fluid">

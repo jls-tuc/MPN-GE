@@ -1,0 +1,28 @@
+.mat-radio-button ~ .mat-radio-button {
+  margin-left: 16px;
+}
+.mat-raised-button {
+  margin-left: 16px;
+}
+.sepa {
+  width: 40%;
+}
+.mat-form-field {
+  display: inline !important;
+  position: relative;
+  text-align: center;
+}
+
+.mb-1-5 {
+  margin-bottom: 1.3em !important;
+}
+
+.container {
+  display: grid;
+}
+.buttons {
+  left: -10px;
+  position: relative;
+  top: -5px;
+  vertical-align: bottom;
+}

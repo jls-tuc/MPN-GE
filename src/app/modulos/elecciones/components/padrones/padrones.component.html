@@ -1,82 +1,136 @@
-<mat-card class="p-10">
+<mat-card class="p-3">
     <mat-card-title class="">
-        <div class="card-title-text">
+        <div class="card-title-text text-center">
             <span>Información sobre el Padrón Electoral Provincial y del Partido</span>
         </div>
         <mat-divider></mat-divider>
     </mat-card-title>
-    <mat-card-content>
-
-        <form class="m-4" [formGroup]="itemForm" autocomplete="off">
-            <div class="row">
-                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                    <mat-form-field class="DP-full-width">
-                        <mat-label>Nro. Documento</mat-label>
-                        <input type="text" class="form-control" matInput formControlName="dni"
-                            [class.is-invalid]='dniNoValido' placeholder="Ingrese el número de dni">
-                        <mat-error *ngIf='dniNoValido' class="text-danger col-lg-6">
-                            <strong>Es necesario completar el campo.</strong>
-                        </mat-error>
-                    </mat-form-field>
-                    <div class="form-group">
-                        <label>Seleccione Sexo</label>
-                        <div class="radio-inline">
-                            <mat-radio-group aria-labelledby="example-radio-group-label" class="radio radio-lg"
-                                formControlName="sexo">
-                                <mat-radio-button class="pr-1" *ngFor="let s of sexo" [value]="s"
-                                    [class.is-invalid]='sexoNoValido'>
-                                    {{s}}
-                                </mat-radio-button>
-                                <mat-error *ngIf='sexoNoValido' class="text-danger col-lg-6">
-                                    <strong>Seleccioná el sexo como figura en el DNI</strong>
+    <div class="container">
+        <form [formGroup]="itemForm" autocomplete="off">
+            <div class="mb-1-5">
+                <ng-template matStepLabel>Ingrese el número de documento</ng-template>
+            </div>
+            <div>
+                <div>
+                    <div class="row justify-content-center">
+                        <div class="col-6 text-center">
+                            <mat-form-field appearance="fill">
+                                <mat-label>Nro. Documento</mat-label>
+                                <input type="text" class="form-control" matInput formControlName="dni"
+                                    placeholder="Ingrese el número de documento" soloNumeros [max]='123456789'
+                                    [class.is-invalid]='dniNoValido'>
+                                <mat-error *ngIf='dniNoValido' class="text-danger col-lg-6">
+                                    <strong>Es necesario completar el campo.</strong>
                                 </mat-error>
-                            </mat-radio-group>
+                            </mat-form-field>
                         </div>
-                    </div>
-                    <div class="row mt-2">
-                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                            <button class="mat-primary mb-16 mr-8" [disabled]="!itemForm.valid " mat-raised-button
-                                (click)="validarDNI()" color="primary">Buscar</button>
 
-                            <button mat-raised-button color="warn" mat-button [routerLink]="['/']">Cancelar</button>
+                        <div class="form-group row justify-content-center">
+                            <div class="col-4 text-center">
+                                <label>Seleccione Sexo</label>
+                                <div class="radio-inline">
+                                    <mat-radio-group aria-labelledby="example-radio-group-label"
+                                        class="example-full-width" appearance="fill" formControlName="sexo">
+                                        <mat-radio-button class="pr-1 mb-1-5" *ngFor="let s of sexo" [value]="s"
+                                            [class.is-invalid]='sexoNoValido'>
+                                            {{s}}
+                                        </mat-radio-button>
+                                        <mat-error *ngIf='sexoNoValido' class="text-danger col-lg-6">
+                                            <strong>Seleccioná el sexo como figura en el DNI</strong>
+                                        </mat-error>
+                                    </mat-radio-group>
+                                </div>
+                            </div>
                         </div>
+
                     </div>
                 </div>
             </div>
+            <div class="  row justify-content-center">
+                <div class="col-4 text-center">
+                    <button class="buttons" mat-raised-button color="accent" type="button"
+                        (click)="closeWindows()">Cancelar</button>
+                    <button class="buttons" [disabled]="!itemForm.valid " mat-raised-button color="primary"
+                        type="button" (click)="validarDNI()" color="primary">Buscar</button>
+
+
+                </div>
+            </div>
+
         </form>
-    </mat-card-content>
+    </div>
 </mat-card>
 <div fxLayout="row wrap">
-    <div *ngFor="let data of datosPadron" fxFlex="100" fxFlex.gt-sm="33" fxFlex.sm="50">
-        <mat-card class="user-card p-0">
-            <mat-card-title>
-                <div class="card-title-text">
-                    <a href="" class="toolbar-avatar md mr-16"><img src="assets/images/logos/logo_prov.png" alt=""></a>
-                    <span>{{data.apellido |titlecase}} {{data.nombre |titlecase}}</span>
-                    <span fxFlex></span>
-                </div>
-                <mat-divider></mat-divider>
-            </mat-card-title>
-            <mat-card-content>
-                <!-- user detail lines-->
-                <div class="user-details">
-                    <p>
-                        <mat-icon class="text-muted">contact_page</mat-icon>{{data.documento}}
-                    </p>
-                    <p>
-                        <mat-icon class="text-muted">security_update</mat-icon>{{data.mesa}}
-                    </p>
-                    <p>
-                        <mat-icon class="text-muted">home</mat-icon>{{data.establecimiento}}
-                    </p>
-                    <p>
-                        <mat-icon class="text-muted">location_on</mat-icon>{{data.direccion|titlecase}} -
-                        {{data.localidad|titlecase}}
-                    </p>
-                </div>
-            </mat-card-content>
-        </mat-card>
+    <ng-container *ngIf="padronNac">
+
+        <div fxFlex="100" fxFlex.gt-sm="33" fxFlex.sm="50">
+            <mat-card class="user-card p-0">
+                <mat-card-title>
+                    <div class="card-title-text">
+                        <a href="" class="toolbar-avatar md mr-16"><img src="assets/images/logos/logo_prov.png"
+                                alt=""></a>
+                        <span>{{resPadronNac.apellido |titlecase}} {{resPadronNac.nombre |titlecase}}</span>
+                        <span fxFlex></span>
+                    </div>
+                    <mat-divider></mat-divider>
+                </mat-card-title>
+                <mat-card-content>
+                    <!-- user detail lines-->
+                    <div class="user-details">
+                        <p>
+                            <mat-icon class="text-muted">contact_page</mat-icon>{{resPadronNac.documento}}
+                        </p>
+                        <p>
+                            <mat-icon class="text-muted">security_update</mat-icon>{{resPadronNac.mesa}}
+                        </p>
+                        <p>
+                            <mat-icon class="text-muted">home</mat-icon>{{resPadronNac.establecimiento}}
+                        </p>
+                        <p>
+                            <mat-icon class="text-muted">location_on</mat-icon>{{resPadronNac.direccion|titlecase}} -
+                            {{resPadronNac.localidad|titlecase}}
+                        </p>
+                    </div>
+                </mat-card-content>
+            </mat-card>
 
 
-    </div>
+        </div>
+    </ng-container>
+    <ng-container *ngIf="padronPart">
+
+        <div fxFlex="100" fxFlex.gt-sm="33" fxFlex.sm="50">
+            <mat-card class="user-card p-0">
+                <mat-card-title>
+                    <div class="card-title-text">
+                        <a href="" class="toolbar-avatar md mr-16"><img src="assets/images/logos/200px-Logo_MPN.png"
+                                alt=""></a>
+                        <span>{{resPadronPar.apellido |titlecase}} {{resPadronPar.nombre |titlecase}}</span>
+                        <span fxFlex></span>
+                    </div>
+                    <mat-divider></mat-divider>
+                </mat-card-title>
+                <mat-card-content>
+                    <!-- user detail lines-->
+                    <div class="user-details">
+                        <p>
+                            <mat-icon class="text-muted">contact_page</mat-icon>{{resPadronPar.documento}}
+                        </p>
+                        <p>
+                            <mat-icon class="text-muted">security_update</mat-icon>{{resPadronPar.mesa}}
+                        </p>
+                        <p>
+                            <mat-icon class="text-muted">home</mat-icon>{{resPadronPar.establecimiento}}
+                        </p>
+                        <p>
+                            <mat-icon class="text-muted">location_on</mat-icon>{{resPadronPar.direccion|titlecase}} -
+                            {{resPadronPar.localidad|titlecase}}
+                        </p>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+
+
+        </div>
+    </ng-container>
 </div>

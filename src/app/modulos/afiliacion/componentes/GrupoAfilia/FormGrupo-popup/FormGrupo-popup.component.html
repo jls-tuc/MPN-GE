@@ -1,0 +1,129 @@
+<mat-card class="p-0">
+  <mat-card-title class="">
+    <div class="card-title-text">{{data.title}}</div>
+    <mat-divider></mat-divider>
+  </mat-card-title>
+  <mat-card-content>
+    <form [formGroup]="grupoAfiliadoForm" (ngSubmit)="submit()" autocomplete="off">
+      <div fxLayout="row wrap">
+        <div fxFlex="100" fxFlex.gt-xs="50" class="pr-16">
+          <div class="pb-16">
+            <mat-form-field class="full-width">
+              <input type="text" matInput name="nro" formControlName="nro" placeholder="Nro." soloNumeros [max]='9999'>
+            </mat-form-field>
+          </div>
+          <div class="pb-16">
+            <mat-form-field class="full-width">
+              <mat-select formControlName="usuarioResponsable" placeholder="Seleccione un usuario">
+                <mat-option *ngFor="let usr of usuarios" [value]="usr.datosPersonales">{{
+                  usr.datosPersonales?.apellido |titlecase}} {{usr.datosPersonales?.nombres |titlecase}} </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="pb-16">
+            <div formGroupName="lugarAfiliacion">
+
+              <mat-form-field class="full-width">
+                <mat-select formControlName="localidad" placeholder="Seleccione una Localidad">
+                  <mat-option *ngFor="let loc of localidades" [value]="loc.nombre">{{ loc.nombre |titlecase}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+
+            </div>
+          </div>
+          <div class="pb-16">
+            <mat-form-field color="accent" class="full-width">
+              <mat-label>Inicio de Afiliación</mat-label>
+              <input type=date formControlName='fechaInicioAfiliacion' color="primary" matInput [min]="minDate"
+                placeholder="Seleccione una fecha">
+            </mat-form-field>
+          </div>
+          <div class="pb-16">
+            <mat-form-field *ngIf="this.grupoAfiliadoForm.value.estadoAfiliacion === 'cerrado' " color="accent" a
+              class="full-width">
+              <mat-label>Cierre de Afiliación</mat-label>
+              <input type=date formControlName='fechaFinAfiliacion' color="primary" matInput [min]="minDate"
+                placeholder="Seleccione una fecha">
+            </mat-form-field>
+          </div>
+        </div>
+
+
+
+        <div fxFlex="100" fxFlex.gt-xs="50">
+          <div class="pb-16">
+            <div formGroupName="lugarAfiliacion">
+              <mat-form-field class="full-width">
+                <input matInput name="lugarAfiliacion.nombreEdificio" formControlName="nombreEdificio"
+                  placeholder="Lugar del encuentro">
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="pb-16">
+            <div formGroupName="lugarAfiliacion">
+              <mat-form-field class="full-width">
+                <input matInput name="lugarAfiliacion.calle" formControlName='calle' placeholder="Calle">
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="pb-16">
+            <div formGroupName="lugarAfiliacion">
+              <mat-form-field class="full-width">
+                <input matInput name="lugarAfiliacion.numero" formControlName="numero" placeholder="Número">
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="pb-16">
+            <div formGroupName="lugarAfiliacion">
+              <mat-form-field class="full-width">
+                <input matInput name="lugarAfiliacion.telefono" formControlName="telefono"
+                  placeholder="Número de teléfono">
+              </mat-form-field>
+            </div>
+          </div>
+
+
+        </div>
+
+        <div class="pb-16">
+
+
+
+
+
+
+          <div class="form-group">
+            <mat-label>Estado de la afiliación</mat-label>
+            <div class="radio-inline">
+              <mat-radio-group class="example-full-width" appearance="fill" formControlName="estadoAfiliacion">
+                <mat-radio-button class="pr-1" *ngFor="let est of estado" [value]="est">
+                  {{est |titlecase}}
+                </mat-radio-button>
+              </mat-radio-group>
+            </div>
+          </div>
+        </div>
+
+
+
+      </div>
+
+
+
+
+
+
+
+
+
+
+      <button mat-raised-button color="primary" [disabled]="!grupoAfiliadoForm.valid">{{"Guardar" | translate
+        }}</button>
+
+      <button mat-button color="warn" type="button" (click)="dialogRef.close(false)"
+        style="margin-left: 10px">Cancelar</button>
+
+    </form>
+  </mat-card-content>
+</mat-card>
