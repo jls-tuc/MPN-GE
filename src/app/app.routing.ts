@@ -28,26 +28,21 @@ export const rootRouterConfig: Routes = [
     component: AdminLayoutComponent,
     canActivate: [AuthGuard],
     children: [
-      /*  {
-        path: "others",
-        loadChildren: () =>
-          import("./views/others/others.module").then((m) => m.OthersModule),
-        data: { title: "Others", breadcrumb: "OTHERS" },
-      },
-      {
-        path: "search",
-        loadChildren: () =>
-          import("./views/search-view/search-view.module").then(
-            (m) => m.SearchViewModule
-          ),
-      }, */
       {
         path: "elecciones",
         loadChildren: () =>
           import("./modulos/elecciones/elecciones.module").then(
             (m) => m.EleccionesModule
           ),
-        data: { title: "Elecciones", breadcrumb: "ELECCIONES" },
+        data: { title: "Elecciones" },
+      },
+      {
+        path: "afiliacion",
+        loadChildren: () =>
+          import("./modulos/afiliacion/afiliacion.module").then(
+            (m) => m.AfiliacionModule
+          ),
+        data: { title: "Menu Principal" },
       },
     ],
   },

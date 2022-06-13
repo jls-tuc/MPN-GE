@@ -43,13 +43,18 @@ export class Signin2Component implements OnInit {
       /* console.log(this.signupForm.value); */
       this.authService.signin(this.signupForm.value).subscribe((resp) => {
         if (resp.role === "app-movil") {
-          this.router.navigateByUrl("/elecciones/cargarVoto");
+          this.router.navigateByUrl("elecciones/cargarVoto");
         } else if (
           resp.role === "user-coord" ||
           resp.role === "user-ref" ||
           resp.role === "user-resp"
         ) {
-          this.router.navigateByUrl("/elecciones/referentes");
+          this.router.navigateByUrl("elecciones/referentes");
+        } else if (
+          resp.role === "user-afilia" ||
+          resp.role === "user-Adminafilia"
+        ) {
+          this.router.navigateByUrl("afiliacion/analitica");
         } else {
           this.router.navigateByUrl(this.authService.return);
         }

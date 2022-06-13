@@ -17,6 +17,7 @@ import { RoutePartsService } from "./shared/services/route-parts.service";
 
 import { filter } from "rxjs/operators";
 import { UILibIconService } from "./shared/services/ui-lib-icon.service";
+import { getYear } from "date-fns";
 
 @Component({
   selector: "app-root",
@@ -24,7 +25,9 @@ import { UILibIconService } from "./shared/services/ui-lib-icon.service";
   styleUrls: ["./app.component.css"],
 })
 export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
-  appTitle = "2021";
+  today = new Date();
+  year = this.today.getFullYear();
+  appTitle = this.year.toString();
   pageTitle = "";
 
   constructor(
@@ -65,4 +68,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
       });
   }
   ngOnDestroy() {}
+}
+function getFullYear() {
+  throw new Error("Function not implemented.");
 }

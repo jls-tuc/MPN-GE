@@ -6,6 +6,7 @@ import { TranslateService } from "@ngx-translate/core";
 import { LayoutService } from "../../services/layout.service";
 import { JwtAuthService } from "app/shared/services/auth/jwt-auth.service";
 import { UserModel } from "app/shared/models/user.model";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-header-top",
@@ -30,6 +31,7 @@ export class HeaderTopComponent implements OnInit, OnDestroy {
   @Input() notificPanel;
   constructor(
     private layout: LayoutService,
+    private router: Router,
     public navService: NavigationService,
     public themeService: ThemeService,
     public translate: TranslateService,
@@ -92,5 +94,19 @@ export class HeaderTopComponent implements OnInit, OnDestroy {
     this.layout.publishLayoutChange({
       sidebarStyle: "closed",
     });
+  }
+  closeWindows() {
+    if (
+      this.datosUsuarios.role === "user-Adminafilia" ||
+      this.datosUsuarios.role === "user-afilia"
+    ) {
+      this.router.navigateByUrl("afiliacion/analitica");
+    } else if (
+      this.datosUsuarios.role === "user-coord" ||
+      this.datosUsuarios.role === "user-ref" ||
+      this.datosUsuarios.role === "user-resp"
+    ) {
+      this.router.navigateByUrl("elecciones/referentes");
+    }
   }
 }

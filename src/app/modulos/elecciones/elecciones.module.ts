@@ -21,9 +21,7 @@ import { PlanillaComponent } from "./components/planilla/planilla/planilla.compo
 import { ResponsablesPComponent } from "./components/responsablesPlanilla/responsables-p/responsables-p.component";
 import { PopUpCoorComponent } from "./components/coordinador/pop-up-coor/pop-up-coor.component";
 import { VerPlanillaComponent } from "./components/planilla/ver-planilla/ver-planilla.component";
-
 import { MapaComponent } from "./components/mapa/mapa.component";
-
 import { DatacoordComponent } from "./components/indicadores/datacoord/datacoord.component";
 import { DatarefComponent } from "./components/indicadores/dataref/dataref.component";
 import { DatarespComponent } from "./components/indicadores/dataresp/dataresp.component";
@@ -31,18 +29,17 @@ import { VerMiPlanillaComponent } from "./components/planilla/ver-mi-planilla/ve
 import { GraficaComponent } from "./components/indicadores/grafica/grafica.component";
 import { CardComponent } from "./components/indicadores/grafica/card/card.component";
 import { PiechartComponent } from "./components/indicadores/grafica/piechart/piechart.component";
-
-import { CargarVotoComponent } from './components/cargar-voto/cargar-voto.component';
-import { PopupComponent } from './components/cargar-voto/popup/popup/popup.component';
-
-import { LocalidadesComponent } from './components/indicadores/grafica/localidades/localidades.component';
+import { CargarVotoComponent } from "./components/cargar-voto/cargar-voto.component";
+import { PopupComponent } from "./components/cargar-voto/popup/popup/popup.component";
+import { LocalidadesComponent } from "./components/indicadores/grafica/localidades/localidades.component";
 import { VerPlanillaEleccionComponent } from "./components/planilla/ver-planilla-eleccion/ver-planilla-eleccion.component";
-
 import { NgCircleProgressModule } from "ng-circle-progress";
 import { MapaPopupComponent } from "./components/mapa/popup/popup.component";
+import { DirectivesModuleModule } from "app/directives/DirectivesModule/DirectivesModule.module";
 
 @NgModule({
   imports: [
+    DirectivesModuleModule,
     CommonModule,
     SharedModule,
     FormsModule,
@@ -96,7 +93,7 @@ import { MapaPopupComponent } from "./components/mapa/popup/popup.component";
     CargarVotoComponent,
     PopupComponent,
     MapaPopupComponent,
-
   ],
+  exports: [],
 })
-export class EleccionesModule { }
+export class EleccionesModule {}
