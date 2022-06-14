@@ -1,12 +1,12 @@
-export const generarPlanilla = (planilla?: any) => {
+export const generarPlanilla = (planilla?: any, margen?: any) => {
   return {
     pageSize: {
       //esta en pt
-      width: 1771, //20cm
-      height: 3189, //36cm
+      width: 802, //20cm
+      height: 1443, //36cm
     },
     pageOrientation: "portrait",
-    pageMargins: [224, 1405, 5, 400], //pixeles  224px= 1.9cn
+    pageMargins: margen ? margen : [85, 500, 25, 25], //pixeles  224px= 1.9cn
     content: [
       {
         text: `Apellido y Nombre: ${planilla.apellido.toUpperCase()} ${planilla.nombre.toUpperCase()}`,
@@ -18,20 +18,18 @@ export const generarPlanilla = (planilla?: any) => {
       {
         columns: [
           {
-            width: 300,
+            width: 400,
             text: `Matrícula (LC/LE/DNI) Nro.: ${planilla.documento}`,
             bold: false,
             fontSize: 14,
             alignment: "left",
           },
-          { width: 230, text: "" },
+
           {
             width: "auto",
-            text: `DM.: ${
-              planilla.dm ? planilla.dm.toUpperCase() : ""
-            }  Reg.: ${planilla.rg ? planilla.rg.toUpperCase() : ""} Clase.: ${
-              planilla.clase
-            }`,
+            text: `DM.: ${planilla.dm ? planilla.dm.toUpperCase() : ""
+              }  Reg.: ${planilla.rg ? planilla.rg.toUpperCase() : ""} Clase.: ${planilla.clase
+              }`,
             bold: false,
             fontSize: 14,
           },
@@ -41,27 +39,23 @@ export const generarPlanilla = (planilla?: any) => {
       {
         columns: [
           {
-            width: 100,
-            text: `Sexo: ${
-              planilla.genero ? planilla.genero.toUpperCase() : ""
-            }`,
+            width: 60,
+            text: `Sexo: ${planilla.genero ? planilla.genero.toUpperCase() : ""
+              }`,
             bold: false,
             fontSize: 14,
             alignment: "left",
           },
           {
-            width: 150,
-            text: `Fecha Nac:.${planilla.fechaNacimiento}`,
+            width: 340,
+            text: `Fecha Nac.:${planilla.fechaNacimiento}`,
             bold: false,
             fontSize: 14,
           },
-          { width: 280, text: "" },
-
           {
             width: "auto",
-            text: `Lugar Nac.:${
-              planilla.lugar ? planilla.lugar.toUpperCase() : ""
-            }`,
+            text: `Lugar Nac.:${planilla.lugar ? planilla.lugar.toUpperCase() : ""
+              }`,
             bold: false,
             fontSize: 14,
           },
@@ -72,20 +66,17 @@ export const generarPlanilla = (planilla?: any) => {
         alignment: "justify",
         columns: [
           {
-            width: 250,
-            text: `Profesíon u Oficio : ${
-              planilla.profOficio ? planilla.profOficio.toUpperCase() : ""
-            }`,
+            width: 400,
+            text: `Profesíon u Oficio : ${planilla.profOficio ? planilla.profOficio.toUpperCase() : ""
+              }`,
             bold: false,
             fontSize: 14,
             alignment: "left",
           },
-          { width: 280, text: "" },
           {
             width: "auto",
-            text: `Estado Civil.:${
-              planilla.estadoCivil ? planilla.estadoCivil.toUpperCase() : ""
-            }`,
+            text: `Estado Civil.:${planilla.estadoCivil ? planilla.estadoCivil.toUpperCase() : ""
+              }`,
             bold: false,
             fontSize: 14,
           },
@@ -95,14 +86,13 @@ export const generarPlanilla = (planilla?: any) => {
       {
         alignment: "justify",
         columns: [
-          { width: 100, text: "" },
+          { width: 200, text: "" },
           {
             width: "auto",
-            text: `Último domicilio      Distrito electoral.: ${
-              planilla.ultDomicilio.distritoElec
-                ? planilla.ultDomicilio.distritoElec.toUpperCase()
-                : ""
-            }`,
+            text: `Último domicilio      Distrito electoral.: ${planilla.ultDomicilio.distritoElec
+              ? planilla.ultDomicilio.distritoElec.toUpperCase()
+              : ""
+              }`,
             bold: false,
             fontSize: 14,
             alignment: "left",
@@ -113,15 +103,14 @@ export const generarPlanilla = (planilla?: any) => {
       {
         alignment: "justify",
         columns: [
-          { width: 100, text: "" },
+          { width: 200, text: "" },
 
           {
             width: "auto",
-            text: `según doc.cívico     Partido o departamento: ${
-              planilla.ultDomicilio.partidoDepto
-                ? planilla.ultDomicilio.partidoDepto.toUpperCase()
-                : ""
-            }`,
+            text: `según doc.cívico     Partido o departamento: ${planilla.ultDomicilio.partidoDepto
+              ? planilla.ultDomicilio.partidoDepto.toUpperCase()
+              : ""
+              }`,
             bold: false,
             fontSize: 14,
           },
@@ -131,14 +120,13 @@ export const generarPlanilla = (planilla?: any) => {
       {
         alignment: "justify",
         columns: [
-          { width: 220, text: "" },
+          { width: 320, text: "" },
           {
             width: "auto",
-            text: `Cuartel o Pedanía: ${
-              planilla.ultDomicilio.cuartelPedania
-                ? planilla.ultDomicilio.cuartelPedania.toUpperCase()
-                : ""
-            }`,
+            text: `Cuartel o Pedanía: ${planilla.ultDomicilio.cuartelPedania
+              ? planilla.ultDomicilio.cuartelPedania.toUpperCase()
+              : ""
+              }`,
             bold: false,
             fontSize: 14,
           },
@@ -148,14 +136,13 @@ export const generarPlanilla = (planilla?: any) => {
       {
         alignment: "justify",
         columns: [
-          { width: 220, text: "" },
+          { width: 320, text: "" },
           {
             width: "auto",
-            text: `Ciudad, pueblo o localidad: ${
-              planilla.ultDomicilio.localidad
-                ? planilla.ultDomicilio.localidad.toUpperCase()
-                : ""
-            }`,
+            text: `Ciudad, pueblo o localidad: ${planilla.ultDomicilio.localidad
+              ? planilla.ultDomicilio.localidad.toUpperCase()
+              : ""
+              }`,
             bold: false,
             fontSize: 14,
           },
@@ -165,31 +152,27 @@ export const generarPlanilla = (planilla?: any) => {
       {
         alignment: "justify",
         columns: [
-          { width: 220, text: "" },
+          { width: 320, text: "" },
           {
             width: "auto",
-            text: `Domicilio: ${
-              planilla.ultDomicilio.calle
-                ? planilla.ultDomicilio.calle.toUpperCase()
-                : ""
-            }   Nro.: ${
-              planilla.ultDomicilio.nro
+            text: `Domicilio: ${planilla.ultDomicilio.calle
+              ? planilla.ultDomicilio.calle.toUpperCase()
+              : ""
+              }   Nro.: ${planilla.ultDomicilio.nro
                 ? planilla.ultDomicilio.nro.toUpperCase()
                 : ""
-            }    PI.: ${
-              planilla.ultDomicilio.piso
+              }    PI.: ${planilla.ultDomicilio.piso
                 ? planilla.ultDomicilio.piso.toUpperCase()
                 : ""
-            }    DP.: ${
-              planilla.ultDomicilio.dep
+              }    DP.: ${planilla.ultDomicilio.dep
                 ? planilla.ultDomicilio.dep.toUpperCase()
                 : ""
-            }`,
+              }`,
             bold: false,
             fontSize: 14,
           },
         ],
-        margin: [0, 0, 0, 400],
+        margin: [0, 0, 0, 240],
       },
       {
         text: `Apellido y Nombre: ${planilla.apellido.toUpperCase()} ${planilla.nombre.toUpperCase()}`,
@@ -201,20 +184,18 @@ export const generarPlanilla = (planilla?: any) => {
       {
         columns: [
           {
-            width: 300,
+            width: 400,
             text: `Matrícula (LC/LE/DNI) Nro.: ${planilla.documento}`,
             bold: false,
             fontSize: 14,
             alignment: "left",
           },
-          { width: 230, text: "" },
+
           {
             width: "auto",
-            text: `DM.: ${
-              planilla.dm ? planilla.dm.toUpperCase() : ""
-            }  Reg.: ${planilla.rg ? planilla.rg.toUpperCase() : ""} Clase.: ${
-              planilla.clase
-            }`,
+            text: `DM.: ${planilla.dm ? planilla.dm.toUpperCase() : ""
+              }  Reg.: ${planilla.rg ? planilla.rg.toUpperCase() : ""} Clase.: ${planilla.clase
+              }`,
             bold: false,
             fontSize: 14,
           },
@@ -224,27 +205,23 @@ export const generarPlanilla = (planilla?: any) => {
       {
         columns: [
           {
-            width: 100,
-            text: `Sexo: ${
-              planilla.genero ? planilla.genero.toUpperCase() : ""
-            }`,
+            width: 60,
+            text: `Sexo: ${planilla.genero ? planilla.genero.toUpperCase() : ""
+              }`,
             bold: false,
             fontSize: 14,
             alignment: "left",
           },
           {
-            width: 150,
-            text: `Fecha Nac:.${planilla.fechaNacimiento}`,
+            width: 340,
+            text: `Fecha Nac.:${planilla.fechaNacimiento}`,
             bold: false,
             fontSize: 14,
           },
-          { width: 280, text: "" },
-
           {
             width: "auto",
-            text: `Lugar Nac.:${
-              planilla.lugar ? planilla.lugar.toUpperCase() : ""
-            }`,
+            text: `Lugar Nac.:${planilla.lugar ? planilla.lugar.toUpperCase() : ""
+              }`,
             bold: false,
             fontSize: 14,
           },
@@ -255,20 +232,17 @@ export const generarPlanilla = (planilla?: any) => {
         alignment: "justify",
         columns: [
           {
-            width: 250,
-            text: `Profesíon u Oficio : ${
-              planilla.profOficio ? planilla.profOficio.toUpperCase() : ""
-            }`,
+            width: 400,
+            text: `Profesíon u Oficio : ${planilla.profOficio ? planilla.profOficio.toUpperCase() : ""
+              }`,
             bold: false,
             fontSize: 14,
             alignment: "left",
           },
-          { width: 280, text: "" },
           {
             width: "auto",
-            text: `Estado Civil.:${
-              planilla.estadoCivil ? planilla.estadoCivil.toUpperCase() : ""
-            }`,
+            text: `Estado Civil.:${planilla.estadoCivil ? planilla.estadoCivil.toUpperCase() : ""
+              }`,
             bold: false,
             fontSize: 14,
           },
@@ -278,14 +252,13 @@ export const generarPlanilla = (planilla?: any) => {
       {
         alignment: "justify",
         columns: [
-          { width: 100, text: "" },
+          { width: 200, text: "" },
           {
             width: "auto",
-            text: `Último domicilio      Distrito electoral.: ${
-              planilla.ultDomicilio.distritoElec
-                ? planilla.ultDomicilio.distritoElec.toUpperCase()
-                : ""
-            }`,
+            text: `Último domicilio      Distrito electoral.: ${planilla.ultDomicilio.distritoElec
+              ? planilla.ultDomicilio.distritoElec.toUpperCase()
+              : ""
+              }`,
             bold: false,
             fontSize: 14,
             alignment: "left",
@@ -296,15 +269,14 @@ export const generarPlanilla = (planilla?: any) => {
       {
         alignment: "justify",
         columns: [
-          { width: 100, text: "" },
+          { width: 200, text: "" },
 
           {
             width: "auto",
-            text: `según doc.cívico     Partido o departamento: ${
-              planilla.ultDomicilio.partidoDepto
-                ? planilla.ultDomicilio.partidoDepto.toUpperCase()
-                : ""
-            }`,
+            text: `según doc.cívico     Partido o departamento: ${planilla.ultDomicilio.partidoDepto
+              ? planilla.ultDomicilio.partidoDepto.toUpperCase()
+              : ""
+              }`,
             bold: false,
             fontSize: 14,
           },
@@ -314,14 +286,13 @@ export const generarPlanilla = (planilla?: any) => {
       {
         alignment: "justify",
         columns: [
-          { width: 220, text: "" },
+          { width: 320, text: "" },
           {
             width: "auto",
-            text: `Cuartel o Pedanía: ${
-              planilla.ultDomicilio.cuartelPedania
-                ? planilla.ultDomicilio.cuartelPedania.toUpperCase()
-                : ""
-            }`,
+            text: `Cuartel o Pedanía: ${planilla.ultDomicilio.cuartelPedania
+              ? planilla.ultDomicilio.cuartelPedania.toUpperCase()
+              : ""
+              }`,
             bold: false,
             fontSize: 14,
           },
@@ -331,14 +302,13 @@ export const generarPlanilla = (planilla?: any) => {
       {
         alignment: "justify",
         columns: [
-          { width: 220, text: "" },
+          { width: 320, text: "" },
           {
             width: "auto",
-            text: `Ciudad, pueblo o localidad: ${
-              planilla.ultDomicilio.localidad
-                ? planilla.ultDomicilio.localidad.toUpperCase()
-                : ""
-            }`,
+            text: `Ciudad, pueblo o localidad: ${planilla.ultDomicilio.localidad
+              ? planilla.ultDomicilio.localidad.toUpperCase()
+              : ""
+              }`,
             bold: false,
             fontSize: 14,
           },
@@ -348,31 +318,27 @@ export const generarPlanilla = (planilla?: any) => {
       {
         alignment: "justify",
         columns: [
-          { width: 220, text: "" },
+          { width: 320, text: "" },
           {
             width: "auto",
-            text: `Domicilio: ${
-              planilla.ultDomicilio.calle
-                ? planilla.ultDomicilio.calle.toUpperCase()
-                : ""
-            }   Nro.: ${
-              planilla.ultDomicilio.nro
+            text: `Domicilio: ${planilla.ultDomicilio.calle
+              ? planilla.ultDomicilio.calle.toUpperCase()
+              : ""
+              }   Nro.: ${planilla.ultDomicilio.nro
                 ? planilla.ultDomicilio.nro.toUpperCase()
                 : ""
-            }    PI.: ${
-              planilla.ultDomicilio.piso
+              }    PI.: ${planilla.ultDomicilio.piso
                 ? planilla.ultDomicilio.piso.toUpperCase()
                 : ""
-            }    DP.: ${
-              planilla.ultDomicilio.dep
+              }    DP.: ${planilla.ultDomicilio.dep
                 ? planilla.ultDomicilio.dep.toUpperCase()
                 : ""
-            }`,
+              }`,
             bold: false,
             fontSize: 14,
           },
         ],
-        margin: [0, 0, 0, 10],
+        margin: [0, 0, 0, 400],
       },
     ],
   };
