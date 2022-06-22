@@ -195,8 +195,12 @@
                                     <div class="col">
                                         <mat-form-field class="sepa" appearance="fill">
                                             <mat-label>Ciudad, Pueblo o Localidad</mat-label>
-                                            <input type="text" class="form-control" matInput formControlName="localidad"
-                                                [readonly]='editar' placeholder="">
+                                            <mat-select formControlName="localidad">
+                                                <mat-option *ngFor="let localidad of localidades"
+                                                    [value]="localidad.nombre" [readonly]='editar'>
+                                                    {{localidad.nombre | titlecase}}
+                                                </mat-option>
+                                            </mat-select>
                                         </mat-form-field>
                                     </div>
                                 </div>

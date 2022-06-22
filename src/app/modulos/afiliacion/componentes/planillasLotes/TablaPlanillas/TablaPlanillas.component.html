@@ -1,0 +1,126 @@
+<mat-card>
+  <mat-card-title>Planillas</mat-card-title>
+  <mat-card-subtitle>Esta información, es porporcionada por los datos alojados en los lotes</mat-card-subtitle>
+  <mat-card-actions>
+
+    <form [formGroup]="filtroForm" autocomplete="off">
+      <div class="row justify-content-center" *ngIf="filtros">
+
+        <div class="col-3">
+          <mat-form-field appearance="fill">
+            <mat-label>Localidades</mat-label>
+            <mat-select formControlName="localidad">
+              <mat-option *ngFor="let localidad of localidades" [value]="localidad.nombre">
+                {{localidad.nombre | titlecase}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-3">
+          <mat-form-field appearance="fill">
+            <mat-label>Genero</mat-label>
+            <mat-select formControlName="genero">
+              <mat-option *ngFor="let genero of generos" [value]="genero.op">
+                {{genero.nombre | titlecase}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-3">
+          <mat-form-field appearance="fill">
+            <mat-label>Estados</mat-label>
+            <mat-select formControlName="estado">
+              <mat-option *ngFor="let estado of estados" [value]="estado">
+                {{estado | titlecase}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-1">
+          <button mat-icon-button color="accent" (click)="filtrar()" matTooltip="Cargar información">
+            <mat-icon>search</mat-icon>
+          </button>
+        </div>
+      </div>
+    </form>
+
+    <button mat-button color="primary" (click)="activarFiltros()"
+      matTooltip="Filtrar planillas por Localidad/Genero/Estado"> Filtros
+      <mat-icon>
+        filter_list
+      </mat-icon>
+    </button>
+
+
+    <!-- <button mat-button (click)="ocultarBarra()">Ocultar</button> -->
+  </mat-card-actions>
+</mat-card>
+<br>
+<mat-card>
+  <mat-card-title>Personas</mat-card-title>
+
+  <mat-form-field appearance="standard">
+    <mat-label>Buscar</mat-label>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Ej.: Documento / Localidad / estado" #input>
+  </mat-form-field>
+
+
+  <div class="mat-elevation-z8">
+    <table id="htmlData" mat-table [dataSource]="dataSource" matSort>
+
+      <ng-container matColumnDef="documento">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="negrita"> DNI </th>
+        <td mat-cell *matCellDef="let row" class="negrita"> {{row.documento}} </td>
+      </ng-container>
+      <ng-container matColumnDef="apellido">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Apellido </th>
+        <td mat-cell *matCellDef="let row"> {{row.apellido | titlecase}} </td>
+      </ng-container>
+      <ng-container matColumnDef="nombre">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre </th>
+        <td mat-cell *matCellDef="let row"> {{row.nombre| titlecase}} </td>
+      </ng-container>
+      <ng-container matColumnDef="localidad">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Localidad </th>
+        <td mat-cell *matCellDef="let row"> {{row.localidad| titlecase}} </td>
+      </ng-container>
+      <ng-container matColumnDef="estado">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Estado </th>
+        <td mat-cell *matCellDef="let row"
+          [ngStyle]="{'color': (row.estadoAf === 'afiliado'&& 'blue'||row.estadoAf === 'pendiente'&& 'green'||row.estadoAf === 'rechazado'&& 'red' ||row.estadoAf === 'baja'&& 'orange')}">
+          {{row.estadoAf| titlecase}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="opciones">
+        <th style="width: 5%" mat-header-cell *matHeaderCellDef mat-sort-header> Opciones </th>
+        <td mat-cell *matCellDef="let row">
+          <a>
+            <mat-icon mat-icon-button mat-sm-button (click)="verInfoPopUp(row)" matTooltip="Información" color='primary'
+              class="m-2 ">visibility
+            </mat-icon>
+          </a>
+          <a>
+            <mat-icon aria-hidden="false" aria-label="Example home icon" color='' matTooltip="Cambiar estado"
+              (click)="cambiarEstadoPersona(row)">
+              manage_accounts
+            </mat-icon>
+          </a>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+      <!-- Row shown when there is no matching data. -->
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell" colspan="4">No hay datos que coincidan con la busqueda "{{input.value}}"</td>
+      </tr>
+    </table>
+  </div>
+
+
+
+
+  <mat-paginator id="htmlData" [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+  <button *ngIf="buscar" mat-raised-button color="primary" (click)="downloadAsPDF()">Exportar PDF</button>
+</mat-card>

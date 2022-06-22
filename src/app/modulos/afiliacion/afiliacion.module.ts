@@ -17,15 +17,21 @@ import { NgApexchartsModule } from "ng-apexcharts";
 import { NgxEchartsModule } from "ngx-echarts";
 import * as echarts from "echarts";
 import { MatDialogModule } from "@angular/material/dialog";
-import { SoloNumerosDirective } from "app/directives/solo-numeros.directive";
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { MatCardModule } from "@angular/material/card";
 import { InfoCnePopUpComponent } from "./componentes/GrupoAfilia/InfoCne-popup/infoCnePopUp/infoCnePopUp.component";
 import { DirectivesModuleModule } from "app/directives/DirectivesModule/DirectivesModule.module";
+import { TablaPlanillasComponent } from "./componentes/planillasLotes/TablaPlanillas/TablaPlanillas.component";
+import { MatSortModule } from "@angular/material/sort";
+import { MatPaginatorModule } from "@angular/material/paginator";
+import { VerInfoPopUpComponent } from "./componentes/planillasLotes/verInfoPopUp/verInfoPopUp.component";
 
 @NgModule({
   imports: [
     DirectivesModuleModule,
+    MatSortModule,
+    MatPaginatorModule,
+
     CommonModule,
     SharedModule,
     FormsModule,
@@ -40,7 +46,6 @@ import { DirectivesModuleModule } from "app/directives/DirectivesModule/Directiv
     NgApexchartsModule,
     MatDialogModule,
     MatCardModule,
-
     RouterModule.forChild(AfiliacionRoutes),
   ],
   declarations: [
@@ -51,6 +56,8 @@ import { DirectivesModuleModule } from "app/directives/DirectivesModule/Directiv
     PlanillasAfiliacionComponent,
     MenuPrincipalComponent,
     InfoCnePopUpComponent,
+    VerInfoPopUpComponent,
+    TablaPlanillasComponent,
   ],
 })
 export class AfiliacionModule {}

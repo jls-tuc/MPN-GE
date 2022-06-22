@@ -17,6 +17,7 @@ import { AfiliacionService } from "../../../../services/afiliacion.service";
 import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";
 import { generarPlanilla } from "../../../planillaPdf/planillaPdf";
+import { ProvLocService } from "app/shared/services/prov-loc.service";
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 @Component({
@@ -49,11 +50,14 @@ export class PopUpFormAfiliaComponent implements OnInit {
     private cdr: ChangeDetectorRef,
     private router: Router,
     private afiliadoService: AfiliacionService,
+    private provLocService: ProvLocService,
     private padronService: PadronesService
   ) {
     this.user$ = this.auth.currentUserSubject.asObservable();
     this.usurioLog = this.user$;
+    this.obtProvLoc();
     this.cargarFormAfiliacion();
+
     this.buildSecondForm();
     if (this.data.title === "Ver planilla") {
       this.verPlanilla(this.data.value);
@@ -88,6 +92,10 @@ export class PopUpFormAfiliaComponent implements OnInit {
       lugar: [dataPadron ? dataPadron.lugar : ""],
       profOficio: [dataPadron ? dataPadron.profOficio : ""],
       estadoCivil: [dataPadron ? dataPadron.estadoCivil : ""],
+      estadoAf: "pendiente",
+      fechaAfilia: "",
+      fechaBaja: "",
+      obserBaja: "",
       ultDomicilio: this.fb.group({
         distritoElec: [dataPadron ? dataPadron.distritoElec : ""],
         partidoDepto: [dataPadron ? dataPadron.partidoDepto : ""],
@@ -336,6 +344,11 @@ export class PopUpFormAfiliaComponent implements OnInit {
         this.dialogRef.close();
       }
     );
+  }
+  obtProvLoc() {
+    this.provLocService.getLocalidades().subscribe((data: any) => {
+      this.localidades = data.data;
+    });
   }
   verPlanilla(planilla) {
     this.cargarFormAfiliacion(planilla);

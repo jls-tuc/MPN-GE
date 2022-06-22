@@ -3,6 +3,7 @@ import { Routes } from "@angular/router";
 import { AltaLoteComponent } from "./componentes/GrupoAfilia/alta-lote/alta-lote.component";
 import { TablaGruposComponent } from "./componentes/GrupoAfilia/Ver-Grupos/tabla-grupos.component";
 import { MenuPrincipalComponent } from "./componentes/menuPrincipal/menuPrincipal/menuPrincipal.component";
+import { TablaPlanillasComponent } from "./componentes/planillasLotes/TablaPlanillas/TablaPlanillas.component";
 
 export const AfiliacionRoutes: Routes = [
   {
@@ -27,6 +28,13 @@ export const AfiliacionRoutes: Routes = [
         component: TablaGruposComponent,
         data: {
           title: "Crear Afiliciación",
+        },
+      },
+      {
+        path: "planillas",
+        component: TablaPlanillasComponent,
+        data: {
+          title: "Planillas",
         },
       },
     ],

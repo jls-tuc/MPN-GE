@@ -1,0 +1,79 @@
+<h1 mat-dialog-title>{{this.data.title}}</h1>
+<div mat-dialog-content>
+
+
+
+  <mat-card-content>
+
+    <div fxLayout="row wrap">
+      <div fxFlex="100" fxFlex.gt-xs="50" class="pr-16">
+        <div class="pb-16">
+          <mat-form-field class="full-width">
+            <input matInput name="Nombre completo" placeholder="Nombre Completo"
+              value="{{this.data.payload.planilla.apellido|titlecase}} {{this.data.payload.planilla.nombre|titlecase}}">
+          </mat-form-field>
+
+        </div>
+
+        <div class="pb-16">
+          <mat-form-field class="full-width">
+            <input matInput name="localidad" placeholder="Localidad"
+              value="{{this.data.payload.planilla.localidad | titlecase}}">
+          </mat-form-field>
+
+        </div>
+
+        <div class="pb-16">
+          <mat-form-field class="full-width">
+            <input matInput type="date" name="fechaNacimiento" placeholder="Fecha de Nacimiento"
+              value="{{this.data.payload.planilla.fechaNacimiento}}">
+          </mat-form-field>
+
+        </div>
+      </div>
+      <div fxFlex="100" fxFlex.gt-xs="50">
+        <div class="pb-16">
+          <mat-form-field class="full-width">
+            <input matInput name="NroLte" placeholder="Lote Nro.:" value="{{this.data.payload.planilla.nroLte}}">
+          </mat-form-field>
+
+        </div>
+
+        <div class="pb-16">
+          <mat-form-field class="full-width">
+            <input matInput name="estado" matInput placeholder="Estado Afiliación"
+              [ngStyle]="{'color': (this.data.payload.planilla.estadoAf === 'afiliado'&& 'blue'||this.data.payload.planilla.estadoAf === 'pendiente'&& 'green'||this.data.payload.planilla.estadoAf === 'rechazado'&& 'red' ||this.data.payload.planilla.estadoAf === 'baja'&& 'orange')}"
+              value="{{this.data.payload.planilla.estadoAf |titlecase}}">
+          </mat-form-field>
+
+        </div>
+
+        <div class="pb-16">
+          <mat-form-field *ngIf="this.data.payload.planilla.estadoAf === 'afiliado'" class="full-width">
+            <input matInput type="date" name="fechaAfil" placeholder="Fecha de Afiliación"
+              value="{{this.data.payload.planilla.fechaAfilia}}">
+          </mat-form-field>
+          <mat-form-field *ngIf="this.data.payload.planilla.fechaBaja === 'baja'" class="full-width">
+            <input matInput type="date" name="fechaAfil" placeholder="Fecha de baja"
+              value="{{this.data.payload.planilla.fechaBaja}}">
+          </mat-form-field>
+
+        </div>
+
+      </div>
+      <div fxFlex="100"
+        *ngIf="this.data.payload.planilla.estadoAf === 'baja'||this.data.payload.planilla.estadoAf === 'rechazado'">
+        <mat-form-field class="full-width">
+          <textarea matInput name="Observaciones" placeholder="Observaciones de la baja / rechazo de la afiliación"
+            value="{{this.data.payload.planilla.obserBaja|titlecase}}"></textarea>
+        </mat-form-field>
+
+      </div>
+    </div>
+
+  </mat-card-content>
+</div>
+
+<div mat-dialog-actions>
+  <button mat-button mat-dialog-close>Cerrar</button>
+</div>
