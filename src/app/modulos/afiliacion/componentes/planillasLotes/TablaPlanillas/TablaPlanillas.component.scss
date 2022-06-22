@@ -1,0 +1,27 @@
+table {
+  width: 100%;
+  border-radius: 8px;
+  overflow: hidden !important;
+}
+.mat-header-cell {
+  background: rgba(70, 153, 222, 0.918);
+  font-weight: bolder;
+}
+.mat-form-field {
+  font-size: 14px;
+  width: 85%;
+}
+.negrita {
+  font-weight: bolder;
+}
+.btnBuscar {
+  font-size: 20px;
+  line-height: 50px;
+  text-align: center;
+  width: 100px;
+  height: 50px;
+}
+td,
+th {
+  width: auto;
+}

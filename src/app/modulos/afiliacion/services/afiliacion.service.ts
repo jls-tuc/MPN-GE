@@ -72,11 +72,27 @@ export class AfiliacionService {
     let url = `${apiURL}/afiliaciones/presentacion/${_id}`;
     return this.http.patch(url, data);
   }
+  ///udpEstadoPlanilla
+  updPlanilla(value: {}, nroLte: string) {
+    let data: any = {};
+    data.upd = value;
+
+    let url = `${apiURL}/afiliaciones/updPlanilla/${nroLte}`;
+    return this.http.patch(url, data);
+  }
 
   ///indicadores
 
   getIndica() {
     let url = `${apiURL}/afiliaciones/indica`;
     return this.http.get(url);
+  }
+  /// planillas de los lotes
+
+  getPlanillas(value: {}) {
+    let data: any = {};
+    data.data = value;
+    let url = `${apiURL}/afiliaciones/planillas`;
+    return this.http.post(url, data);
   }
 }

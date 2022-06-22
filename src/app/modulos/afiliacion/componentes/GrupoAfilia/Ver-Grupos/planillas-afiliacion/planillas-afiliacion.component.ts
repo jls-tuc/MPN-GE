@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   ChangeDetectorRef,
   Component,
   Inject,
@@ -23,25 +24,47 @@ import pdfFonts from "pdfmake/build/vfs_fonts";
 import { IPlanillaAfilia } from "app/modulos/afiliacion/interface/planillaAfilia";
 
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
-
+export interface planillaData {
+  apellido: string;
+  documento: string;
+  estadoAf: string;
+  fechaAfilia?: string;
+  fechaBaja?: string;
+  fechaNacimiento: string;
+  genero: string;
+  nombre: string;
+  nroLte: string;
+  obserBaja?: string;
+  localidad?: string;
+  ultDomicilio?: {
+    calle?: string;
+    dep?: string;
+    distritoElec?: string;
+    localidad?: string;
+    nro?: string;
+    partidoDepto?: string;
+    piso?: string;
+  };
+}
 @Component({
   selector: "app-planillas-afiliacion",
   templateUrl: "./planillas-afiliacion.component.html",
   styleUrls: ["./planillas-afiliacion.component.scss"],
 })
-export class PlanillasAfiliacionComponent implements OnInit {
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
-  dataSource: MatTableDataSource<any>;
-  sortedData: any[];
-  planillas: any = {};
+export class PlanillasAfiliacionComponent implements AfterViewInit {
+  dataSource: MatTableDataSource<planillaData>;
+
   listaColumnas: string[] = [
-    "dni",
-    "nombreCompleto",
+    "documento",
+    "apellido",
+    "nombre",
     "localidad",
     "telefono",
     "opciones",
   ];
+
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
 
   constructor(
     @Optional() public dialogRef: MatDialogRef<PlanillasAfiliacionComponent>,
@@ -50,19 +73,25 @@ export class PlanillasAfiliacionComponent implements OnInit {
     private auth: JwtAuthService,
     private cdr: ChangeDetectorRef,
     private router: Router
-  ) {}
-
-  ngOnInit(): void {
-    this.cargarPlanilla(this.data.planillas);
+  ) {
+    console.log(this.data.planillas);
   }
-  cargarPlanilla(planillas) {
-    this.dataSource = new MatTableDataSource();
-    this.dataSource.data = planillas;
-    this.planillas = planillas;
+
+  ngAfterViewInit() {
+    this.dataSource = new MatTableDataSource(this.data.planillas);
+    this.paginator._intl.itemsPerPageLabel = "Planillas";
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
     this.cdr.markForCheck();
   }
+  /* cargarPlanilla(planillas) {
+    this.dataSource = new MatTableDataSource(planillas);
+    this.planillas = planillas;
+    this.paginator._intl.itemsPerPageLabel = "Planillas";
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+    this.cdr.markForCheck();
+  } */
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
