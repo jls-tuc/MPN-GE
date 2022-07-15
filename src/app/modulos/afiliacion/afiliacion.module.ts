@@ -25,6 +25,8 @@ import { TablaPlanillasComponent } from "./componentes/planillasLotes/TablaPlani
 import { MatSortModule } from "@angular/material/sort";
 import { MatPaginatorModule } from "@angular/material/paginator";
 import { VerInfoPopUpComponent } from "./componentes/planillasLotes/verInfoPopUp/verInfoPopUp.component";
+import { TablaInfoJuntaComponent } from "./componentes/InfoJunta/tablaInfoJunta/tablaInfoJunta.component";
+import { PopUpInfoJuntaComponent } from "./componentes/InfoJunta/popUpInfoJunta/popUpInfoJunta.component";
 
 @NgModule({
   imports: [
@@ -58,6 +60,8 @@ import { VerInfoPopUpComponent } from "./componentes/planillasLotes/verInfoPopUp
     InfoCnePopUpComponent,
     VerInfoPopUpComponent,
     TablaPlanillasComponent,
+    TablaInfoJuntaComponent,
+    PopUpInfoJuntaComponent,
   ],
 })
 export class AfiliacionModule {}
