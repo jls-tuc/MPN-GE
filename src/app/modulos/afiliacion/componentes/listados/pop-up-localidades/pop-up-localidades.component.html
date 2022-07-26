@@ -1,0 +1,58 @@
+<div class="row">
+  <div *ngFor="let localidad of localidades" fxFlex="100" fxFlex.gt-sm="50" fxFlex.sm="50">
+    <mat-card>
+      <div class="col-12">
+        <div class="row">
+          <div class="col-9">
+            <h5 class="m-0 ">Localidad : {{localidad.localidad}}</h5>
+
+          </div>
+          <div class="col-3 texto-derecha">
+            <button mat-icon-button [matMenuTriggerFor]="loteMenu" class="">
+              <mat-icon class="color-texto-primario icon-blue size-texto-40">add_circle</mat-icon>
+            </button>
+            <mat-menu #loteMenu="matMenu">
+              <button *ngIf="localidad.empadronados.length" mat-menu-item
+                (click)="openDialogEmpadronados(localidad.empadronados)">Ver Empadronados</button>
+              <button *ngIf="localidad.empadronados.length" mat-menu-item
+                (click)="openDialogExportar(localidad)">Exportar a
+                Excel</button>
+            </mat-menu>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-9">
+          <h5 class="m-0 ">Total de Empadronados: </h5>
+        </div>
+        <div class="col-3 texto-derecha">
+          <h5 class="m-0 ">{{localidad.total}}</h5>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-9">
+          <h5 class="m-0 ">Total Género Femenino:</h5>
+        </div>
+        <div class="col-3 texto-derecha">
+          <h5 class="m-0 ">{{localidad.totalFemenino}}</h5>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-9">
+          <h5 class="m-0 ">Total Género Masculino:</h5>
+        </div>
+        <div class="col-3 texto-derecha">
+          <h5 class="m-0 ">{{localidad.totalMasculino}}</h5>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-9">
+          <h5 class="m-0 ">Total Género No Binario:</h5>
+        </div>
+        <div class="col-3 texto-derecha pr-2">
+          <h5 class="m-0 ">{{localidad.totalNoBinario}}</h5>
+        </div>
+      </div>
+    </mat-card>
+  </div>
+</div>

@@ -25,13 +25,16 @@ import { TablaPlanillasComponent } from "./componentes/planillasLotes/TablaPlani
 import { MatSortModule } from "@angular/material/sort";
 import { MatPaginatorModule } from "@angular/material/paginator";
 import { VerInfoPopUpComponent } from "./componentes/planillasLotes/verInfoPopUp/verInfoPopUp.component";
+import { ListadosComponent } from "./componentes/listados/listados.component";
+import { PopUpLocalidadesComponent } from './componentes/listados/pop-up-localidades/pop-up-localidades.component';
+import { PopUpEmpadronadosComponent } from './componentes/listados/pop-up-localidades/pop-up-empadronados/pop-up-empadronados.component';
+import { ExportarExcelComponent } from './componentes/listados/exportar-excel/exportar-excel.component';
 
 @NgModule({
   imports: [
     DirectivesModuleModule,
     MatSortModule,
     MatPaginatorModule,
-
     CommonModule,
     SharedModule,
     FormsModule,
@@ -58,6 +61,10 @@ import { VerInfoPopUpComponent } from "./componentes/planillasLotes/verInfoPopUp
     InfoCnePopUpComponent,
     VerInfoPopUpComponent,
     TablaPlanillasComponent,
+    ListadosComponent,
+    PopUpLocalidadesComponent,
+    PopUpEmpadronadosComponent,
+    ExportarExcelComponent,
   ],
 })
-export class AfiliacionModule {}
+export class AfiliacionModule { }

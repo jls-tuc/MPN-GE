@@ -60,11 +60,12 @@ export class PopUpFormAfiliaComponent implements OnInit {
 
     this.buildSecondForm();
     if (this.data.title === "Ver planilla") {
+      console.log('this.data.value', this.data.value)
       this.verPlanilla(this.data.value);
     }
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   cargarFormAfiliacion(data?) {
     this.firstFormGroup = this.fb.group({

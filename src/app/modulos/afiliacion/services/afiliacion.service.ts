@@ -1,16 +1,19 @@
 import { Injectable } from "@angular/core";
-import { HttpClient, HttpErrorResponse } from "@angular/common/http";
+import { HttpClient, HttpErrorResponse, } from "@angular/common/http";
 import { environment } from "environments/environment";
-import { ValueConverter } from "@angular/compiler/src/render3/view/template";
-import { tap } from "rxjs/operators";
+import * as FileSaver from "file-saver";
+import * as XLSX from "xlsx";
 
 const apiURL = environment.apiURL;
+const EXCEL_TYPE = 'aplication/vnv.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+const EXCEL_EXTENSION = '.xlsx';
+
 
 @Injectable({
   providedIn: "root",
 })
 export class AfiliacionService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   getAllUsuarios() {
     let url = `${apiURL}/auth/usr`;
@@ -94,5 +97,22 @@ export class AfiliacionService {
     data.data = value;
     let url = `${apiURL}/afiliaciones/planillas`;
     return this.http.post(url, data);
+  }
+  getListadosMPN() {
+    let url = `${apiURL}/afiliaciones/listados_afiliados`;
+    return this.http.get(url);
+  }
+
+
+  getExportacionExcel = async (data: any[], nombreColumnas: string[], nombreHoja: any) => {
+    /* console.log('datos', datos) */
+    let ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(data);
+    let wb: XLSX.WorkBook = { Sheets: { 'Empadronados': ws }, SheetNames: ['Empadronados'] };
+    let excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+    this.saveAsExcelFile(excelBuffer, nombreHoja);
+  }
+  saveAsExcelFile(buffer: any, fileName: string) {
+    const data: Blob = new Blob([buffer], { type: EXCEL_TYPE });
+    FileSaver.saveAs(data, fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
   }
 }

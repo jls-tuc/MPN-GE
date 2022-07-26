@@ -1,0 +1,90 @@
+<ng-container *ngIf="!cargado">
+  <div class="app-loader">
+    <div class="spinner">
+      <div class="double-bounce1 mat-bg-primary" style="background: #0448a1"></div>
+      <div class="double-bounce2 mat-bg-accent" style="background: #03a9f4"></div>
+    </div>
+  </div>
+</ng-container>
+<ng-container *ngIf="cargado">
+  <div fxLayout="row wrap">
+    <div fxFlex="100" fxFlex.gt-sm="100" fxFlex.sm="100">
+      <mat-card>
+        <mat-card-content>
+          <div class="row">
+            <h3>Listados de Empadronados a Exportar</h3>
+          </div>
+        </mat-card-content>
+      </mat-card>
+      <mat-card>
+        <mat-card-content>
+          <div class="row">
+            <h7>Seleccione los sexos a Exportar</h7>
+            <div class="col-12">
+              <form [formGroup]="form" (ngSubmit)="submitFormSexo()" novalidate>
+                <div class="col-4">
+                  <label>
+                    <input type="checkbox" [value]="DataSexo[0].value" (change)="onCheckboxChangeSexo(DataSexo[0])"
+                      [checked]="DataSexo[0].checked" />
+                    Femenino
+                  </label>
+                </div>
+                <div class="col-4">
+                  <label>
+                    <input type="checkbox" [value]="DataSexo[1].value" (change)="onCheckboxChangeSexo(DataSexo[1])"
+                      [checked]="DataSexo[1].checked" />
+                    Masculino
+                  </label>
+                </div>
+                <div class="col-4">
+                  <label>
+                    <input type="checkbox" [value]="DataSexo[2].value" (change)="onCheckboxChangeSexo(DataSexo[2])"
+                      [checked]="DataSexo[2].checked" />
+                    No Binario
+                  </label>
+                </div>
+              </form>
+            </div>
+          </div>
+
+
+        </mat-card-content>
+      </mat-card>
+      <mat-card>
+        <mat-card-content>
+          <div class="flex-row ">
+            <form [formGroup]=" form" (ngSubmit)="submitForm()" novalidate>
+              <div *ngFor="let data of Data; let i=index">
+                <label>
+                  <input type="checkbox" [value]="data.localidad" (change)="onCheckboxChange($event)" />
+                  {{data.localidad}}
+                </label>
+              </div>
+              <div class="flex-wrap">
+                <!-- 
+                <div class="col pr-2">
+
+                  <button mat-raised-button color="primary" type="button"
+                    (click)="clickSeleccion('Todas')">Todas</button>
+                </div>
+                <div class="col pr-2">
+
+                  <button mat-raised-button color="primary" type="button"
+                    (click)="clickSeleccion('Ninguna')">Ninguna</button>
+                </div> -->
+                <div class="col pr-2">
+
+                  <button mat-raised-button color="primary" [disabled]="disabled">Exportar</button>
+                </div>
+              </div>
+            </form>
+
+          </div>
+
+
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+  </div>
+</ng-container>
