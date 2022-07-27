@@ -25,6 +25,10 @@ import { TablaPlanillasComponent } from "./componentes/planillasLotes/TablaPlani
 import { MatSortModule } from "@angular/material/sort";
 import { MatPaginatorModule } from "@angular/material/paginator";
 import { VerInfoPopUpComponent } from "./componentes/planillasLotes/verInfoPopUp/verInfoPopUp.component";
+import { ListadosComponent } from "./componentes/listados/listados.component";
+import { PopUpLocalidadesComponent } from './componentes/listados/pop-up-localidades/pop-up-localidades.component';
+import { PopUpEmpadronadosComponent } from './componentes/listados/pop-up-localidades/pop-up-empadronados/pop-up-empadronados.component';
+import { ExportarExcelComponent } from './componentes/listados/exportar-excel/exportar-excel.component';
 import { TablaInfoJuntaComponent } from "./componentes/InfoJunta/tablaInfoJunta/tablaInfoJunta.component";
 import { PopUpInfoJuntaComponent } from "./componentes/InfoJunta/popUpInfoJunta/popUpInfoJunta.component";
 
@@ -33,7 +37,6 @@ import { PopUpInfoJuntaComponent } from "./componentes/InfoJunta/popUpInfoJunta/
     DirectivesModuleModule,
     MatSortModule,
     MatPaginatorModule,
-
     CommonModule,
     SharedModule,
     FormsModule,
@@ -60,8 +63,13 @@ import { PopUpInfoJuntaComponent } from "./componentes/InfoJunta/popUpInfoJunta/
     InfoCnePopUpComponent,
     VerInfoPopUpComponent,
     TablaPlanillasComponent,
+    ListadosComponent,
+    PopUpLocalidadesComponent,
+    PopUpEmpadronadosComponent,
+    ExportarExcelComponent,
     TablaInfoJuntaComponent,
     PopUpInfoJuntaComponent,
+
   ],
 })
-export class AfiliacionModule {}
+export class AfiliacionModule { }
