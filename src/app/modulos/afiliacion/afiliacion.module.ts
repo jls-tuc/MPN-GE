@@ -29,6 +29,8 @@ import { ListadosComponent } from "./componentes/listados/listados.component";
 import { PopUpLocalidadesComponent } from './componentes/listados/pop-up-localidades/pop-up-localidades.component';
 import { PopUpEmpadronadosComponent } from './componentes/listados/pop-up-localidades/pop-up-empadronados/pop-up-empadronados.component';
 import { ExportarExcelComponent } from './componentes/listados/exportar-excel/exportar-excel.component';
+import { TablaInfoJuntaComponent } from "./componentes/InfoJunta/tablaInfoJunta/tablaInfoJunta.component";
+import { PopUpInfoJuntaComponent } from "./componentes/InfoJunta/popUpInfoJunta/popUpInfoJunta.component";
 
 @NgModule({
   imports: [
@@ -65,6 +67,9 @@ import { ExportarExcelComponent } from './componentes/listados/exportar-excel/ex
     PopUpLocalidadesComponent,
     PopUpEmpadronadosComponent,
     ExportarExcelComponent,
+    TablaInfoJuntaComponent,
+    PopUpInfoJuntaComponent,
+
   ],
 })
 export class AfiliacionModule { }

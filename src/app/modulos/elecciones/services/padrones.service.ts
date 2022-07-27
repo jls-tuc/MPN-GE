@@ -27,4 +27,17 @@ export class PadronesService {
     let url = `${apiURL}/afiliadoNpn`;
     return this.http.get(url + `/?documento=${data.dni}&sexo=${data.sexo}`);
   }
+  //////cargar los circuitos en base a las secciones
+
+  getSecCir() {
+    let url = `${apiURL}/secCir`;
+    return this.http.get(url);
+  }
+
+  getAfFiltro(value: {}) {
+    let data: any = {};
+    data.data = value;
+    let url = `${apiURL}/afiliado/filtros`;
+    return this.http.post(url, data);
+  }
 }
