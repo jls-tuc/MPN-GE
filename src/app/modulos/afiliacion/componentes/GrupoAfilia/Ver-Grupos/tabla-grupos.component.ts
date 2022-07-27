@@ -15,6 +15,13 @@ import { Subject, Observable } from "rxjs";
 export class TablaGruposComponent implements OnInit {
   public lotes: IGruposAfiliados = [];
   private grupos$: Subject<IGruposAfiliados>;
+  cargarBarra: boolean;
+  oclAnterior: boolean;
+  cargando: boolean;
+  buscarLte: boolean;
+  private page$: Subject<number>;
+  npage: number;
+  nroLte:string;
 
   constructor(
     public dialog: MatDialog,
@@ -23,12 +30,18 @@ export class TablaGruposComponent implements OnInit {
     private afiliadoService: AfiliacionService
   ) {
     this.grupos$ = new Subject();
+
+    this.page$ = new Subject();
   }
 
   ngOnInit(): void {
     this.cargarGrupos();
     this.getGrupo$().subscribe((lot) => {
       this.lotes = lot;
+      this.cargarBarra = true;
+    });
+    this.getPages$().subscribe((page) => {
+      this.npage = page + 1;
     });
   }
 
@@ -73,10 +86,54 @@ export class TablaGruposComponent implements OnInit {
   cargarGrupos() {
     this.afiliadoService.getAllGrupos().subscribe((res: any) => {
       this.grupos$.next(res.data);
+      this.page$.next(res.page);
+      this.cargando = true;
     });
   }
 
   getGrupo$(): Observable<IGruposAfiliados> {
     return this.grupos$.asObservable();
+  }
+  getPages$(): Observable<number> {
+    return this.page$.asObservable();
+  }
+
+  siguiente() {
+    this.cargando = false;
+    this.afiliadoService.getAllGrupos(this.npage).subscribe((res: any) => {
+      this.grupos$.next(res.data);
+      this.page$.next(res.page);
+      this.oclAnterior = true;
+      this.cargando = true;
+    });
+  }
+
+  anterior() {
+    this.cargando = false;
+
+    let pagina = this.npage - 2;
+
+    this.afiliadoService.getAllGrupos(pagina).subscribe((res: any) => {
+      this.grupos$.next(res.data);
+      this.page$.next(res.page);
+      this.cargando = true;
+      if (pagina === 1) {
+        this.oclAnterior = false;
+        this.cargando = true;
+      }
+    });
+  }
+  filtLte() {
+    this.buscarLte = true;
+  }
+  value() {
+    var slider = document.getElementById("nroLte");
+    var val = document.getElementById("nroLte");
+    console.log(slider);
+    console.log(val);
+  }
+  volver() {
+    this.buscarLte = false;
+    this.ngOnInit();
   }
 }

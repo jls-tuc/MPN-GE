@@ -43,9 +43,9 @@ export class AfiliacionService {
     return this.http.patch(url, data);
   }
 
-  getAllGrupos() {
+  getAllGrupos(page?: number, skip?: number) {
     let url = `${apiURL}/afiliaciones/grupos`;
-    return this.http.get(url);
+    return this.http.get(url + `/?page=${page}&skip=${skip}`);
   }
 
   getDniGrupo(value) {
