@@ -1,6 +1,4 @@
 import { Routes } from "@angular/router";
-
-import { AltaLoteComponent } from "./componentes/GrupoAfilia/alta-lote/alta-lote.component";
 import { TablaGruposComponent } from "./componentes/GrupoAfilia/Ver-Grupos/tabla-grupos.component";
 import { ListadosComponent } from "./componentes/listados/listados.component";
 import { TablaInfoJuntaComponent } from "./componentes/InfoJunta/tablaInfoJunta/tablaInfoJunta.component";
@@ -18,38 +16,38 @@ export const AfiliacionRoutes: Routes = [
           title: "Datos Analiticos",
         },
       },
-      {
-        path: "lote",
-        component: AltaLoteComponent,
-        data: {
-          title: "Crear Lote de Afiliación",
-        },
-      },
+
       {
         path: "lotes",
         component: TablaGruposComponent,
         data: {
-          title: "Crear Afiliciación",
+          title: "Andministración de  Lotes y Afiliciación",
         },
       },
       {
+        path: "junta",
+        component: TablaInfoJuntaComponent,
+        data: {
+          title: "Juntas",
+        },
+      },
+      /* {
         path: "planillas",
         component: TablaPlanillasComponent,
         data: {
           title: "Planillas",
         },
-      },
+      }, */
       {
-
         path: "listados",
         component: ListadosComponent,
         data: {
           title: "Listados de Empadronados",
-        path: "junta",
-        component: TablaInfoJuntaComponent,
-        data: {
-          title: "Planillas",
-
+          path: "junta",
+          component: TablaInfoJuntaComponent,
+          data: {
+            title: "Planillas",
+          },
         },
       },
     ],

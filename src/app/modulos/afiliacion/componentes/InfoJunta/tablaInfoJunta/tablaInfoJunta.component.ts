@@ -32,12 +32,12 @@ export class TablaInfoJuntaComponent implements AfterViewInit {
   spinner: boolean;
   buscar: boolean;
   filtros: boolean = true;
-  estados: string[] = ["afiliado", "baja", "pendiente", "todos", "verificar"];
+  estados: string[] = ["afiliado", "baja", "pendiente", "verificar"];
   generos: any = [
     { nombre: "femenino", op: "f" },
     { nombre: "masculino", op: "m" },
-    { nombre: "otro", op: "x" },
-    { nombre: "todos", op: "t" },
+    { nombre: "otro", op: "X" },
+    //{ nombre: "todos", op: "t" },
   ];
   circuitos: any[];
   secCir: any[] = [];

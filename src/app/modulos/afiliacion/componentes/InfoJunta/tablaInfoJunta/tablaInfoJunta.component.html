@@ -34,7 +34,10 @@
           <mat-form-field appearance="fill">
             <mat-label>Genero</mat-label>
             <mat-select formControlName="genero">
+              <mat-option value="">Seleccione</mat-option>
+
               <mat-option *ngFor="let genero of generos" [value]="genero.op">
+
                 {{genero.nombre | titlecase}}
               </mat-option>
             </mat-select>
@@ -44,6 +47,7 @@
           <mat-form-field appearance="fill">
             <mat-label>Estados</mat-label>
             <mat-select formControlName="estado">
+              <mat-option value="">Seleccione</mat-option>
               <mat-option *ngFor="let estado of estados" [value]="estado">
                 {{estado | titlecase}}
               </mat-option>
@@ -54,6 +58,7 @@
           <mat-form-field appearance="fill">
             <mat-label>Profesión</mat-label>
             <mat-select formControlName="profesion">
+              <mat-option value="">Seleccione</mat-option>
               <mat-option *ngFor="let profesion of profesiones" [value]="profesion.valor">
                 {{profesion.nombre | titlecase}}
               </mat-option>

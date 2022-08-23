@@ -89,6 +89,8 @@ export class FormGrupoPopupComponent implements OnInit {
   }
 
   submit() {
+    this.grupoAfiliadoForm.value.usuarioResponsable.nombreCompleto = `${this.grupoAfiliadoForm.value.usuarioResponsable.apellido}, ${this.grupoAfiliadoForm.value.usuarioResponsable.nombres}`;
+
     if (this.data.title !== "Modificar datos del lote") {
       this.afiliadoService
         .postGrupo(this.grupoAfiliadoForm.value)

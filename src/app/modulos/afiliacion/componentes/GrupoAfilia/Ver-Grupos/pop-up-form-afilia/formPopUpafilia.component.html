@@ -44,11 +44,22 @@
                 </form>
                 <div class="row" class="mt-1 text-center">
                     <ng-container *ngIf='!ocultarBusqueda'>
-                        <button mat-raised-button color="accent" type="button" (click)="cerrarPopUP()">Volver</button>
+                        <button mat-raised-button color="accent" type="button" (click)="cerrarPopUP()">
+                            <mat-icon>chevron_left</mat-icon>
+                            Volver
+                        </button>
                         <button mat-raised-button color="primary" type="button"
                             (click)="buscarDatos(firstFormGroup.value)" [disabled]="!firstFormGroup.valid "
                             matStepperNext>Verificar Datos</button>
-                        <div *ngIf='cargando===true' class="loader">Cargando...</div>
+
+                    </ng-container>
+                    <ng-container *ngIf='cargando===true'>
+                        <div class="loader" style="margin-top:10px">
+                            <div class="spinner">
+                                <div class="double-bounce1 mat-bg-primary" style="background: #fcc02e"></div>
+                                <div class="double-bounce2 mat-bg-accent" style="background: #03a9f4"></div>
+                            </div>
+                        </div>
                     </ng-container>
                     <!-- <ng-container *ngIf='ocultarBusqueda'>
                         <button mat-raised-button color="warn" (click)="stepper.reset()"
@@ -156,7 +167,11 @@
                             <!--  <button mat-raised-button color="accent" matStepperPrevious type="button">Volver</button> -->
                             <span fxFlex="8px"></span>
 
-                            <button mat-raised-button color="primary" type="button" matStepperNext>Siguiente</button>
+                            <button mat-raised-button color="primary" type="button" matStepperNext>
+
+                                Siguiente
+                                <mat-icon>chevron_right</mat-icon>
+                            </button>
 
                         </div>
                         <mat-step stepControl="ultDomicilio">
@@ -236,13 +251,16 @@
                                 </div>
 
                                 <div fxLayout="row">
-
                                     <button mat-raised-button class="color-texto-blanco" color="accent"
-                                        matStepperPrevious type="button">Volver</button>
+                                        matStepperPrevious type="button">
+                                        <mat-icon>chevron_left</mat-icon>
+                                        Volver
+                                    </button>
                                     <span fxFlex="8px"></span>
 
-                                    <button mat-raised-button color="primary" type="button"
-                                        matStepperNext>Siguiente</button>
+                                    <button mat-raised-button color="primary" type="button" matStepperNext>
+                                        Siguiente <mat-icon>chevron_right</mat-icon>
+                                    </button>
                                 </div>
                             </div>
                         </mat-step>
@@ -341,16 +359,24 @@
                                     <span fxFlex="8px"></span>
 
                                     <button *ngIf="!opVer" mat-raised-button color="primary"
-                                        [disabled]="!firstFormGroup.valid "
-                                        (click)="guardar(secondFormGroup.value)">Guardar</button>
+                                        [disabled]="!firstFormGroup.valid " (click)="guardar(secondFormGroup.value)">
+                                        <mat-icon>save</mat-icon>
+                                        Guardar
+                                    </button>
 
 
                                     <button *ngIf="opVer" mat-raised-button color="primary"
-                                        [disabled]="!firstFormGroup.valid " (click)='activarForm()'>Editar</button>
+                                        [disabled]="!firstFormGroup.valid " (click)='activarForm()'>
+                                        <mat-icon>edit</mat-icon>
+                                        Editar
+                                    </button>
 
                                     <span fxFlex="8px"></span>
                                     <button mat-raised-button class="color-texto-blanco" color="accent"
-                                        matStepperPrevious type="button">Volver</button>
+                                        matStepperPrevious type="button">
+                                        <mat-icon>chevron_left</mat-icon>
+                                        Volver
+                                    </button>
                                 </div>
                             </div>
                         </mat-step>

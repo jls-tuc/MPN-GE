@@ -74,7 +74,7 @@ export class PlanillasAfiliacionComponent implements AfterViewInit {
     private cdr: ChangeDetectorRef,
     private router: Router
   ) {
-    console.log(this.data.planillas);
+    //console.log(this.data.planillas);
   }
 
   ngAfterViewInit() {

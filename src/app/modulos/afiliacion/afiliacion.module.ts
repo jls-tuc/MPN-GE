@@ -1,6 +1,6 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { AltaLoteComponent } from "./componentes/GrupoAfilia/alta-lote/alta-lote.component";
+
 import { AfiliacionRoutes } from "./afiliacion.routing";
 import { RouterModule } from "@angular/router";
 import { SharedModule } from "app/shared/shared.module";
@@ -26,9 +26,9 @@ import { MatSortModule } from "@angular/material/sort";
 import { MatPaginatorModule } from "@angular/material/paginator";
 import { VerInfoPopUpComponent } from "./componentes/planillasLotes/verInfoPopUp/verInfoPopUp.component";
 import { ListadosComponent } from "./componentes/listados/listados.component";
-import { PopUpLocalidadesComponent } from './componentes/listados/pop-up-localidades/pop-up-localidades.component';
-import { PopUpEmpadronadosComponent } from './componentes/listados/pop-up-localidades/pop-up-empadronados/pop-up-empadronados.component';
-import { ExportarExcelComponent } from './componentes/listados/exportar-excel/exportar-excel.component';
+import { PopUpLocalidadesComponent } from "./componentes/listados/pop-up-localidades/pop-up-localidades.component";
+import { PopUpEmpadronadosComponent } from "./componentes/listados/pop-up-localidades/pop-up-empadronados/pop-up-empadronados.component";
+import { ExportarExcelComponent } from "./componentes/listados/exportar-excel/exportar-excel.component";
 import { TablaInfoJuntaComponent } from "./componentes/InfoJunta/tablaInfoJunta/tablaInfoJunta.component";
 import { PopUpInfoJuntaComponent } from "./componentes/InfoJunta/popUpInfoJunta/popUpInfoJunta.component";
 
@@ -54,7 +54,6 @@ import { PopUpInfoJuntaComponent } from "./componentes/InfoJunta/popUpInfoJunta/
     RouterModule.forChild(AfiliacionRoutes),
   ],
   declarations: [
-    AltaLoteComponent,
     FormGrupoPopupComponent,
     TablaGruposComponent,
     PopUpFormAfiliaComponent,
@@ -69,7 +68,6 @@ import { PopUpInfoJuntaComponent } from "./componentes/InfoJunta/popUpInfoJunta/
     ExportarExcelComponent,
     TablaInfoJuntaComponent,
     PopUpInfoJuntaComponent,
-
   ],
 })
-export class AfiliacionModule { }
+export class AfiliacionModule {}

@@ -60,12 +60,12 @@ export class PopUpFormAfiliaComponent implements OnInit {
 
     this.buildSecondForm();
     if (this.data.title === "Ver planilla") {
-      console.log('this.data.value', this.data.value)
+      console.log("this.data.value", this.data.value);
       this.verPlanilla(this.data.value);
     }
   }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {}
 
   cargarFormAfiliacion(data?) {
     this.firstFormGroup = this.fb.group({
@@ -136,8 +136,56 @@ export class PopUpFormAfiliaComponent implements OnInit {
                 title: "Afiliación Vigente",
                 text: `El dni:${data.matricula}, del Sr/a:${data.apellido},${data.nombre}, se encuentra afiliado a un partido de ${data.distrito}
             Para mayor información consulte en la Secretaría Electoral de su domicilio actual.`,
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Continuar,afiliación?",
+                cancelButtonText: "Cancelar,afiliación!",
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  this.padronService
+                    .getPadronNqnValue(values)
+                    .subscribe((res: any) => {
+                      if (res.ok) {
+                        Swal.fire({
+                          position: "top-end",
+                          imageUrl:
+                            "./assets/images/logos/Logo_cne_350x60px.png",
+                          imageHeight: 50,
+                          title:
+                            "Registros encontrados en el padron electoral Nacional.",
+                          text: `${res.data.apellido},${res.data.nombre}- DNI Nro:.${res.data.documento},`,
+                          showCancelButton: false,
+                          confirmButtonColor: "#3085d6",
+                          cancelButtonColor: "#d33",
+                          confirmButtonText: "Continuar",
+                        }).then((result) => {
+                          if (result.isConfirmed) {
+                            this.buildSecondForm(res.data);
+                            this.cargando = false;
+                            this.ocultarBusqueda = true;
+                          }
+                        });
+                      } else {
+                        Swal.fire({
+                          position: "center",
+                          imageUrl:
+                            "./assets/images/logos/Logo_cne_350x60px.png",
+                          imageHeight: 50,
+                          title:
+                            "El DNI no se encuentre en el padron electoral Nacional",
+                          showConfirmButton: true,
+                        });
+                        this.cargando = false;
+                        this.ocultarBusqueda = true;
+                      }
+                    });
+                  this.cargando = false;
+                } else {
+                  this.cargando = false;
+                  this.dialogRef.close();
+                }
               });
-              this.dialogRef.close();
             } else
               await Swal.fire({
                 position: "top-end",
@@ -164,6 +212,7 @@ export class PopUpFormAfiliaComponent implements OnInit {
                           text: `Afiliado/a:${res.data.apellido},${res.data.nombre}- DNI Nro:.${res.data.dni},`,
                           showConfirmButton: true,
                         });
+                        this.cargando = false;
                         this.dialogRef.close();
                       } else {
                         this.padronService
@@ -293,6 +342,7 @@ export class PopUpFormAfiliaComponent implements OnInit {
           showCancelButton: false,
         });
         this.dialogRef.close();
+        this.cargando = false;
       }
     });
   }

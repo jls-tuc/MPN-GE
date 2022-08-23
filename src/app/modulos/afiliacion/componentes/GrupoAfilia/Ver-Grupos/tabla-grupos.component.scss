@@ -1,3 +1,11 @@
 .icon-blue {
-  color: rgba(0, 0, 255, 0.869);
+  color: rgba(24, 100, 231, 0.828);
+}
+
+nav {
+  transition: box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1);
+  display: block;
+  position: relative;
+  padding: 16px;
+  border-radius: 4px;
 }
