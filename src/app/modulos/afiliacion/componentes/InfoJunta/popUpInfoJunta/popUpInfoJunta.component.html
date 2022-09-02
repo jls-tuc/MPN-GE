@@ -1,79 +1,228 @@
 <h1 mat-dialog-title>{{this.data.title}}</h1>
 <div mat-dialog-content>
+  <mat-accordion class="example-headers-align">
+    <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)" hideToggle>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Datos Personales.
+        </mat-panel-title>
+        <mat-panel-description>
+          Nombre completo, documento y profesion.
+          <mat-icon>account_circle</mat-icon>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <div fxLayout="row wrap">
+        <div fxFlex="100" fxFlex.gt-xs="50" class="pr-16">
+          <div class="pb-16">
+            <mat-form-field class="full-width" appearance="outline">
+              <mat-label>Apellido.</mat-label>
+              <input matInput name="Nombre completo" placeholder="Apellido"
+                value="{{this.data.payload.planilla.apellido|titlecase}}">
+            </mat-form-field>
+          </div>
 
-
-
-  <mat-card-content>
-
-    <div fxLayout="row wrap">
-      <div fxFlex="100" fxFlex.gt-xs="50" class="pr-16">
-        <div class="pb-16">
-          <mat-form-field class="full-width">
-            <input matInput name="Nombre completo" placeholder="Nombre Completo"
-              value="{{this.data.payload.planilla.apellido|titlecase}} {{this.data.payload.planilla.nombre|titlecase}}">
-          </mat-form-field>
-
+          <div class="pb-16">
+            <mat-form-field class="full-width" appearance="outline">
+              <mat-label>Documento.</mat-label>
+              <input matInput name="Nro. Documento" placeholder="Apellido"
+                value="{{this.data.payload.planilla.documento}}">
+            </mat-form-field>
+          </div>
+          <div class="pb-16">
+            <mat-form-field class="full-width" appearance="outline">
+              <mat-label>Genero.</mat-label>
+              <input matInput name="Nombre completo" placeholder="Genero"
+                value="{{this.data.payload.planilla.genero|titlecase}}">
+            </mat-form-field>
+          </div>
         </div>
-
-        <div class="pb-16">
-          <mat-form-field class="full-width">
-            <input matInput name="localidad" placeholder="Localidad"
-              value="{{this.data.payload.planilla.circuito | titlecase}}">
-          </mat-form-field>
-
-        </div>
-
-        <div class="pb-16">
-          <mat-form-field class="full-width">
-            <input matInput type="input" name="fechaNacimiento" placeholder="Fecha de Nacimiento"
-              value="{{this.data.payload.planilla.fecha_nacimiento}}">
-          </mat-form-field>
+        <div fxFlex="100" fxFlex.gt-xs="50">
+          <div class="pb-16">
+            <mat-form-field class="full-width" appearance="outline">
+              <mat-label>Nombres.</mat-label>
+              <input matInput name="Nombre completo" placeholder="Nombres"
+                value="{{this.data.payload.planilla.nombre|titlecase}}">
+            </mat-form-field>
+          </div>
+          <div class="pb-16">
+            <mat-form-field class="full-width" appearance="outline">
+              <mat-label>Fecha de nacimiento. </mat-label>
+              <input matInput type="input" name="fechaNacimiento" placeholder="Fecha de Nacimiento"
+                value="{{this.data.payload.planilla.fecha_nacimiento|date:'dd-MM-yy'}}">
+            </mat-form-field>
+          </div>
+          <div class="pb-16">
+            <mat-form-field class="full-width" appearance="outline">
+              <mat-label>Profesión.</mat-label>
+              <input matInput name="Nombre completo" placeholder="Nombres"
+                value="{{this.data.payload.planilla.profesion|titlecase}}">
+            </mat-form-field>
+          </div>
 
         </div>
       </div>
-      <div fxFlex="100" fxFlex.gt-xs="50">
-        <div class="pb-16">
-          <mat-form-field class="full-width">
-            <input matInput name="NroLte" placeholder="Lote Nro.:" value="{{this.data.payload.planilla.nro_lote}}">
-          </mat-form-field>
+      <mat-action-row>
+        <button mat-stroked-button color="primary" (click)="nextStep()">Siguiente</button>
+      </mat-action-row>
+    </mat-expansion-panel>
+    <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)" hideToggle>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Datos de contacto.
+        </mat-panel-title>
+        <mat-panel-description>
+          Domicilio personal y teléfono.
+          <mat-icon>home</mat-icon>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <div fxLayout="row wrap">
+        <div fxFlex="100" fxFlex.gt-xs="50" class="pr-16">
+          <div class="pb-16">
+            <mat-form-field class="full-width" appearance="outline">
+              <mat-label>Localidad.</mat-label>
+              <input matInput name="Localidad" placeholder="Localidad"
+                value="{{this.data.payload.planilla.circuito|titlecase}}">
+            </mat-form-field>
+          </div>
+          <div class="pb-16">
+            <mat-form-field class="full-width" appearance="outline">
+              <mat-label>Teléfono de contacto.</mat-label>
+              <input matInput name="telefono" placeholder="Telefono"
+                value="{{this.data.payload.planilla.telefono|titlecase}}">
+            </mat-form-field>
+          </div>
+          <div class="pb-16">
+            <mat-form-field class="full-width" appearance="outline">
+              <mat-label>Modificación del domicilio.</mat-label>
+              <input matInput type="input" name="fechaDomicilio" placeholder="Fecha del domicilio"
+                value="{{this.data.payload.planilla.fecha_domicilio}}">
+            </mat-form-field>
+          </div>
 
         </div>
+        <div fxFlex="100" fxFlex.gt-xs="50">
+          <div class="pb-16">
+            <mat-form-field class="full-width" appearance="outline">
+              <mat-label>Domicilio.</mat-label>
+              <input matInput name="domicilio" placeholder="Domicilio"
+                value="{{this.data.payload.planilla.domicilio|titlecase}}">
+            </mat-form-field>
+          </div>
+          <div class="pb-16">
+            <mat-form-field class="full-width" appearance="outline">
+              <mat-label>Correo electronico.</mat-label>
+              <input matInput name="email" placeholder="Correo electronico"
+                value="{{this.data.payload.planilla.email|titlecase}}">
+            </mat-form-field>
+          </div>
 
-        <div class="pb-16">
-          <mat-form-field class="full-width">
-            <input matInput name="estado" matInput placeholder="Estado Afiliación"
-              [ngStyle]="{'color': (this.data.payload.planilla.estado_afiliacion === 'pendiente'&& 'blue'||this.data.payload.planilla.estado_afiliacion === 'afiliado'&& 'green'||this.data.payload.planilla.estado_afiliacion === 'verificar'&& 'red' ||this.data.payload.planilla.estado_afiliacion === 'baja'&& 'orange')}"
-              value="{{this.data.payload.planilla.estado_afiliacion |titlecase}}">
-          </mat-form-field>
-
-        </div>
-
-        <div class="pb-16">
-          <mat-form-field *ngIf="this.data.payload.planilla.estado_afiliacion === 'afiliado'" class="full-width">
-            <input matInput type="input" name="fechaAfil" placeholder="Fecha de Afiliación"
-              value="{{this.data.payload.planilla.fecha_afiliacion}}">
-          </mat-form-field>
-          <!--  <mat-form-field *ngIf="this.data.payload.planilla.fechaBaja === 'baja'" class="full-width">
-            <input matInput type="date" name="fechaAfil" placeholder="Fecha de baja"
-              value="{{this.data.payload.planilla.fechaBaja}}">
-          </mat-form-field> -->
 
         </div>
-
       </div>
-      <div fxFlex="100"
-        *ngIf="this.data.payload.planilla.estado_afiliacion === 'baja'||this.data.payload.planilla.estado_afiliacion === 'verificar'">
-        <mat-form-field class="full-width">
-          <textarea matInput name="Observaciones" placeholder="Observaciones de la baja / rechazo de la afiliación"
-            value="{{this.data.payload.planilla.obserBaja|titlecase}}"></textarea>
+      <mat-action-row>
+        <button mat-stroked-button color="warn" (click)="prevStep()">Anterior</button>
+        <button mat-stroked-button color="primary" (click)="nextStep()">Siguiente</button>
+      </mat-action-row>
+    </mat-expansion-panel>
+    <mat-expansion-panel [expanded]="step === 2" (opened)="setStep(2)" hideToggle>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Estado de afiliación
+        </mat-panel-title>
+        <mat-panel-description>
+          Historico del proceso afiliatorio.
+          <mat-icon>date_range</mat-icon>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+
+      <div fxLayout="row wrap">
+        <div fxFlex="100" fxFlex.gt-xs="50" class="pr-16">
+          <div class="pb-16">
+            <mat-form-field class="full-width" appearance="outline">
+              <mat-label>Estado de Afiliación.</mat-label>
+              <input matInput name="estado" placeholder="estado"
+                value="{{this.data.payload.planilla.estado_afiliacion|titlecase}}">
+            </mat-form-field>
+          </div>
+          <div class="pb-16">
+            <mat-form-field class="full-width" appearance="outline">
+              <mat-label>Seccion electoral.</mat-label>
+              <input matInput name="seccion" placeholder="Seccion electoral"
+                value="{{this.data.payload.planilla.seccion|titlecase}}">
+            </mat-form-field>
+          </div>
+          <div class="pb-16">
+            <mat-form-field class="full-width" appearance="outline">
+              <mat-label>Seccional.</mat-label>
+              <input matInput type="input" name="Seccional" placeholder="Seccional Partidaria"
+                value="{{this.data.payload.planilla.seccional}}">
+            </mat-form-field>
+          </div>
+
+        </div>
+        <div fxFlex="100" fxFlex.gt-xs="50">
+
+
+          <div class="pb-16" *ngIf="this.data.payload.planilla.estado_afiliacion === 'afiliado'">
+            <mat-form-field class="full-width" appearance="outline">
+              <mat-label>Fecha de afiliación.</mat-label>
+              <input matInput type="input" name="fechaAfiliacion" placeholder="Fecha"
+                value="{{this.data.payload.planilla.fecha_afiliacion|date:'dd-MM-yy'}}">
+            </mat-form-field>
+          </div>
+          <div class="pb-16" *ngIf="this.data.payload.planilla.estado_afiliacion === 'baja'">
+            <mat-form-field class="full-width" appearance="outline">
+              <mat-label>Fecha de baja.</mat-label>
+              <input matInput type="input" name="fechaAfiliacion" placeholder="Fecha"
+                value="{{this.data.payload.planilla.fecha_baja|date:'dd-MM-yy'}}">
+            </mat-form-field>
+          </div>
+          <div class="pb-16" *ngIf="this.data.payload.planilla.estado_afiliacion === 'pendiente'">
+            <mat-form-field class="full-width" appearance="outline">
+              <mat-label>Fecha de Pendiente.</mat-label>
+              <input matInput type="input" name="fechaAfiliacion" placeholder="Fecha"
+                value="{{this.data.payload.planilla.fecha_pendiente|date:'dd-MM-yy'}}">
+            </mat-form-field>
+          </div>
+          <div class="pb-16" *ngIf="this.data.payload.planilla.estado_afiliacion === 'verificar'">
+            <mat-form-field class="full-width" appearance="outline">
+              <mat-label>Fecha de cambio de estado desde la junta.</mat-label>
+              <input matInput type="input" name="fechaAfiliacion" placeholder="Fecha"
+                value="{{this.data.payload.planilla.fecha_verificar|date:'dd-MM-yy'}}">
+            </mat-form-field>
+          </div>
+          <div class="pb-16">
+            <mat-form-field class="full-width" appearance="outline">
+              <mat-label>Circuito electoral.</mat-label>
+              <input matInput name="circuito" placeholder="Circuito Electoral"
+                value="{{this.data.payload.planilla.circuito|titlecase}}">
+            </mat-form-field>
+          </div>
+          <div class="pb-16">
+            <mat-form-field class="full-width" appearance="outline">
+              <mat-label>Lote de afiliación.</mat-label>
+              <input matInput name="lteAfilia" placeholder="Lote de afiliación"
+                value="{{this.data.payload.planilla.nro_lote}}">
+            </mat-form-field>
+          </div>
+
+
+        </div>
+        <mat-form-field [style.fontSize]="12" appearance="outline" class="full-width">
+          <mat-label>Observaciones.</mat-label>
+          <textarea matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1"
+            cdkAutosizeMaxRows="5" value="{{this.data.payload.planilla.observacion}}">></textarea>
         </mat-form-field>
 
       </div>
-    </div>
 
-  </mat-card-content>
-</div>
+      <mat-action-row>
+        <button mat-stroked-button color="warn" (click)="prevStep()">Anterior</button>
+      </mat-action-row>
+    </mat-expansion-panel>
 
-<div mat-dialog-actions>
-  <button mat-button mat-dialog-close>Cerrar</button>
+  </mat-accordion>
+  <div mat-dialog-actions>
+    <button mat-raised-button color="primary" mat-dialog-close>Cerrar</button>
+  </div>
 </div>

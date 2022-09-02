@@ -1,6 +1,6 @@
 export interface IGrupoAfiliacion {
   _id?: string;
-  nro: string;
+  numero: string;
   usuarioResponsable: {
     apellido: string;
     nombres: string;

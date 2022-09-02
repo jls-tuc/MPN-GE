@@ -8,9 +8,35 @@
         <div class="double-bounce1 mat-bg-accent"></div>
         <div class="double-bounce2 mat-bg-primary"></div>
       </div>
-      <div class="row justify-content-center" *ngIf=" cargarContenedor">
+      <div class=" row justify-content-center">
+        <section class="example-section">
+          <label class="example-margin">Tipos de busqueda:</label>
+          <mat-radio-group (change)="opBusquedas($event)">
+            <mat-radio-button class="example-margin" value="simple">Simple</mat-radio-button>
+            <mat-radio-button class="example-margin" value="avanzada">Avanzada</mat-radio-button>
+            <mat-radio-button class="example-margin" value="dni">Número de Documento</mat-radio-button>
+          </mat-radio-group>
+        </section>
+      </div>
+      <div class="row justify-content-center" *ngIf="searchSimple">
+        <div class="col-4">
+          <mat-form-field appearance="fill">
+            <mat-label>Seccionales</mat-label>
+            <mat-select formControlName="seccional">
+              <mat-option *ngFor="let seccional of seccionales " [value]="seccional.seccional"
+                (click)="cargarLocParj(seccional.seccional)">
+                {{seccional.seccional | titlecase}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <div>
+            <p *ngIf="filtroForm.errors && filtroForm.dirty">
+              <small *ngIf="filtroForm.hasError('required')">El campo es requerido</small>
 
-        <div class="col-2">
+            </p>
+          </div>
+        </div>
+        <!--  <div class="col-4">
           <mat-form-field appearance="fill">
             <mat-label>Secciones</mat-label>
             <mat-select formControlName="seccion">
@@ -19,31 +45,38 @@
               </mat-option>
             </mat-select>
           </mat-form-field>
-        </div>
-        <div class="col-2">
+        </div> -->
+        <div class="col-4">
           <mat-form-field appearance="fill">
-            <mat-label>Circuito</mat-label>
-            <mat-select formControlName="circuito">
-              <mat-option *ngFor="let circuito of circuitos" [value]="circuito">
-                {{circuito | titlecase}}
+            <mat-label>Localidad/Paraje</mat-label>
+            <mat-select formControlName="localidad" multiple>
+              <mat-option *ngFor="let loc of locPar" [value]="loc.nombre">
+                {{loc.nombre | titlecase}}
               </mat-option>
             </mat-select>
           </mat-form-field>
+          <div>
+            <p *ngIf="filtroForm.errors && filtroForm.dirty">
+              <small *ngIf="filtroForm.hasError('required')">El campo es requerido</small>
+            </p>
+          </div>
         </div>
-        <div class="col-2">
+
+
+      </div>
+      <div class="row justify-content-center" *ngIf="searchAdv && searchSimple">
+        <div class="col-3">
           <mat-form-field appearance="fill">
             <mat-label>Genero</mat-label>
             <mat-select formControlName="genero">
               <mat-option value="">Seleccione</mat-option>
-
               <mat-option *ngFor="let genero of generos" [value]="genero.op">
-
                 {{genero.nombre | titlecase}}
               </mat-option>
             </mat-select>
           </mat-form-field>
         </div>
-        <div class="col-2">
+        <div class="col-3">
           <mat-form-field appearance="fill">
             <mat-label>Estados</mat-label>
             <mat-select formControlName="estado">
@@ -54,7 +87,7 @@
             </mat-select>
           </mat-form-field>
         </div>
-        <div class="col-2">
+        <div class="col-3">
           <mat-form-field appearance="fill">
             <mat-label>Profesión</mat-label>
             <mat-select formControlName="profesion">
@@ -65,20 +98,31 @@
             </mat-select>
           </mat-form-field>
         </div>
-        <div class="col-1">
-          <button mat-icon-button color="accent" (click)="filtrar()" matTooltip="Cargar información">
-            <mat-icon>search</mat-icon>
-          </button>
+
+      </div>
+      <div class="row justify-content-center" *ngIf="searchDni">
+        <div class="col-6">
+          <mat-form-field appearance="outline">
+            <mat-label>Número de documento.</mat-label>
+            <input matInput placeholder="DNI">
+            <mat-icon matSuffix>person</mat-icon>
+          </mat-form-field>
         </div>
+
       </div>
     </form>
-    <button mat-button color="primary" (click)="activarFiltros()" *ngIf="filtros"
-      matTooltip="Filtrar planillas por Localidad/Genero/Estado"> Filtros
-      <mat-icon>
-        filter_list
-      </mat-icon>
-    </button>
-
+    <mat-card-actions align="end">
+      <button mat-raised-button color="accent" (click)="filtrar()" matTooltip="Cargar información"
+        [disabled]=filtroForm.invalid>
+        <mat-icon>search</mat-icon>Buscar
+      </button>
+      <button mat-button color="primary" (click)="activarFiltros()" *ngIf="filtros"
+        matTooltip="Filtrar planillas por Localidad/Genero/Estado"> Filtros
+        <mat-icon>
+          filter_list
+        </mat-icon>
+      </button>
+    </mat-card-actions>
     <!-- <button mat-button (click)="ocultarBarra()">Ocultar</button> -->
   </mat-card-actions>
 </mat-card>

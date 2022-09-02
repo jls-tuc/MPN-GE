@@ -12,6 +12,8 @@ import {
   ApexChart,
   ApexXAxis,
   ApexTitleSubtitle,
+  ApexFill,
+  ApexResponsive,
 } from "ng-apexcharts";
 
 export type ChartOptions = {
@@ -19,6 +21,8 @@ export type ChartOptions = {
   chart: ApexChart;
   xaxis: ApexXAxis;
   title: ApexTitleSubtitle;
+  responsive: ApexResponsive[];
+  fill: ApexFill;
 };
 
 @Component({
@@ -53,11 +57,42 @@ export class MenuPrincipalComponent {
           name: "Afiliados",
           data: [10, 41, 35, 51, 49, 62, 69, 74, 79, 86, 99, 120],
         },
+        {
+          name: "Pendientes",
+          data: [10, 41, 35, 51, 49, 62, 69, 74, 79, 86, 99, 120],
+        },
+        {
+          name: "Verificar",
+          data: [10, 41, 35, 51, 49, 62, 69, 74, 79, 86, 99, 120],
+        },
+        {
+          name: "Baja",
+          data: [10, 41, 35, 51, 49, 62, 69, 74, 79, 86, 99, 120],
+        },
       ],
       chart: {
-        height: 350,
         type: "bar",
+        height: 350,
+        stacked: true,
+        toolbar: {
+          show: true,
+        },
+        zoom: {
+          enabled: true,
+        },
       },
+      responsive: [
+        {
+          breakpoint: 480,
+          options: {
+            legend: {
+              position: "bottom",
+              offsetX: -10,
+              offsetY: 0,
+            },
+          },
+        },
+      ],
       title: {
         text: "Nuevos afiliados",
       },

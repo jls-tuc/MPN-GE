@@ -14,7 +14,7 @@ export class FormGrupoPopupComponent implements OnInit {
   public grupoAfiliadoForm: FormGroup;
   public minDate = new Date();
   public usuarios: any[] = [];
-  private nro: any;
+  private numero: any;
   localidades: any[] = [];
   events: string[] = [];
   estado: string[] = ["activo", "cerrado", "pausado"];
@@ -26,7 +26,7 @@ export class FormGrupoPopupComponent implements OnInit {
     private router: Router,
     private afiliadoService: AfiliacionService
   ) {
-    this.nro = this.data.payload.totalLote + 1;
+    this.numero = this.data.payload.totalLote + 1;
 
     this.cargarUsuarios();
     this.cargarlocalidades();
@@ -42,8 +42,8 @@ export class FormGrupoPopupComponent implements OnInit {
 
   buildItemForm(data?) {
     this.grupoAfiliadoForm = this.fb.group({
-      nro: [
-        data ? data.nro : this.nro,
+      numero: [
+        data ? data.numero : this.numero,
         [
           Validators.required,
           Validators.pattern("^[0-9]*$"),

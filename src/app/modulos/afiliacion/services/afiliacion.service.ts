@@ -103,6 +103,14 @@ export class AfiliacionService {
     let url = `${apiURL}/afiliaciones/planillas`;
     return this.http.post(url, data);
   }
+
+  ///  Obtener seccionales
+
+  getAllSecc() {
+    let url = `${apiURL}/getseccionales`;
+    return this.http.get(url);
+  }
+
   getListadosMPN() {
     let url = `${apiURL}/afiliaciones/listados_afiliados`;
     return this.http.get(url);

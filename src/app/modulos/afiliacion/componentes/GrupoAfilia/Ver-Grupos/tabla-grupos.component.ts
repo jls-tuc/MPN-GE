@@ -156,6 +156,7 @@ export class TablaGruposComponent implements OnInit {
   }
 
   cargar() {
+    console.log(this.nroLte);
     this.cargarCard = false;
     this.spinnerBuscar = true;
     this.afiliadoService.getOneLote(this.nroLte).subscribe((res: any) => {
@@ -166,7 +167,7 @@ export class TablaGruposComponent implements OnInit {
           this.cargarCard = true;
           this.btnVolver = true;
           this.nroLte = "";
-          this.grupos$.next(res.loteNro);
+          this.grupos$.next(res.lotenumero);
         } else {
           this.spinnerBuscar = false;
           await Swal.fire({

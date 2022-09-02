@@ -5,7 +5,7 @@ import {
   OnInit,
   ViewChild,
 } from "@angular/core";
-import { FormBuilder, FormGroup } from "@angular/forms";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { MatPaginator } from "@angular/material/paginator";
 import { MatSort } from "@angular/material/sort";
@@ -28,10 +28,15 @@ export class TablaInfoJuntaComponent implements AfterViewInit {
   public filtroForm: FormGroup;
   private dataSource$: Subject<any[]>;
   private dataSecc$: Subject<any[]>;
+  searchSimple: boolean;
+  searchAdv: boolean;
+  searchDni: boolean;
   cargarContenedor: boolean;
   spinner: boolean;
   buscar: boolean;
   filtros: boolean = true;
+  seccionales: any[];
+  locPar: any[];
   estados: string[] = ["afiliado", "baja", "pendiente", "verificar"];
   generos: any = [
     { nombre: "femenino", op: "f" },
@@ -89,6 +94,8 @@ export class TablaInfoJuntaComponent implements AfterViewInit {
   }
   buidFiltroForm() {
     this.filtroForm = this.fb.group({
+      seccional: ["", Validators.required],
+      localidad: ["", Validators.required],
       seccion: "",
       circuito: "",
       estado: "",
@@ -98,6 +105,12 @@ export class TablaInfoJuntaComponent implements AfterViewInit {
   }
 
   async cargarSeccCirc() {
+    await this.afiliacionService.getAllSecc().subscribe((res: any) => {
+      if (res.ok) {
+        this.seccionales = res.data;
+      }
+    });
+
     await this.pardonService.getSecCir().subscribe((res: any) => {
       this.secCir = res.secCir;
       this.cargarContenedor = true;
@@ -105,6 +118,50 @@ export class TablaInfoJuntaComponent implements AfterViewInit {
       this.filtros = false;
       this.cdr.markForCheck();
     });
+  }
+
+  cargarLocParj(value) {
+    this.filtroForm.value.localidad = "";
+    let loc = this.seccionales.find((elemnto) => elemnto.seccional === value);
+    this.locPar = loc.localidades_parajes_comprende;
+
+    this.cdr.markForCheck();
+  }
+
+  opBusquedas(event: any) {
+    let { value } = event;
+
+    switch (value) {
+      case "simple":
+        this.filtros = false;
+        this.buscar = true;
+        this.cargarContenedor = true;
+        this.searchAdv = false;
+        this.searchDni = false;
+        this.searchSimple = true;
+        this.cdr.markForCheck();
+        break;
+      case "avanzada":
+        this.filtros = false;
+        this.buscar = true;
+        this.cargarContenedor = true;
+        this.searchDni = false;
+        this.searchSimple = true;
+        this.searchAdv = true;
+        this.cdr.markForCheck();
+        break;
+      case "dni":
+        this.filtros = false;
+        this.buscar = true;
+        this.searchDni = true;
+        this.searchSimple = false;
+        this.searchAdv = false;
+        this.cdr.markForCheck();
+        break;
+
+      default:
+        break;
+    }
   }
 
   async seccCir() {
@@ -145,8 +202,9 @@ export class TablaInfoJuntaComponent implements AfterViewInit {
       PopUpInfoJuntaComponent,
       {
         width: "1020px",
+        height: "auto",
         disableClose: false,
-        data: { title: "Información Personal", payload: { planilla } },
+        data: { title: "Información del afiliado", payload: { planilla } },
       }
     );
     dialogRef.afterClosed().subscribe((res) => {});
