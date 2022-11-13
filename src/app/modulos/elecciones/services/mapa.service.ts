@@ -3,15 +3,18 @@ import { environment } from "environments/environment";
 import * as Mapboxgl from "mapbox-gl";
 import { IntMapBox } from "../interfaces/map-box";
 import { HttpClient } from "@angular/common/http";
-import { MapaPopupComponent } from "../components/mapa/popup/popup.component";
+import { MapaPopupComponent } from "../components/mapa/popupEsc/popup.component";
 import { MatDialog, MatDialogRef } from "@angular/material/dialog";
+
+import { PopupCircuitosComponent } from "../components/mapa/popupCirc/popupCircuitos/popupCircuitos.component";
 @Injectable({
   providedIn: "root",
 })
 export class MapaService {
   apiURL = environment.apiURL;
   mapa: Mapboxgl.Map;
-
+  escAct: boolean = false;
+  circAct: boolean = false;
   constructor(private http: HttpClient, public dialog: MatDialog) {}
 
   mostrarMapa(data: IntMapBox) {
@@ -43,12 +46,12 @@ export class MapaService {
       .setLngLat([data.longitud, data.latitud])
       .addTo(this.mapa);
 
-    marker.on("drag", () => {
+    /*  marker.on("drag", () => {
       console.log(marker.getLngLat());
-    });
+    }); */
   }
 
-  graficosDonas(dataGeo?) {
+  graficosDonas(dataGeo?, circuitosJson?) {
     const total1 = ["<", ["get", "votaron"], 80];
     const total2 = [
       "all",
@@ -67,7 +70,7 @@ export class MapaService {
     ];
     const total5 = [">=", ["get", "votaron"], 500];
 
-    const colors = ["#e31a1c", "#e36e1a", "#e3ad1a", "#e3d21a", "#109c14"];
+    const colors = ["#ecf0f1", "#e36e1a", "#e3ad1a", "#e3d21a", "#109c14"];
 
     this.mapa.on("load", () => {
       this.mapa.addSource("places", {
@@ -84,12 +87,21 @@ export class MapaService {
           total5: ["+", ["case", total5, 1, 0]],
         },
       });
+      this.mapa.addSource("states", {
+        type: "geojson",
+        data: circuitosJson,
+      });
+
       // Add a layer showing the places.
       this.mapa.addLayer({
         id: "places",
         type: "circle",
         source: "places",
         filter: ["!=", "cluster", true],
+        layout: {
+          // Make the layer visible by default.
+          visibility: "visible",
+        },
         paint: {
           "circle-color": [
             "case",
@@ -104,8 +116,8 @@ export class MapaService {
 
             colors[4],
           ],
-          "circle-opacity": 0.8,
-          "circle-radius": 22,
+          "circle-opacity": 1,
+          "circle-radius": 10,
         },
       });
       this.mapa.addLayer({
@@ -131,37 +143,71 @@ export class MapaService {
           ],
         },
       });
-
+      this.mapa.addLayer({
+        id: "states-layer",
+        type: "fill",
+        source: "states",
+        layout: {
+          // Make the layer visible by default.
+          visibility: "visible",
+        },
+        paint: {
+          "fill-outline-color": "#484896",
+          "fill-color": ["get", "color"],
+          "fill-opacity": ["get", "colorOutline"],
+        },
+      });
       // Create a popup, but don't add it to the map yet.
       const popup = new Mapboxgl.Popup({
         closeButton: false,
         closeOnClick: false,
       });
 
+      this.mapa.on("mouseenter", "states-layer", () => {
+        this.mapa.getCanvas().style.cursor = "pointer";
+      });
+
+      // Change the cursor back to a pointer
+      // when it leaves the states layer.
+      this.mapa.on("mouseleave", "states-layer", () => {
+        this.mapa.getCanvas().style.cursor = "";
+      });
+
       this.mapa.on("click", "places", (e) => {
         // Copy coordinates array.
+        this.escAct = true;
+
+        this.circAct = false;
+
         const coordinates = e.features[0].geometry.coordinates.slice();
         const description =
           e.features[0].properties.establecimiento +
           e.features[0].properties.total +
           e.features[0].properties.votaron;
 
-        // Ensure that if the map is zoomed out such that multiple
-        // copies of the feature are visible, the popup appears
-        // over the copy being pointed to.
         while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
           coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
         }
         let dialogRef: MatDialogRef<any> = this.dialog.open(
           MapaPopupComponent,
           {
-            width: "37%",
-            height: "35%",
+            width: "55%",
+            height: "70%",
             data: e.features[0],
           }
         );
+        dialogRef.beforeClosed().subscribe((e) => {
+          this.escAct = false;
+          this.circAct = false;
+        });
+        /* dialogRef.backdropClick().subscribe((e) => {
+          this.escAct = false;
+          this.circAct = false;
+        }); */
         dialogRef.keydownEvents().subscribe((event) => {
           if (event.key === "Escape") {
+            this.escAct = false;
+            this.circAct = false;
             dialogRef.close();
           }
         });
@@ -176,6 +222,86 @@ export class MapaService {
           this.mapa.getCanvas().style.cursor = "";
         });
       });
+      this.mapa.on("click", "states-layer", (e) => {
+        !this.escAct && (this.circAct = true);
+
+        if (!this.escAct && this.circAct) {
+          let dialogRef: MatDialogRef<any> = this.dialog.open(
+            PopupCircuitosComponent,
+            {
+              width: "500px",
+              height: "670px",
+              data: e.features[0],
+            }
+          );
+          /*  dialogRef.backdropClick().subscribe((e) => {
+            this.escAct = true;
+          }); */
+          dialogRef.keydownEvents().subscribe((event) => {
+            if (event.key === "Escape") {
+              this.circAct = true;
+              dialogRef.close();
+            }
+          });
+          dialogRef.beforeClosed().subscribe((e) => {
+            this.circAct = true;
+          });
+        }
+      });
+    });
+
+    this.mapa.on("idle", () => {
+      // If these two layers were not added to the map, abort
+      if (!this.mapa.getLayer("places") || !this.mapa.getLayer("states")) {
+        return;
+      }
+
+      // Enumerate ids of the layers.
+      const toggleableLayerIds = ["places", "states"];
+
+      // Set up the corresponding toggle button for each layer.
+      for (const id of toggleableLayerIds) {
+        // Skip layers that already have a button set up.
+        if (document.getElementById(id)) {
+          continue;
+        }
+
+        // Create a link.
+        const link = document.createElement("a");
+        link.id = id;
+        link.href = "#";
+        link.textContent = id;
+        link.className = "active";
+
+        // Show or hide layer when the toggle is clicked.
+        /*   link.onclick = function (e) {
+            
+              const clickedLayer = '';
+              e.preventDefault();
+              e.stopPropagation();
+
+              const visibility = this.mapaa.getLayoutProperty(
+                  clickedLayer,
+                  'visibility'
+              );
+
+              // Toggle layer visibility by changing the layout object's visibility property.
+              if (visibility === 'visible') {
+                  this.mapa.setLayoutProperty(clickedLayer, 'visibility', 'none');
+                  this.className = '';
+              } else {
+                  this.className = 'active';
+                  map.setLayoutProperty(
+                      clickedLayer,
+                      'visibility',
+                      'visible'
+                  );
+              }
+          }; */
+
+        const layers = document.getElementById("menu");
+        layers.appendChild(link);
+      }
     });
   }
 
@@ -190,6 +316,11 @@ export class MapaService {
   getDataGEo() {
     // console.log(esc);
     let url = `${this.apiURL}/geo/votoXEsc`;
+    return this.http.get(url);
+  }
+  getCircuitoGEo() {
+    // console.log(esc);
+    let url = `${this.apiURL}/geo/circuitosElectorales`;
     return this.http.get(url);
   }
 }

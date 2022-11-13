@@ -15,6 +15,7 @@ export class PadronesService {
     return this.http.get(url + `/?${data}`);
   }
   getPadronNqnValue(data) {
+    console.log(data);
     let url = `${apiURL}/padronNqn`;
     return this.http.get(url + `/?documento=${data.dni}&sexo=${data.sexo}`);
   }

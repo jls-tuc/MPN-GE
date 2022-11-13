@@ -1,0 +1,67 @@
+<div class="container">
+  <mat-card class="example-card">
+    <mat-card-title>
+      <div class="card-title-text">
+        <a class="toolbar-avatar md mr-16"><img src="assets/images/urna.jpg" alt=""></a>
+        <span>Cargar chasqui.</span>
+        <span fxFlex></span>
+      </div>
+
+    </mat-card-title>
+    <mat-card-subtitle>Deberá ingresar la escuela, el número de mesa y el número de orden.</mat-card-subtitle>
+    <mat-divider inset></mat-divider>
+    <mat-card-content>
+      <form [formGroup]="chasquiForm" (ngSubmit)="cargarChasqui()" autocomplete="off">
+        <mat-card>
+          <div class="row">
+            <div class="col-4">
+              <mat-form-field class="full-width" appearance="outline">
+                <mat-select [(ngModel)]="escuelaSeleccionada" formControlName="establecimiento"
+                  (ngModelChange)="cargarMesa()" placeholder="Seleccione una Escuela">
+                  <mat-option [value]="esc" *ngFor="let esc of escuelas">{{esc
+                    |uppercase}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col-4">
+              <mat-form-field class="full-width" appearance="outline">
+                <mat-select formControlName="mesa" name="mesa" placeholder="Seleccione una número de mesa">
+                  <mat-option [value]="mesa.mesa" *ngFor="let mesa of mesas">
+
+                    {{mesa.mesa}}
+
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col-4">
+              <mat-form-field class="full-width" appearance="outline">
+                <input type="text" matInput name="nroOrden" formControlName="nroOrden" placeholder="Número de orden."
+                  soloNumeros>
+              </mat-form-field>
+            </div>
+          </div>
+        </mat-card>
+      </form>
+    </mat-card-content>
+
+    <mat-divider inset></mat-divider>
+    <mat-card-actions align="end">
+      <button mat-raised-button color="warn" (click)="cancelar()">
+        <mat-icon>clear</mat-icon>
+        Cancelar
+      </button>
+      <button mat-raised-button [disabled]="!chasquiForm.valid" color="primary" (click)="cargarChasqui()">
+        Guardar
+        <mat-icon>done</mat-icon>
+      </button>
+    </mat-card-actions>
+
+
+    <mat-card-footer>
+
+    </mat-card-footer>
+  </mat-card>
+
+</div>

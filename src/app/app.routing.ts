@@ -44,6 +44,12 @@ export const rootRouterConfig: Routes = [
           ),
         data: { title: "Menu Principal" },
       },
+      {
+        path: "admin",
+        loadChildren: () =>
+          import("./modulos/ADMIN/admin.module").then((m) => m.ADMINModule),
+        data: { title: "Menu Principal" },
+      },
     ],
   },
   {

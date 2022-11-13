@@ -1,64 +1,86 @@
-<mat-card class="p-0" [@animate]="{ value: '*', params: { y: '50px', delay: '300ms' } }">
-  <div class="row">
-    <div class="col-2">
-      <div class="text-center pt-16 pb-16 border-right-light">
-        <mat-icon class="text-green">contacts</mat-icon>
-        <h4 class="m-0 ">{{totalLotes}}</h4>
-        <small class="m-0 ">Lotes</small>
-      </div>
-    </div>
-    <div class="col-2">
-      <div class="text-center pt-16 pb-16 border-right-light">
-        <mat-icon class="text-green">contact_mail_icon</mat-icon>
-        <h4 class="m-0 ">{{totalLotesPresentados}}</h4>
-        <small class="m-0 ">Lotes Presentados</small>
-      </div>
-    </div>
-    <div class="col-2">
-      <div class="text-center pt-16 pb-16 border-right-light">
-        <mat-icon class="text-green">book</mat-icon>
-        <h4 class="m-0 ">{{totalLotesCerrados}}</h4>
-        <small class="m-0 ">Lotes Cerrados</small>
-      </div>
-    </div>
-    <div class="col-2">
-      <div class="text-center pt-16 pb-16 border-right-light">
-        <mat-icon class="text-blue">people</mat-icon>
-        <h4 class="m-0 ">{{totalAfiliados}}</h4>
-        <small class="m-0 ">Afiliados</small>
-      </div>
-    </div>
-    <div class="col-2">
-      <div class="text-center pt-16 pb-16 border-right-light">
-        <mat-icon class="text-blue">person_add</mat-icon>
-        <h4 class="m-0 ">{{proxAfiliar}}</h4>
-        <small class="m-0 ">Proximos afiliados</small>
-      </div>
-    </div>
-    <div class="col-2">
-      <div class="text-center pt-16 pb-16 border-right-light">
-        <mat-icon class="text-blue">person</mat-icon>
-        <h4 class="m-0 ">{{afiRechazados}}</h4>
-        <small class="m-0 ">Afiliados Rechazados</small>
-      </div>
-    </div>
+<div fxLayout="row wrap">
+
+  <div fxFlex="100" fxFlex.gt-sm="50" fxFlex.sm="50" [@animate]="{ value: '*', params: { y: '40px', delay: '800ms' } }">
+    <mat-card class="p-0">
+      <mat-card-title class="mb-16">
+        <div class="card-title-text">
+          <span class="font-weight-normal">Estadísticas de lotes</span>
+          <div class="totalAf">
+            <ngx-charts-advanced-pie-chart [view]="view" scheme='ocean' [results]="infoLote" [gradient]="gradient"
+              (select)="onSelect($event)" (activate)="onActivate($event)" (deactivate)="onDeactivate($event)">
+            </ngx-charts-advanced-pie-chart>
+          </div>
+        </div>
+        <mat-divider></mat-divider>
+      </mat-card-title>
+    </mat-card>
   </div>
-</mat-card>
+
+  <div fxFlex="100" fxFlex.gt-sm="50" fxFlex.sm="50" [@animate]="{ value: '*', params: { y: '40px', delay: '800ms' } }">
+    <mat-card class="p-0">
+      <mat-card-title class="mb-16">
+        <div class="card-title-text">
+          <span class="font-weight-normal">Estadísticas de afiliados,activos. </span>
+          <div class="totalAf">
+            <ngx-charts-advanced-pie-chart [view]="view" scheme='ocean' [results]="afiliado" [gradient]="gradient"
+              (select)="onSelect($event)" (activate)="onActivate($event)" (deactivate)="onDeactivate($event)">
+            </ngx-charts-advanced-pie-chart>
+          </div>
+        </div>
+        <mat-divider></mat-divider>
+      </mat-card-title>
+    </mat-card>
+  </div>
+
+
+
+</div>
 <!--/ End first row -->
 
-<mat-card>
-  <mat-card-header>
-    <mat-card-title>Personas afiliadas al partido</mat-card-title>
-    <mat-card-subtitle>Datos segun lotes aprobados por la Junta Electoral</mat-card-subtitle>
-  </mat-card-header>
-  <!-- <img matCardImage src="./assets/images/logos/200px-Logo_MPN.png"> -->
+<div fxLayout="row wrap">
+  <div fxFlex="100" fxFlex.gt-sm="33.33" fxFlex.sm="50"
+    [@animate]="{ value: '*', params: { y: '50px', delay: '800ms' } }">
 
-  <mat-card-actions align="start">
-    <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart" [xaxis]="chartOptions.xaxis"
-      [title]="chartOptions.title"></apx-chart>
 
-  </mat-card-actions>
-  <mat-card-footer class="p-3">
-    Información actualizada al momento de finalizar el tramite del lote.
-  </mat-card-footer>
-</mat-card>
+
+  </div>
+
+  <div fxFlex="100" fxFlex.gt-sm="100" fxFlex.sm="50"
+    [@animate]="{ value: '*', params: { y: '50px', delay: '600ms' } }">
+    <mat-card class="p-0 ">
+      <mat-card-title class="mb-16">
+        <div class="card-title-text">
+          <span class="font-weight-normal">Información de los afiliados, según las seccionales.</span>
+          <div class="totalAf">
+            <ngx-charts-bar-vertical-stacked [view]="viewBarras" [scheme]="colorScheme" [results]="multi"
+              [xAxis]="showXAxis" [yAxis]="showYAxis" [legend]="showLegend" [showXAxisLabel]="showXAxisLabel"
+              [showYAxisLabel]="showYAxisLabel" [xAxisLabel]="xAxisLabel" [yAxisLabel]="yAxisLabel"
+              [legendTitle]="legendTitle" [animations]="animations" (select)="onSelectBar($event)">
+            </ngx-charts-bar-vertical-stacked>
+
+
+          </div>
+        </div>
+      </mat-card-title>
+    </mat-card>
+  </div>
+  <!--/ End tab -->
+
+  <!-- Card para otro grafico!! -->
+  <!-- <div fxFlex="100" fxFlex.gt-sm="33.33" fxFlex.sm="50"
+    [@animate]="{ value: '*', params: { y: '50px', delay: '400ms' } }">
+    <mat-card class="p-0 ">
+
+    </mat-card>
+  </div> -->
+  <!--/ End donut chart -->
+  <!--/ End 2nd row -->
+
+  <!-- 3rd row, 1st column -->
+
+  <!--/ End 3rd row, 1st column -->
+
+  <!-- 3rd row, 2nd column -->
+
+  <!--/ End 3rd row, 2nd column -->
+</div>

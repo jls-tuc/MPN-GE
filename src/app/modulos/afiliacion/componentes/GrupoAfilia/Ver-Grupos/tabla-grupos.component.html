@@ -45,7 +45,8 @@
                 </span></mat-icon>Buscar Lote
 
         </button>
-        <button mat-raised-button color="primary" (click)="openPopUp({}, true)">
+        <button *ngIf="this.usuarioRol=== 'user-Adminafilia'" mat-raised-button color="primary"
+            (click)="openPopUp({}, true)">
             <mat-icon matTooltip="Agregar un Lote">add</mat-icon>{{"Crear" | translate
             }}
             {{"Lote" | translate }}
@@ -91,25 +92,26 @@
                             planillas
                             Cargadas
                         </button>
-                        <button mat-menu-item (click)="openPopUp(grp)">
+                        <button *ngIf="this.usuarioRol=== 'user-Adminafilia'" mat-menu-item (click)="openPopUp(grp)">
                             <mat-icon><span class="material-symbols-outlined">
                                     edit
                                 </span></mat-icon>
                             Editar lote
                         </button>
-                        <button mat-menu-item matTooltip="Generar Presentación a la Junta Electoral."
-                            (click)="presentarLote(grp)">
+                        <button *ngIf="this.usuarioRol=== 'user-Adminafilia'" mat-menu-item
+                            matTooltip="Generar Presentación a la Junta Electoral." (click)="presentarLote(grp)">
                             <mat-icon><span class="material-symbols-outlined">
                                     contact_mail
                                 </span></mat-icon> Presentar lote
                         </button>
-                        <button mat-menu-item (click)="devolucionCNE(grp)"
+                        <button *ngIf="this.usuarioRol=== 'user-Adminafilia'" mat-menu-item (click)="devolucionCNE(grp)"
                             matTooltip="Informe sobre devolución de la Junta Electoral.">
                             <mat-icon><span class="material-symbols-outlined">
                                     browser_updated
                                 </span></mat-icon> Cargar Informe CNE
                         </button>
-                        <button mat-menu-item [ngStyle]="{'color': '#0fadb8'}" (click)="verInfoCne(grp)"
+                        <button *ngIf="this.usuarioRol=== 'user-Adminafilia'" mat-menu-item
+                            [ngStyle]="{'color': '#0fadb8'}" (click)="verInfoCne(grp)"
                             matTooltip="Ver info  de la Junta Electoral">
                             <mat-icon><span class="material-symbols-outlined">
                                     remove_red_eye

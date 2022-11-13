@@ -1,0 +1,39 @@
+<mat-card class="example-card">
+  <mat-card-header>
+    <div mat-card-avatar class="example-header-image">
+      <img mat-card-image src="./assets/images/mpn/afiliado.png">
+    </div>
+    <mat-card-title>Departamento: {{this.datos.departamen | titlecase }}</mat-card-title>
+    <mat-card-subtitle>Cabecera: {{this.datos.cabecera | titlecase }}</mat-card-subtitle>
+  </mat-card-header>
+
+  <mat-card-content>
+    <mat-list>
+      <div mat-subheader>Información:</div>
+      <mat-list-item>
+        <mat-icon mat-list-icon>map</mat-icon>
+        <div mat-line>Circuito:{{this.datos.circuito}}</div>
+        <div mat-line>Distrito:{{this.datos.distrito}} </div>
+      </mat-list-item>
+      <mat-divider></mat-divider>
+      <div mat-subheader></div>
+      <mat-list-item>
+        <mat-icon mat-list-icon>people</mat-icon>
+        <div mat-line>Afiliados:{{this.datos.totalAfiliados}}</div>
+        <div mat-line>Independientes:{{this.datos.totalIndependientes}} </div>
+      </mat-list-item>
+      <mat-divider></mat-divider>
+      <div mat-subheader></div>
+      <mat-list-item *ngFor="let escuela of this.escuelas">
+        <mat-icon mat-list-icon>home</mat-icon>
+        <div mat-line>Localidad: {{escuela.localidad | titlecase}} </div>
+        <div mat-line>Escuela: {{escuela.establecimiento |titlecase}}</div>
+        <div mat-line>Domicilio: {{escuela.domEstablecimiento| titlecase}} </div>
+      </mat-list-item>
+    </mat-list>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-raised-button color="warn" mat-dialog-close="close">Cerrar</button>
+
+  </mat-card-actions>
+</mat-card>

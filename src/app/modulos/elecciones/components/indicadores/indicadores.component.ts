@@ -105,7 +105,7 @@ export class IndicadoresComponent implements OnInit {
     private cdr: ChangeDetectorRef,
     public authServ: JwtAuthService,
     public grafServ: GraficaService
-  ) { }
+  ) {}
   loadLayoutView() {
     this.fontFamily = "";
     this.colorsGrayGray500 = "";
@@ -148,16 +148,14 @@ export class IndicadoresComponent implements OnInit {
     }
     this.cargar = false;
     this.buscarDatosGraficaRol(data);
-
   }
 
   async buscarDatosGraficaRol(data: any) {
     let usr = this.authServ.getUser();
-    console.log(``,)
+
     this.calculos = await this.grafServ
       .getvotosGrafica(data)
       .subscribe((res: any) => {
-
         this.votosTotal = res.votosTotal;
         this.afiliados = res.afiliados;
         this.femenino = res.femenino;
@@ -856,6 +854,5 @@ export class IndicadoresComponent implements OnInit {
       },
     };
     this.cargar = true;
-
   }
 }

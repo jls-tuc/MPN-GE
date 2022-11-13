@@ -1,0 +1,22 @@
+.contenedorGraficos {
+  height: auto;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+.graficoLocalidad {
+  width: 100%;
+  height: auto;
+  min-width: 600px;
+}
+.graficoEscuela {
+  width: 100%;
+  height: auto;
+  min-width: 600px;
+}
+.graficoMesa {
+  width: 100%;
+  height: auto;
+  min-width: 600px;
+}

@@ -1,13 +1,14 @@
 export interface Iusuario {
   usuario: String;
   password: String;
-  activo: String;
+  activo: boolean;
   fechaAltaUsuario: String;
   fechaBajaUsuario: String;
   lastLogin: String;
   role: String;
   idCoordinador: String;
   idReferente: String;
+  seccional?: String;
   datosPersonales: {
     nombres: String;
     apellido: String;

@@ -29,13 +29,23 @@ import { VerMiPlanillaComponent } from "./components/planilla/ver-mi-planilla/ve
 import { GraficaComponent } from "./components/indicadores/grafica/grafica.component";
 import { CardComponent } from "./components/indicadores/grafica/card/card.component";
 import { PiechartComponent } from "./components/indicadores/grafica/piechart/piechart.component";
-import { CargarVotoComponent } from "./components/cargar-voto/cargar-voto.component";
+
 import { PopupComponent } from "./components/cargar-voto/popup/popup/popup.component";
 import { LocalidadesComponent } from "./components/indicadores/grafica/localidades/localidades.component";
 import { VerPlanillaEleccionComponent } from "./components/planilla/ver-planilla-eleccion/ver-planilla-eleccion.component";
 import { NgCircleProgressModule } from "ng-circle-progress";
-import { MapaPopupComponent } from "./components/mapa/popup/popup.component";
+import { MapaPopupComponent } from "./components/mapa/popupEsc/popup.component";
 import { DirectivesModuleModule } from "app/directives/DirectivesModule/DirectivesModule.module";
+import { PopupCircuitosComponent } from "./components/mapa/popupCirc/popupCircuitos/popupCircuitos.component";
+import { PopupEstEleccionComponent } from "./components/mapa/popupEstEleccion/popupEstEleccion.component";
+import { LocalidadEscrutinioComponent } from "./components/cargar-voto/graficos/localidadEscrutinio/localidadEscrutinio.component";
+import { NgxChartsModule } from "@swimlane/ngx-charts";
+import { EscuelaEscrutinioComponent } from "./components/cargar-voto/graficos/escuelaEscrutinio/escuelaEscrutinio.component";
+import { MesaEscrutinioComponent } from "./components/cargar-voto/graficos/mesaEscrutinio/mesaEscrutinio.component";
+import { GrafActaEscrutinioComponent } from "./components/cargar-voto/GrafActaEscrutinio.component";
+import { CargarActaEscrutinioComponent } from "./components/cargar-voto/CargarActaEscrutinio/CargarActaEscrutinio.component";
+import { CargarChasquiComponent } from "./components/cargar-voto/cargarChasqui/cargarChasqui.component";
+import { IntencionVotoComponent } from "./components/cargar-voto/graficos/intencionVoto/intencionVoto.component";
 
 @NgModule({
   imports: [
@@ -51,6 +61,7 @@ import { DirectivesModuleModule } from "app/directives/DirectivesModule/Directiv
     NgxEchartsModule.forRoot({
       echarts,
     }),
+    NgxChartsModule,
     NgApexchartsModule,
     NgxDatatableModule,
     SharedPipesModule,
@@ -90,9 +101,17 @@ import { DirectivesModuleModule } from "app/directives/DirectivesModule/Directiv
     CardComponent,
     PiechartComponent,
     LocalidadesComponent,
-    CargarVotoComponent,
+    GrafActaEscrutinioComponent,
     PopupComponent,
     MapaPopupComponent,
+    PopupCircuitosComponent,
+    PopupEstEleccionComponent,
+    LocalidadEscrutinioComponent,
+    EscuelaEscrutinioComponent,
+    MesaEscrutinioComponent,
+    CargarActaEscrutinioComponent,
+    CargarChasquiComponent,
+    IntencionVotoComponent,
   ],
   exports: [],
 })

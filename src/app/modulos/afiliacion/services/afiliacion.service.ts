@@ -81,9 +81,10 @@ export class AfiliacionService {
     return this.http.patch(url, data);
   }
   ///udpEstadoPlanilla
-  updPlanilla(value: {}, nroLte: string) {
+  updPlanilla(value: {}, nroLte: string, documento?: string) {
     let data: any = {};
     data.upd = value;
+    data.upd.documento = documento;
 
     let url = `${apiURL}/afiliaciones/updPlanilla/${nroLte}`;
     return this.http.patch(url, data);
@@ -117,9 +118,9 @@ export class AfiliacionService {
   }
 
   getExportacionExcel = async (
-    data: any[],
-    nombreColumnas: string[],
-    nombreHoja: any
+    data?: any[],
+    nombreColumnas?: string[],
+    nombreHoja?: any
   ) => {
     /* console.log('datos', datos) */
     let ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(data);
@@ -136,5 +137,33 @@ export class AfiliacionService {
       data,
       fileName + "_export_" + new Date().getTime() + EXCEL_EXTENSION
     );
+  }
+
+  //obetner un Afiliado
+
+  getAfiliadoJunta(dni: string) {
+    let url = `${apiURL}/afiliadoJunta`;
+    return this.http.get(url + `/?dni=${dni}`);
+  }
+
+  ///
+  updEstAfiliado(value: {}, documento: string) {
+    let data: any = {};
+    data.upd = value;
+    data.upd.documento = documento;
+
+    let url = `${apiURL}/updEstadoAfiliado`;
+    return this.http.patch(url, data);
+  }
+
+  ///indicadore
+
+  estdisticaAfiliado() {
+    let url = `${apiURL}/estadisticasAfi`;
+    return this.http.get(url);
+  }
+  grafAfiliadosEstados() {
+    let url = `${apiURL}/gafricoBar`;
+    return this.http.get(url);
   }
 }

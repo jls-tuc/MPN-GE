@@ -1,0 +1,22 @@
+<mat-card class="example-card">
+  <mat-card-header>
+    <div mat-card-avatar class="example-header-image">
+      <img mat-card-image src="./assets/images/mpn/afiliado.png">
+    </div>
+    <mat-card-title>Mesa Nro:. {{this.data.mesaNro | titlecase }}</mat-card-title>
+    <mat-card-subtitle>Elección: {{this.data.eleccion | titlecase}}</mat-card-subtitle>
+
+  </mat-card-header>
+
+  <mat-card-content>
+    <div id="chart">
+      <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart" [dataLabels]="chartOptions.dataLabels"
+        [plotOptions]="chartOptions.plotOptions" [responsive]="chartOptions.responsive" [xaxis]="chartOptions.xaxis"
+        [legend]="chartOptions.legend" [fill]="chartOptions.fill"></apx-chart>
+    </div>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-raised-button color="warn" mat-dialog-close="close">Cerrar</button>
+
+  </mat-card-actions>
+</mat-card>

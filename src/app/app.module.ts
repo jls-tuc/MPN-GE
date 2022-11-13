@@ -1,9 +1,6 @@
 import { NgModule, ErrorHandler } from "@angular/core";
 import { RouterModule } from "@angular/router";
-import {
-  BrowserModule,
-  HAMMER_GESTURE_CONFIG,
-} from "@angular/platform-browser";
+import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 // import { GestureConfig } from '@angular/material/core';
 import {
@@ -28,6 +25,7 @@ import { TranslateModule, TranslateLoader } from "@ngx-translate/core";
 import { TranslateHttpLoader } from "@ngx-translate/http-loader";
 import { ErrorHandlerService } from "./shared/services/error-handler.service";
 import { TokenInterceptor } from "./shared/interceptors/token.interceptor";
+import { NgxChartsModule } from "@swimlane/ngx-charts";
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(httpClient: HttpClient) {
@@ -42,6 +40,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    NgxChartsModule,
     SharedModule,
     HttpClientModule,
     PerfectScrollbarModule,
@@ -58,6 +57,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     RouterModule.forRoot(rootRouterConfig, {
       useHash: false,
       relativeLinkResolution: "legacy",
+      onSameUrlNavigation: "reload",
     }),
   ],
   declarations: [AppComponent],

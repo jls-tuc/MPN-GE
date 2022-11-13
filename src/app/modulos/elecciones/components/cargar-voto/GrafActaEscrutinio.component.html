@@ -1,0 +1,53 @@
+<mat-card>
+    <mat-card-title>Gráficos estadísticos sobre el escrutinio.</mat-card-title>
+    <mat-card-subtitle>Junta Electoral Partidaria</mat-card-subtitle>
+    <mat-card-content>
+        <div class="row">
+            <div class="col-4">
+                <mat-form-field class="full-width" appearance="outline">
+                    <mat-label>Seleccione una localidad</mat-label>
+                    <mat-select matNativeControl [(ngModel)]="localidadSeleccionada" (ngModelChange)="cargarEscuela()">
+                        <mat-option *ngFor="let loc of localidades" [value]="loc">{{loc | uppercase}}</mat-option>
+
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="col-4">
+                <mat-form-field *ngIf="showEsc" class="full-width" appearance="outline">
+                    <mat-label>Seleccione un establecimiento</mat-label>
+                    <mat-select matNativeControl [(ngModel)]="escuelaSeleccionada" (ngModelChange)="cargarMesas()">
+                        <mat-option *ngFor="let esc of escuelas" [value]="esc">{{esc | uppercase}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+
+            <div class="col-4">
+                <mat-form-field *ngIf="showMesas" class="full-width" appearance="outline">
+                    <mat-label>Seleccione una mesa</mat-label>
+                    <mat-select matNativeControl [(ngModel)]="mesaSeleccionada" (ngModelChange)="seleccionarMesa()">
+                        <mat-option *ngFor="let mesa of mesas" [value]="mesa.mesa">{{mesa.mesa | uppercase}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </div>
+
+
+
+    </mat-card-content>
+
+</mat-card>
+
+<div class="contenedorGraficos">
+
+    <div class="graficoLocalidad">
+        <app-localidadEscrutinio *ngIf="showGraficLoc" [datosLocalidad]="localidadTest.asObservable()">
+        </app-localidadEscrutinio>
+    </div>
+    <div class="graficoEscuela">
+        <app-escuelaEscrutinio *ngIf="showEscGrafic" [datosEscuela]="escuelaObs.asObservable()"></app-escuelaEscrutinio>
+    </div>
+    <div class="graficoMesa">
+        <app-mesaEscrutinio *ngIf="showMesaGrafic" [datosMesa]="mesaObs.asObservable()"></app-mesaEscrutinio>
+    </div>
+</div>

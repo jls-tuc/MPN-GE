@@ -1,5 +1,6 @@
 import { HttpClient } from "@angular/common/http";
-import { Component, OnInit } from "@angular/core";
+
+import { Component, OnInit, ChangeDetectorRef } from "@angular/core";
 import * as Mapboxgl from "mapbox-gl";
 import { IntMapBox } from "../../interfaces/map-box";
 import { MapaService } from "../../services/mapa.service";
@@ -11,6 +12,7 @@ import { MapaService } from "../../services/mapa.service";
 })
 export class MapaComponent implements OnInit {
   escuelas: any = {};
+  showMap: boolean;
   public datosGeo: any;
   mapa: Mapboxgl.Map;
   dataGeom: any[];
@@ -98,17 +100,21 @@ export class MapaComponent implements OnInit {
   };
   filterGroup = document.getElementById("filter-group");
 
-  constructor(private http: HttpClient, private mapBox: MapaService) {}
+  constructor(
+    public cdr: ChangeDetectorRef,
+    private http: HttpClient,
+    private mapBox: MapaService
+  ) {}
   options = { types: [], componentRestrictions: { country: "ARG" } };
   ngOnInit(): void {
-    this.mapBox.mostrarMapa(this.datosMapbox);
     this.cargarCapaDonas();
   }
-
   cargarCapaDonas() {
     this.mapBox.getDataGEo().subscribe((res: any) => {
-      //console.log(res);
-      this.mapBox.graficosDonas(res.dataGeo);
+      this.showMap = true;
+      this.mapBox.mostrarMapa(this.datosMapbox);
+      this.mapBox.graficosDonas(res.dataGeo, res.poligono);
+      this.cdr.detectChanges();
     });
   }
 }

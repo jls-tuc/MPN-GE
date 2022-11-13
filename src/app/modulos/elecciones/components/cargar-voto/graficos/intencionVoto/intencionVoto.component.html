@@ -1,0 +1,77 @@
+<div fxLayout="row wrap">
+  <div fxFlex="100" fxFlex.gt-sm="50" fxFlex.sm="50" [@animate]="{ value: '*', params: { y: '50px', delay: '600ms' } }">
+    <mat-card class="p-0 ">
+      <mat-card-title class="mb-16">
+        <div class="card-title-text">
+          <mat-card-title>Participación, electoral en la provincia.</mat-card-title>
+
+          <mat-card-subtitle>Participantes: {{totalVotantes}}, de 128984 electores habilitados. Participación:
+            {{totalPartic| number}}%</mat-card-subtitle>
+
+          <div class="totalAf">
+            <ngx-charts-pie-grid [view]="view" [scheme]="colorSchemeAf" [results]="dataGrafAFvsInd"
+              (select)="onSelect($event)">
+            </ngx-charts-pie-grid>
+          </div>
+        </div>
+      </mat-card-title>
+    </mat-card>
+  </div>
+  <div fxFlex="100" fxFlex.gt-sm="50" fxFlex.sm="50" fxFlex.sm="50"
+    [@animate]="{ value: '*', params: { y: '50px', delay: '600ms' } }">
+    <mat-card class="p-0 ">
+      <mat-card-title class="mb-16">
+        <div class="card-title-text">
+          <mat-card-title>Participación, electoral en la provincia.</mat-card-title>
+          <mat-card-subtitle>Participantes: {{totalVotantes}}, de 128984 electores habilitados. </mat-card-subtitle>
+          <div class="totalAf">
+            <ngx-charts-pie-grid [view]="viewGenero" [scheme]="colorGenero" [results]="dataGrafGenero"
+              (select)="onSelect($event)">
+            </ngx-charts-pie-grid>
+
+
+          </div>
+        </div>
+      </mat-card-title>
+    </mat-card>
+  </div>
+</div>
+<div fxLayout="row wrap">
+  <div fxFlex="100" fxFlex.gt-sm="100" fxFlex.sm="100"
+    [@animate]="{ value: '*', params: { y: '50px', delay: '600ms' } }">
+    <mat-card class="p-0 ">
+      <mat-card-title class="mb-16">
+        <div class="card-title-text">
+          <mat-card-title>Participación, electoral en las localidades.</mat-card-title>
+          <!-- <mat-card-subtitle>Diferencia entre géneros.</mat-card-subtitle> -->
+          <div class="totalAf">
+            <!--  <ngx-charts-bar-vertical-2d [view]="viewBar" [scheme]="colorScheme" [results]="localidades"
+              [gradient]="gradient" [xAxis]="showXAxis" [yAxis]="showYAxis" [legend]="showLegend"
+              [showXAxisLabel]="showXAxisLabel" [showYAxisLabel]="showYAxisLabel" [xAxisLabel]="xAxisLabel"
+              [yAxisLabel]="yAxisLabel" [legendTitle]="legendTitle" (select)="onSelectBar($event)"
+              (activate)="onActivate($event)" (deactivate)="onDeactivate($event)">
+            </ngx-charts-bar-vertical-2d> -->
+            <!--  <ngx-charts-bar-horizontal-stacked [view]="viewBar" [scheme]="colorScheme" [results]="localidades"
+              [gradient]="gradient" [xAxis]="showXAxis" [yAxis]="showYAxis" [legend]="showLegend"
+              [showXAxisLabel]="showXAxisLabel" [showDataLabel]="" [showYAxisLabel]="showYAxisLabel"
+              [xAxisLabel]="xAxisLabel" [yAxisLabel]="yAxisLabel" (select)="onSelect($event)">
+            </ngx-charts-bar-horizontal-stacked> -->
+            <ngx-charts-bar-horizontal-2d [view]="viewBar" [scheme]="colorScheme" [results]="localidades"
+              [gradient]="gradient" [xAxis]="showXAxis" [yAxis]="showYAxis" [legend]="showLegend"
+              [showXAxisLabel]="showXAxisLabel" [showYAxisLabel]="showYAxisLabel" [showDataLabel]="showDataLabel"
+              [xAxisLabel]="xAxisLabel" (select)="onSelect($event)" (activate)="onActivate($event)"
+              (deactivate)="onDeactivate($event)">
+            </ngx-charts-bar-horizontal-2d>
+
+
+
+
+          </div>
+        </div>
+      </mat-card-title>
+    </mat-card>
+  </div>
+
+
+
+</div>

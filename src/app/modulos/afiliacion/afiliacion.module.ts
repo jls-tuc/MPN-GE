@@ -5,7 +5,6 @@ import { AfiliacionRoutes } from "./afiliacion.routing";
 import { RouterModule } from "@angular/router";
 import { SharedModule } from "app/shared/shared.module";
 import { SharedMaterialModule } from "app/shared/shared-material.module";
-import { NgxDatatableModule } from "@swimlane/ngx-datatable";
 import { TranslateModule } from "@ngx-translate/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { FormGrupoPopupComponent } from "./componentes/GrupoAfilia/FormGrupo-popup/FromGru-popopup.component";
@@ -13,9 +12,7 @@ import { PopUpFormAfiliaComponent } from "./componentes/GrupoAfilia/Ver-Grupos/p
 import { TablaGruposComponent } from "./componentes/GrupoAfilia/Ver-Grupos/tabla-grupos.component";
 import { PlanillasAfiliacionComponent } from "./componentes/GrupoAfilia/Ver-Grupos/planillas-afiliacion/planillas-afiliacion.component";
 import { MenuPrincipalComponent } from "./componentes/menuPrincipal/menuPrincipal/menuPrincipal.component";
-import { NgApexchartsModule } from "ng-apexcharts";
-import { NgxEchartsModule } from "ngx-echarts";
-import * as echarts from "echarts";
+
 import { MatDialogModule } from "@angular/material/dialog";
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { MatCardModule } from "@angular/material/card";
@@ -32,6 +29,7 @@ import { ExportarExcelComponent } from "./componentes/listados/exportar-excel/ex
 import { TablaInfoJuntaComponent } from "./componentes/InfoJunta/tablaInfoJunta/tablaInfoJunta.component";
 import { PopUpInfoJuntaComponent } from "./componentes/InfoJunta/popUpInfoJunta/popUpInfoJunta.component";
 
+import { NgxChartsModule } from "@swimlane/ngx-charts";
 @NgModule({
   imports: [
     DirectivesModuleModule,
@@ -44,11 +42,7 @@ import { PopUpInfoJuntaComponent } from "./componentes/InfoJunta/popUpInfoJunta/
     ReactiveFormsModule,
     SharedMaterialModule,
     TranslateModule,
-    NgxDatatableModule,
-    NgxEchartsModule.forRoot({
-      echarts,
-    }),
-    NgApexchartsModule,
+    NgxChartsModule,
     MatDialogModule,
     MatCardModule,
     RouterModule.forChild(AfiliacionRoutes),

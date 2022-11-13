@@ -1,0 +1,28 @@
+/* .container {
+  justify-content: center;
+}
+.example-card {
+  max-width: 1020px;
+}
+.col {
+  float: left;
+  width: 50%;
+} */
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+.color-red {
+  color: red;
+}
+
+.color-blue {
+  color: blue;
+}
+
+.color-green {
+  color: green;
+}

@@ -26,8 +26,10 @@ import { PopUpInfoJuntaComponent } from "../popUpInfoJunta/popUpInfoJunta.compon
 })
 export class TablaInfoJuntaComponent implements AfterViewInit {
   public filtroForm: FormGroup;
+  public afiliadoFrom: FormGroup;
   private dataSource$: Subject<any[]>;
   private dataSecc$: Subject<any[]>;
+
   searchSimple: boolean;
   searchAdv: boolean;
   searchDni: boolean;
@@ -58,6 +60,15 @@ export class TablaInfoJuntaComponent implements AfterViewInit {
     "estado",
     "opciones",
   ];
+  dataForm: any = {
+    seccional: "",
+    localidad: "",
+    seccion: "",
+    circuito: "",
+    estado: "",
+    genero: "",
+    profesion: "",
+  };
   dataSource: MatTableDataSource<any>;
 
   @ViewChild("htmlData") htmlData!: ElementRef;
@@ -74,6 +85,7 @@ export class TablaInfoJuntaComponent implements AfterViewInit {
     this.dataSource$ = new Subject();
     this.dataSecc$ = new Subject();
     this.buidFiltroForm();
+    this.buidAfiliadoForm();
     this.getDataSource$().subscribe((elemento) => {
       this.dataSource = new MatTableDataSource(elemento);
     });
@@ -103,6 +115,14 @@ export class TablaInfoJuntaComponent implements AfterViewInit {
       profesion: "",
     });
   }
+  buidAfiliadoForm() {
+    this.afiliadoFrom = this.fb.group({
+      afiliadoDni: [
+        "",
+        [Validators.required, Validators.minLength(7), Validators.maxLength(8)],
+      ],
+    });
+  }
 
   async cargarSeccCirc() {
     await this.afiliacionService.getAllSecc().subscribe((res: any) => {
@@ -124,7 +144,6 @@ export class TablaInfoJuntaComponent implements AfterViewInit {
     this.filtroForm.value.localidad = "";
     let loc = this.seccionales.find((elemnto) => elemnto.seccional === value);
     this.locPar = loc.localidades_parajes_comprende;
-
     this.cdr.markForCheck();
   }
 
@@ -139,6 +158,8 @@ export class TablaInfoJuntaComponent implements AfterViewInit {
         this.searchAdv = false;
         this.searchDni = false;
         this.searchSimple = true;
+        this.filtroForm.reset(this.dataForm);
+        this.afiliadoFrom.reset();
         this.cdr.markForCheck();
         break;
       case "avanzada":
@@ -148,6 +169,7 @@ export class TablaInfoJuntaComponent implements AfterViewInit {
         this.searchDni = false;
         this.searchSimple = true;
         this.searchAdv = true;
+        this.afiliadoFrom.reset();
         this.cdr.markForCheck();
         break;
       case "dni":
@@ -156,7 +178,8 @@ export class TablaInfoJuntaComponent implements AfterViewInit {
         this.searchDni = true;
         this.searchSimple = false;
         this.searchAdv = false;
-        this.cdr.markForCheck();
+        this.filtroForm.reset(this.dataForm);
+        this.ngAfterViewInit();
         break;
 
       default:
@@ -171,15 +194,36 @@ export class TablaInfoJuntaComponent implements AfterViewInit {
     this.circuitos = [...new Set(cir.map((item) => item.circuito))];
     this.cdr.detectChanges();
   }
+  async buscarAfiliado() {
+    this.spinner = true;
+    await this.afiliacionService
+      .getAfiliadoJunta(this.afiliadoFrom.value.afiliadoDni)
+      .subscribe((res: any) => {
+        if (res.ok) {
+          this.dataSource$.next(res.data);
+          this.spinner = false;
+          this.buscar = true;
+        } else {
+          Swal.fire({
+            title: "Resultado de la busqueda",
+            icon: "warning",
+            text: res.msg,
+          });
+
+          this.spinner = false;
+          this.buscar = true;
+        }
+      });
+  }
 
   async filtrar() {
+    this.spinner = true;
     await this.pardonService
       .getAfFiltro(this.filtroForm.value)
       .subscribe((res: any) => {
         this.dataSource$.next(res.data);
         this.spinner = false;
         this.buscar = true;
-
         this.ngAfterViewInit();
       });
   }
@@ -202,7 +246,7 @@ export class TablaInfoJuntaComponent implements AfterViewInit {
       PopUpInfoJuntaComponent,
       {
         width: "1020px",
-        height: "auto",
+        height: "800px",
         disableClose: false,
         data: { title: "Información del afiliado", payload: { planilla } },
       }
@@ -244,7 +288,6 @@ export class TablaInfoJuntaComponent implements AfterViewInit {
           input: "select",
           inputOptions: {
             afiliado: "Aprobado",
-            rechazado: "Rechazado",
             baja: "Baja",
           },
           inputPlaceholder: "Seleccione una opción",
@@ -266,6 +309,7 @@ export class TablaInfoJuntaComponent implements AfterViewInit {
             nroLte: planilla.nroLte,
             documento: planilla.documento,
             fechaAfilia: fechaRespuestaJunta,
+            fechaBaja: "",
             estadoAf: estadoJunta.value,
             obserBaja: obserJunta,
           };
@@ -274,18 +318,18 @@ export class TablaInfoJuntaComponent implements AfterViewInit {
           value = {
             nroLte: planilla.nroLte,
             documento: planilla.documento,
+            fechaAfilia: planilla.fecha_afiliacion,
             fechaBaja: fechaRespuestaJunta,
             estadoAf: estadoJunta.value,
             obserBaja: obserJunta,
           };
-          op = "baja/rechazo";
+          op = "baja";
         }
 
         this.afiliacionService
-          .updPlanilla(value, planilla.nroLte)
+          .updEstAfiliado(value, planilla.documento)
           .subscribe(async (res: any) => {
             if (res.ok) {
-              this.filtrar();
               await Swal.fire({
                 position: "top-end",
                 icon: "success",
@@ -293,6 +337,10 @@ export class TablaInfoJuntaComponent implements AfterViewInit {
                 showConfirmButton: false,
                 timer: 1500,
               });
+              this.dataSource$.next(res.data);
+              this.spinner = false;
+              this.buscar = true;
+              this.ngAfterViewInit();
             } else {
               await Swal.fire({
                 position: "top-end",
@@ -302,6 +350,9 @@ export class TablaInfoJuntaComponent implements AfterViewInit {
                 showConfirmButton: false,
                 timer: 1500,
               });
+              this.spinner = false;
+              this.buscar = true;
+              this.ngAfterViewInit();
             }
           });
       }
@@ -313,5 +364,53 @@ export class TablaInfoJuntaComponent implements AfterViewInit {
   }
   getDataSecc$(): Observable<any> {
     return this.dataSecc$.asObservable();
+  }
+  get dniAfiliado() {
+    return this.afiliadoFrom.get("afiliadoDni");
+  }
+
+  ///////exportar resultados de la consulta
+
+  async exportar(planilla: any) {
+    let xlsFile = [];
+    let totalGenero = {
+      femenino: 0,
+      masculino: 0,
+      otro: 0,
+    };
+    for (let data of planilla) {
+      if (data.genero === "m") {
+        totalGenero.masculino++;
+      }
+      if (data.genero === "f") {
+        totalGenero.femenino++;
+      }
+      if (data.genero === "o") {
+        totalGenero.otro++;
+      }
+
+      let info = {
+        seccion: data.seccion,
+        cod_seccion: data.cod_seccion,
+        circuito: data.circuito,
+        cod_circuito: data.cod_circuito,
+        documento: data.documento,
+        tipo_documento: data.tipo_documento,
+        apellido: data.apellido,
+        nombre: data.nombre,
+        genero: data.genero,
+        estado_afiliacion: data.estado_afiliacion,
+        fecha_afiliacion: data.fecha_afiliacion,
+        clase: data.clase,
+        fecha_nacimiento: data.fecha_nacimiento,
+        domicilio: data.domicilio,
+        fecha_domicilio: data.fecha_domicilio,
+        profesion: data.profesion,
+      };
+      xlsFile.push(info);
+    }
+    xlsFile.push(totalGenero);
+
+    this.afiliacionService.getExportacionExcel(xlsFile, [], "InfoSeccional");
   }
 }

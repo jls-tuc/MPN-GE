@@ -88,7 +88,7 @@ export class PadronesComponent implements OnInit {
           if (res.ok) {
             this.resPadronPar = {
               padronPart: "si",
-              documento: res.data.dni,
+              documento: res.data.documento,
               apellido: res.data.apellido,
               nombre: res.data.nombre,
               domicilio: res.data.domicilio,

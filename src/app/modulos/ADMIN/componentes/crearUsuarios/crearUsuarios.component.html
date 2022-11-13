@@ -1,0 +1,110 @@
+<mat-card class="p-0">
+  <mat-card-title class="">
+    <div class="card-title-text">Crear usuario. </div>
+    <mat-divider></mat-divider>
+  </mat-card-title>
+
+  <form [formGroup]="secondFormGroup" autocomplete="off">
+    <div fxLayout="row wrap">
+      <div fxFlex="100" fxFlex.gt-xs="50" class="pr-16">
+        <div class="pb-16">
+          <mat-form-field appearance="outline">
+            <input type="text" matInput name="dni" formControlName="dni" placeholder="Documento" soloNumeros
+              [max]='99999999'>
+            <button mat-button matSuffix mat-stroked-button aria-label="search" matSuffix (click)="buscarDNI()">
+              <mat-icon matSuffix>search</mat-icon>
+            </button>
+          </mat-form-field>
+        </div>
+
+
+        <div class="pb-16">
+          <mat-form-field appearance="outline">
+            <mat-label>Apellido</mat-label>
+            <input matInput placeholder="Apellido" formControlName="apellido">
+
+          </mat-form-field>
+        </div>
+        <div class="pb-16">
+          <mat-form-field appearance="outline">
+            <mat-label>Domicilio</mat-label>
+            <input matInput placeholder="Domicilio" formControlName="calle">
+
+          </mat-form-field>
+
+        </div>
+        <div class="pb-16">
+          <mat-form-field appearance="outline">
+            <mat-label>Email</mat-label>
+            <input matInput placeholder="email" formControlName="email" autocomplete="off">
+            <mat-icon matSuffix>email</mat-icon>
+          </mat-form-field>
+        </div>
+        <div class="pb-16">
+          <mat-form-field appearance="outline">
+            <mat-label>Seleccione el rol del usuario.</mat-label>
+            <mat-select matInput name="role" formControlName="role">
+              <mat-option *ngFor="let rol of tipoUsuario" [value]='rol.value'>{{rol.tipo|titlecase}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+      </div>
+      <div fxFlex="100" fxFlex.gt-xs="50">
+        <div class="pb-16">
+          <mat-form-field appearance="outline">
+            <mat-label>Seleccione una opción</mat-label>
+            <mat-select matInput name="sexo" formControlName="sexo">
+              <mat-option *ngFor="let sex of sexo" [value]='sex.value'>{{sex.tipo|titlecase}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+
+        <div class="pb-16">
+          <mat-form-field appearance="outline">
+            <mat-label>Nombres</mat-label>
+            <input matInput placeholder="nombres" formControlName="nombres">
+          </mat-form-field>
+        </div>
+        <div class="pb-16">
+          <mat-form-field appearance="outline">
+            <mat-label>Localidad</mat-label>
+            <input matInput placeholder="Localidad" formControlName="localidad">
+          </mat-form-field>
+        </div>
+        <div class="pb-16">
+          <mat-form-field appearance="outline">
+            <mat-label>Teléfono</mat-label>
+            <input matInput placeholder="Número de telefono" formControlName="telefono" autocomplete="off">
+            <mat-icon matSuffix>phone</mat-icon>
+          </mat-form-field>
+        </div>
+        <div class="pb-16">
+          <mat-form-field appearance="outline">
+            <mat-label>Seleccione la seccional, en la cual va a trabajar.</mat-label>
+            <mat-select matInput name="seccional" formControlName="seccional">
+              <mat-option *ngFor="let seccional of seccionales" [value]='seccional.seccional'>
+                {{seccional.seccional|titlecase}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+
+    </div>
+
+
+
+    <div fxLayout="row" fxLayoutGap="12px" [style.margin-top]="'12px'">
+      <button mat-raised-button color="warn" (click)="closePopUp()">Salir</button>
+      <span fxFlex="8px"></span>
+
+
+      <button mat-raised-button color="primary" [disabled]="!secondFormGroup.valid "
+        (click)="guardar()">Guardar</button>
+      <span fxFlex="8px"></span>
+
+    </div>
+  </form>
+
+</mat-card>

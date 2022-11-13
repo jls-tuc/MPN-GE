@@ -10,13 +10,19 @@ import Swal from "sweetalert2";
 import { FormGrupoPopupComponent } from "../FormGrupo-popup/FromGru-popopup.component";
 import { AppLoaderService } from "app/shared/services/app-loader/app-loader.service";
 import { InfoCnePopUpComponent } from "../InfoCne-popup/infoCnePopUp/infoCnePopUp.component";
+import { JwtAuthService } from "app/shared/services/auth/jwt-auth.service";
+import { UserModel } from "app/shared/models/user.model";
+import { egretAnimations } from "app/shared/animations/egret-animations";
 
 @Component({
   selector: "app-tabla-grupos",
   templateUrl: "./tabla-grupos.component.html",
   styleUrls: ["./tabla-grupos.component.scss"],
+  animations: egretAnimations,
 })
 export class TablaGruposComponent implements OnInit {
+  userLog$: Observable<UserModel>;
+  usuarioRol: any;
   public lotes: IGruposAfiliados = [];
   private grupos$: Subject<IGruposAfiliados>;
   public items: any;
@@ -38,6 +44,7 @@ export class TablaGruposComponent implements OnInit {
     private router: Router,
     private loader: AppLoaderService,
     private cdr: ChangeDetectorRef,
+    public authServ: JwtAuthService,
     private afiliadoService: AfiliacionService
   ) {
     this.grupos$ = new Subject();
@@ -46,6 +53,9 @@ export class TablaGruposComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    let usuario: any = this.authServ.user;
+    this.usuarioRol = usuario.role;
+
     this.cargarGrupos();
     this.getGrupo$().subscribe((lot) => {
       this.lotes = lot;
@@ -156,7 +166,6 @@ export class TablaGruposComponent implements OnInit {
   }
 
   cargar() {
-    console.log(this.nroLte);
     this.cargarCard = false;
     this.spinnerBuscar = true;
     this.afiliadoService.getOneLote(this.nroLte).subscribe((res: any) => {

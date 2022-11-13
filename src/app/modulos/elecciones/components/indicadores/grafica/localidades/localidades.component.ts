@@ -1,6 +1,12 @@
-import { ChangeDetectorRef, Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
-import { GraficaService } from 'app/modulos/elecciones/services/grafica.service';
-import { JwtAuthService } from 'app/shared/services/auth/jwt-auth.service';
+import {
+  ChangeDetectorRef,
+  Component,
+  OnInit,
+  ViewChild,
+  AfterViewInit,
+} from "@angular/core";
+import { GraficaService } from "app/modulos/elecciones/services/grafica.service";
+import { JwtAuthService } from "app/shared/services/auth/jwt-auth.service";
 import {
   ApexAxisChartSeries,
   ApexChart,
@@ -9,7 +15,7 @@ import {
   ApexDataLabels,
   ApexXAxis,
   ApexPlotOptions,
-  ApexStroke
+  ApexStroke,
 } from "ng-apexcharts";
 export type ChartOptions = {
   series: ApexAxisChartSeries;
@@ -20,9 +26,9 @@ export type ChartOptions = {
   stroke: ApexStroke;
 };
 @Component({
-  selector: 'app-localidades',
-  templateUrl: './localidades.component.html',
-  styleUrls: ['./localidades.component.scss']
+  selector: "app-localidades",
+  templateUrl: "./localidades.component.html",
+  styleUrls: ["./localidades.component.scss"],
 })
 export class LocalidadesComponent implements OnInit, AfterViewInit {
   @ViewChild("chart") chart: ChartComponent;
@@ -34,18 +40,16 @@ export class LocalidadesComponent implements OnInit, AfterViewInit {
   public datos: any = [];
   public datosa: any = [];
   cargar: boolean = false;
-  constructor(private cdr: ChangeDetectorRef,
+  constructor(
+    private cdr: ChangeDetectorRef,
     public authServ: JwtAuthService,
-    public grafServ: GraficaService,) {
-
-  }
-  ngAfterViewInit(): void {
-
-  }
+    public grafServ: GraficaService
+  ) {}
+  ngAfterViewInit(): void {}
   ngOnInit(): void {
     this.datos = this.grafServ.getvotosLocalidad().subscribe((res: any) => {
       this.cargar = false;
-      console.log(`res`, res)
+      console.log(`res`, res);
       this.chartOptions = this.cargarOpciones(res);
       this.chartOptionsNqn = this.cargarOpcionesNqn(res);
       this.chartOptionsNqnV = this.cargarOpcionesVotaron(res);
@@ -55,7 +59,6 @@ export class LocalidadesComponent implements OnInit, AfterViewInit {
       this.cdr.detectChanges();
       this.cdr.markForCheck();
     });
-
   }
   cargarOpcionesVotaron(datos: any) {
     return {
@@ -67,71 +70,71 @@ export class LocalidadesComponent implements OnInit, AfterViewInit {
         {
           name: "Ya votaron",
 
-          data: [datos.totalVotaronNqn]
-        }
+          data: [datos.totalVotaronNqn],
+        },
       ],
       chart: {
         type: "bar",
-        height: 200
+        height: 200,
       },
-      colors: ['#9C27B0', "#00D51E"],
+      colors: ["#9C27B0", "#00D51E"],
       plotOptions: {
         bar: {
           horizontal: true,
           dataLabels: {
-            position: "top"
-          }
-        }
+            position: "top",
+          },
+        },
       },
       dataLabels: {
         enabled: true,
 
-        textAnchor: 'middle',
+        textAnchor: "middle",
         distributed: false,
         offsetX: 0,
         offsetY: 0,
         style: {
-          fontSize: '16px',
-          fontFamily: 'Helvetica, Arial, sans-serif',
-          fontWeight: 'bold',
-          colors: undefined
+          fontSize: "16px",
+          fontFamily: "Helvetica, Arial, sans-serif",
+          fontWeight: "bold",
+          colors: undefined,
         },
         background: {
           enabled: true,
-          foreColor: '#fff',
+          foreColor: "#fff",
           padding: 4,
           borderRadius: 2,
           borderWidth: 1,
-          borderColor: '#fff',
+          borderColor: "#fff",
           opacity: 0.9,
           dropShadow: {
             enabled: false,
             top: 1,
             left: 1,
             blur: 1,
-            color: '#000',
-            opacity: 0.45
-          }
+            color: "#000",
+            opacity: 0.45,
+          },
         },
         dropShadow: {
           enabled: false,
           top: 1,
           left: 1,
           blur: 1,
-          color: '#000',
-          opacity: 0.45
-        }
+          color: "#000",
+          opacity: 0.45,
+        },
       },
       legend: {
         show: true,
         showForSingleSeries: false,
         showForNullSeries: true,
         showForZeroSeries: true,
-        position: 'bottom',
-        horizontalAlign: 'center',
+        position: "bottom",
+        horizontalAlign: "center",
         floating: false,
-        fontSize: '16px',
-        fontFamily: 'Helvetica, Arial',
+        fontSize: "16px",
+        fontFamily: "Helvetica, Arial",
         fontWeight: 400,
         formatter: undefined,
         inverseOrder: false,
@@ -143,43 +146,42 @@ export class LocalidadesComponent implements OnInit, AfterViewInit {
         offsetY: 0,
         labels: {
           colors: undefined,
-          useSeriesColors: false
+          useSeriesColors: false,
         },
         markers: {
           width: 12,
           height: 12,
           strokeWidth: 0,
-          strokeColor: '#fff',
+          strokeColor: "#fff",
           fillColors: undefined,
           radius: 12,
           customHTML: undefined,
           onClick: undefined,
           offsetX: 0,
-          offsetY: 0
+          offsetY: 0,
         },
         itemMargin: {
           horizontal: 5,
-          vertical: 0
+          vertical: 0,
         },
         onItemClick: {
-          toggleDataSeries: true
+          toggleDataSeries: true,
         },
         onItemHover: {
-          highlightDataSeries: true
+          highlightDataSeries: true,
         },
       },
       stroke: {
         show: true,
         width: 1,
-        colors: ["#fff"]
+        colors: ["#fff"],
       },
       xaxis: {
-        categories: ["HABILITADOS NQN CAP"]
-      }
-    }
+        categories: ["HABILITADOS NQN CAP"],
+      },
+    };
   }
   cargarOpcionesNqn(datos: any) {
-
     return {
       series: [
         {
@@ -189,12 +191,12 @@ export class LocalidadesComponent implements OnInit, AfterViewInit {
         {
           name: "Ya votaron",
 
-          data: [datos.totalVotaron]
-        }
+          data: [datos.totalVotaron],
+        },
       ],
       chart: {
         type: "bar",
-        height: 200
+        height: 200,
       },
 
       colors: ["#1a3a83", "#00D51E"],
@@ -202,59 +204,59 @@ export class LocalidadesComponent implements OnInit, AfterViewInit {
         bar: {
           horizontal: true,
           dataLabels: {
-            position: "top"
-          }
-        }
+            position: "top",
+          },
+        },
       },
       dataLabels: {
         enabled: true,
 
-        textAnchor: 'middle',
+        textAnchor: "middle",
         distributed: false,
         offsetX: 0,
         offsetY: 0,
         style: {
-          fontSize: '16px',
-          fontFamily: 'Helvetica, Arial, sans-serif',
-          fontWeight: 'bold',
-          colors: undefined
+          fontSize: "16px",
+          fontFamily: "Helvetica, Arial, sans-serif",
+          fontWeight: "bold",
+          colors: undefined,
         },
         background: {
           enabled: true,
-          foreColor: '#fff',
+          foreColor: "#fff",
           padding: 4,
           borderRadius: 2,
           borderWidth: 1,
-          borderColor: '#fff',
+          borderColor: "#fff",
           opacity: 0.9,
           dropShadow: {
             enabled: false,
             top: 1,
             left: 1,
             blur: 1,
-            color: '#000',
-            opacity: 0.45
-          }
+            color: "#000",
+            opacity: 0.45,
+          },
         },
         dropShadow: {
           enabled: false,
           top: 1,
           left: 1,
           blur: 1,
-          color: '#000',
-          opacity: 0.45
-        }
+          color: "#000",
+          opacity: 0.45,
+        },
       },
       legend: {
         show: true,
         showForSingleSeries: false,
         showForNullSeries: true,
         showForZeroSeries: true,
-        position: 'bottom',
-        horizontalAlign: 'center',
+        position: "bottom",
+        horizontalAlign: "center",
         floating: false,
-        fontSize: '16px',
-        fontFamily: 'Helvetica, Arial',
+        fontSize: "16px",
+        fontFamily: "Helvetica, Arial",
         fontWeight: 400,
         formatter: undefined,
         inverseOrder: false,
@@ -266,97 +268,97 @@ export class LocalidadesComponent implements OnInit, AfterViewInit {
         offsetY: 0,
         labels: {
           colors: undefined,
-          useSeriesColors: false
+          useSeriesColors: false,
         },
         markers: {
           width: 12,
           height: 12,
           strokeWidth: 0,
-          strokeColor: '#fff',
+          strokeColor: "#fff",
           fillColors: undefined,
           radius: 12,
           customHTML: undefined,
           onClick: undefined,
           offsetX: 0,
-          offsetY: 0
+          offsetY: 0,
         },
         itemMargin: {
           horizontal: 5,
-          vertical: 0
+          vertical: 0,
         },
         onItemClick: {
-          toggleDataSeries: true
+          toggleDataSeries: true,
         },
         onItemHover: {
-          highlightDataSeries: true
+          highlightDataSeries: true,
         },
       },
       stroke: {
         show: true,
         width: 1,
-        colors: ["#fff"]
+        colors: ["#fff"],
       },
       xaxis: {
-        categories: ["ADHESION NQN CAP"]
-      }
-    }
-  };
+        categories: ["ADHESION NQN CAP"],
+      },
+    };
+  }
   cargarOpcionesVotaronP(datos: any) {
     return {
       series: [datos.totalVotaronNqn, 216138 - datos.totalVotaronNqn],
       chart: {
         width: 380,
-        type: "pie"
+        type: "pie",
       },
       dataLabels: {
         enabled: true,
 
-        textAnchor: 'middle',
+        textAnchor: "middle",
         distributed: false,
         offsetX: 0,
         offsetY: 0,
         style: {
-          fontSize: '16px',
-          fontFamily: 'Helvetica, Arial, sans-serif',
-          fontWeight: 'bold',
-          colors: undefined
+          fontSize: "16px",
+          fontFamily: "Helvetica, Arial, sans-serif",
+          fontWeight: "bold",
+          colors: undefined,
         },
         background: {
           enabled: true,
-          foreColor: '#fff',
+          foreColor: "#fff",
           padding: 4,
           borderRadius: 2,
           borderWidth: 1,
-          borderColor: '#fff',
+          borderColor: "#fff",
           opacity: 0.9,
           dropShadow: {
             enabled: false,
             top: 1,
             left: 1,
             blur: 1,
-            color: '#000',
-            opacity: 0.45
-          }
+            color: "#000",
+            opacity: 0.45,
+          },
         },
         dropShadow: {
           enabled: false,
           top: 1,
           left: 1,
           blur: 1,
-          color: '#000',
-          opacity: 0.45
-        }
+          color: "#000",
+          opacity: 0.45,
+        },
       },
       legend: {
         show: true,
         showForSingleSeries: false,
         showForNullSeries: true,
         showForZeroSeries: true,
-        position: 'bottom',
-        horizontalAlign: 'center',
+        position: "bottom",
+        horizontalAlign: "center",
         floating: false,
-        fontSize: '16px',
-        fontFamily: 'Helvetica, Arial',
+        fontSize: "16px",
+        fontFamily: "Helvetica, Arial",
         fontWeight: 400,
         formatter: undefined,
         inverseOrder: false,
@@ -368,94 +370,93 @@ export class LocalidadesComponent implements OnInit, AfterViewInit {
         offsetY: 0,
         labels: {
           colors: undefined,
-          useSeriesColors: false
+          useSeriesColors: false,
         },
         markers: {
           width: 12,
           height: 12,
           strokeWidth: 0,
-          strokeColor: '#fff',
+          strokeColor: "#fff",
           fillColors: undefined,
           radius: 12,
           customHTML: undefined,
           onClick: undefined,
           offsetX: 0,
-          offsetY: 0
+          offsetY: 0,
         },
         itemMargin: {
           horizontal: 5,
-          vertical: 0
+          vertical: 0,
         },
         onItemClick: {
-          toggleDataSeries: true
+          toggleDataSeries: true,
         },
         onItemHover: {
-          highlightDataSeries: true
+          highlightDataSeries: true,
         },
       },
       labels: ["Ya Votaron", "Habilitados en Nqn Cap"],
-      colors: ["#00D51E", '#9C27B0'],
+      colors: ["#00D51E", "#9C27B0"],
       responsive: [
         {
           breakpoint: 480,
           options: {
             chart: {
-              width: 200
+              width: 200,
             },
             legend: {
-              position: "bottom"
-            }
-          }
-        }
-      ]
-    }
+              position: "bottom",
+            },
+          },
+        },
+      ],
+    };
   }
   cargarOpcionesNqnP(datos: any) {
-
     return {
       series: [datos.totalVotaron, datos.votosAdhNqn[0] - datos.totalVotaron],
       chart: {
         width: 380,
-        type: "pie"
+        type: "pie",
       },
       dataLabels: {
         enabled: true,
 
-        textAnchor: 'middle',
+        textAnchor: "middle",
         distributed: false,
         offsetX: 0,
         offsetY: 0,
         style: {
-          fontSize: '16px',
-          fontFamily: 'Helvetica, Arial, sans-serif',
-          fontWeight: 'bold',
-          colors: undefined
+          fontSize: "16px",
+          fontFamily: "Helvetica, Arial, sans-serif",
+          fontWeight: "bold",
+          colors: undefined,
         },
         background: {
           enabled: true,
-          foreColor: '#fff',
+          foreColor: "#fff",
           padding: 4,
           borderRadius: 2,
           borderWidth: 1,
-          borderColor: '#fff',
+          borderColor: "#fff",
           opacity: 0.9,
           dropShadow: {
             enabled: false,
             top: 1,
             left: 1,
             blur: 1,
-            color: '#000',
-            opacity: 0.45
-          }
+            color: "#000",
+            opacity: 0.45,
+          },
         },
         dropShadow: {
           enabled: false,
           top: 1,
           left: 1,
           blur: 1,
-          color: '#000',
-          opacity: 0.45
-        }
+          color: "#000",
+          opacity: 0.45,
+        },
       },
       labels: ["Ya Votaron", "Voto Adhesion Nqn Cap"],
       legend: {
@@ -463,11 +464,11 @@ export class LocalidadesComponent implements OnInit, AfterViewInit {
         showForSingleSeries: false,
         showForNullSeries: true,
         showForZeroSeries: true,
-        position: 'bottom',
-        horizontalAlign: 'center',
+        position: "bottom",
+        horizontalAlign: "center",
         floating: false,
-        fontSize: '16px',
-        fontFamily: 'Helvetica, Arial',
+        fontSize: "16px",
+        fontFamily: "Helvetica, Arial",
         fontWeight: 400,
         formatter: undefined,
         inverseOrder: false,
@@ -479,29 +480,29 @@ export class LocalidadesComponent implements OnInit, AfterViewInit {
         offsetY: 0,
         labels: {
           colors: undefined,
-          useSeriesColors: false
+          useSeriesColors: false,
         },
         markers: {
           width: 12,
           height: 12,
           strokeWidth: 0,
-          strokeColor: '#fff',
+          strokeColor: "#fff",
           fillColors: undefined,
           radius: 12,
           customHTML: undefined,
           onClick: undefined,
           offsetX: 0,
-          offsetY: 0
+          offsetY: 0,
         },
         itemMargin: {
           horizontal: 5,
-          vertical: 0
+          vertical: 0,
         },
         onItemClick: {
-          toggleDataSeries: true
+          toggleDataSeries: true,
         },
         onItemHover: {
-          highlightDataSeries: true
+          highlightDataSeries: true,
         },
       },
       colors: ["#00D51E", "#1a3a83"],
@@ -510,18 +511,17 @@ export class LocalidadesComponent implements OnInit, AfterViewInit {
           breakpoint: 480,
           options: {
             chart: {
-              width: 200
+              width: 200,
             },
             legend: {
-              position: "bottom"
-            }
-          }
-        }
-      ]
+              position: "bottom",
+            },
+          },
+        },
+      ],
     };
   }
   cargarOpciones(datos: any) {
-
     return {
       series: [
         {
@@ -531,38 +531,37 @@ export class LocalidadesComponent implements OnInit, AfterViewInit {
         {
           name: "Ya votaron",
 
-          data: datos.votaronNqn
-        }
+          data: datos.votaronNqn,
+        },
       ],
       chart: {
         type: "bar",
-        height: 5000
+        height: 5000,
       },
       plotOptions: {
         bar: {
           horizontal: true,
           dataLabels: {
-            position: "top"
-          }
-        }
+            position: "top",
+          },
+        },
       },
       dataLabels: {
         enabled: true,
         offsetX: -6,
         style: {
           fontSize: "12px",
-          colors: ["#fff"]
-        }
+          colors: ["#fff"],
+        },
       },
       stroke: {
         show: true,
         width: 1,
-        colors: ["#fff"]
+        colors: ["#fff"],
       },
       xaxis: {
-        categories: datos.labels
-      }
-    }
-  };
-
+        categories: datos.labels,
+      },
+    };
+  }
 }
