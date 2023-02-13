@@ -52,9 +52,9 @@ export class Signin2Component implements OnInit {
           this.router.navigateByUrl("elecciones/referentes");
         } else if (
           resp.role === "user-afilia" ||
-          resp.role === "user-Adminafilia"
+          resp.role === "user-adminafilia"
         ) {
-          this.router.navigateByUrl("afiliacion/analitica");
+          this.router.navigate(["afiliacion/analitica"]);
         } else {
           this.router.navigateByUrl(this.authService.return);
         }

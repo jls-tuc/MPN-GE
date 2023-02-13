@@ -93,20 +93,20 @@
 
                         </div>
                         <div class='row'>
-                            <div class="col">
+                            <!-- <div class="col">
                                 <mat-form-field class="sepa" appearance="fill">
                                     <mat-label>Distrito Militar</mat-label>
                                     <input type="text" class="form-control" matInput formControlName="dm"
                                         [readonly]='editar' placeholder="">
                                 </mat-form-field>
-                            </div>
-                            <div class="col">
+                            </div> -->
+                            <!-- <div class="col">
                                 <mat-form-field class="sepa" appearance="fill">
                                     <mat-label>Regimiento</mat-label>
                                     <input type="text" class="form-control" matInput formControlName="rg"
                                         [readonly]='editar' placeholder="">
                                 </mat-form-field>
-                            </div>
+                            </div> -->
                             <div class="col">
                                 <mat-form-field class="sepa" appearance="fill">
                                     <mat-label>Clase</mat-label>
@@ -114,9 +114,6 @@
                                         [readonly]='editar' placeholder="" required>
                                 </mat-form-field>
                             </div>
-
-                        </div>
-                        <div class='row'>
                             <div class="col">
                                 <mat-form-field class="sepa" appearance="fill">
                                     <mat-label>Sexo/Genero</mat-label>
@@ -131,6 +128,11 @@
                                         [readonly]='editar' placeholder="" required>
                                 </mat-form-field>
                             </div>
+
+                        </div>
+                        <div class='row'>
+
+
                             <div class="col">
                                 <mat-form-field class="sepa" appearance="fill">
                                     <mat-label>lugar de Nacimiento</mat-label>
@@ -138,9 +140,6 @@
                                         [readonly]='editar' placeholder="">
                                 </mat-form-field>
                             </div>
-
-                        </div>
-                        <div class='row'>
                             <div class="col">
                                 <mat-form-field class="sepa" appearance="fill">
                                     <mat-label>Profesión u Oficio</mat-label>
@@ -149,15 +148,23 @@
                                 </mat-form-field>
                             </div>
                             <div class="col">
-                                <mat-form-field class="sepa" appearance="fill">
+                                <mat-form-field appearance="fill">
                                     <mat-label>Estado Civil</mat-label>
-                                    <input type="text" class="form-control " matInput formControlName="estadoCivil"
-                                        [readonly]='editar' placeholder="" required>
+                                    <mat-select formControlName="estadoCivil" placeholder="Selecciones una opción"
+                                        [readonly]='editar' required>
+                                        <mat-option *ngFor="let estadoCivil of estadosCiviles"
+                                            [value]="estadoCivil">{{estadoCivil |titlecase}}</mat-option>
+                                    </mat-select>
                                 </mat-form-field>
+
                             </div>
 
-
                         </div>
+                        <!-- <div class='row'>
+                           
+
+
+                        </div> -->
 
 
 

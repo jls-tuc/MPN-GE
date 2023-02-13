@@ -69,7 +69,9 @@ export class HeaderTopComponent implements OnInit, OnDestroy {
   async mostrarData() {
     this.userData$ = await this.jwtAuth.currentUserSubject.asObservable();
     this.usurioLog = await this.userData$;
+
     this.datosUsuarios = await this.usurioLog.source._value;
+
     this.menuItems = await this.usurioLog.source._value.menu;
     this.fotoUsuario = await sessionStorage.getItem("FOTO");
   }
@@ -96,8 +98,9 @@ export class HeaderTopComponent implements OnInit, OnDestroy {
     });
   }
   closeWindows() {
+    console.log(this.datosUsuarios);
     if (
-      this.datosUsuarios.role === "user-Adminafilia" ||
+      this.datosUsuarios.role === "user-adminafilia" ||
       this.datosUsuarios.role === "user-afilia"
     ) {
       this.router.navigateByUrl("afiliacion/analitica");

@@ -34,8 +34,11 @@
         </button>
 
     </mat-card-actions>
+    <mat-chip class='mat-sm-chip' style="color: rgba(76, 15, 197, 0.89)">
+        Lotes en total:. {{totalLotes}}</mat-chip>
 
-    <span>Lotes en total:. {{totalLotes}} </span>
+
+
     <mat-card-actions align="end">
 
         <button mat-raised-button color="accent" *ngIf="!buscarLte" (click)="filtLte()"
@@ -45,7 +48,7 @@
                 </span></mat-icon>Buscar Lote
 
         </button>
-        <button *ngIf="this.usuarioRol=== 'user-Adminafilia'" mat-raised-button color="primary"
+        <button *ngIf="this.usuarioRol=== 'user-adminafilia'" mat-raised-button color="primary"
             (click)="openPopUp({}, true)">
             <mat-icon matTooltip="Agregar un Lote">add</mat-icon>{{"Crear" | translate
             }}

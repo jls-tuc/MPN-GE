@@ -30,7 +30,7 @@ export class CrearUsuariosComponent implements OnInit {
     },
   ];
   tipoUsuario = [
-    { tipo: "Administrador de Afiliaciones", value: "user-Adminafilia" },
+    { tipo: "Administrador de Afiliaciones", value: "user-adminafilia" },
     { tipo: "Administrador de Sistemas", value: "admin" },
     { tipo: "Afiliación", value: "user-afilia" },
     { tipo: "Coordinador", value: "user-coord" },

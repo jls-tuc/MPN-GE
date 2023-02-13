@@ -7,12 +7,12 @@
     <form [formGroup]="grupoAfiliadoForm" (ngSubmit)="submit()" autocomplete="off">
       <div fxLayout="row wrap">
         <div fxFlex="100" fxFlex.gt-xs="50" class="pr-16">
-          <div class="pb-16">
+          <!-- <div class="pb-16">
             <mat-form-field class="full-width">
               <input type="text" matInput name="numero" formControlName="numero" placeholder="Nro Lte." soloNumeros
                 [max]='9999'>
             </mat-form-field>
-          </div>
+          </div> -->
           <div class="pb-16">
             <mat-form-field class="full-width">
               <mat-select formControlName="usuarioResponsable" placeholder="Seleccione un usuario">
@@ -119,7 +119,8 @@
 
 
 
-      <button mat-raised-button color="primary" [disabled]="!grupoAfiliadoForm.valid">{{"Guardar" | translate
+      <button mat-raised-button color="primary" [disabled]="!grupoAfiliadoForm.valid && !this.btnSave">{{"Guardar" |
+        translate
         }}</button>
 
       <button mat-button color="warn" type="button" (click)="dialogRef.close(false)"

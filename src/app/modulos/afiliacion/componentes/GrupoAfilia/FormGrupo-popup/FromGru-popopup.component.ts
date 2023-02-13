@@ -18,6 +18,7 @@ export class FormGrupoPopupComponent implements OnInit {
   localidades: any[] = [];
   events: string[] = [];
   estado: string[] = ["activo", "cerrado", "pausado"];
+  btnSave: boolean = true;
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     public dialogRef: MatDialogRef<FormGrupoPopupComponent>,
@@ -42,14 +43,7 @@ export class FormGrupoPopupComponent implements OnInit {
 
   buildItemForm(data?) {
     this.grupoAfiliadoForm = this.fb.group({
-      numero: [
-        data ? data.numero : this.numero,
-        [
-          Validators.required,
-          Validators.pattern("^[0-9]*$"),
-          Validators.minLength(1),
-        ],
-      ],
+      numero: "",
       usuarioResponsable: [data ? data.usuarioResponsable : ""],
       lugarAfiliacion: this.fb.group({
         localidad: [
@@ -60,15 +54,9 @@ export class FormGrupoPopupComponent implements OnInit {
           data ? data.lugarAfiliacion.nombreEdificio : "",
           [Validators.required],
         ],
-        calle: [data ? data.lugarAfiliacion.calle : "", [Validators.required]],
-        numero: [
-          data ? data.lugarAfiliacion.numero : "",
-          [Validators.required],
-        ],
-        telefono: [
-          data ? data.lugarAfiliacion.telefono : "",
-          [Validators.required],
-        ],
+        calle: [data ? data.lugarAfiliacion.calle : ""],
+        numero: [data ? data.lugarAfiliacion.numero : "", ,],
+        telefono: [data ? data.lugarAfiliacion.telefono : "", ,],
       }),
       datosJusElc: this.fb.group({
         fechaIngresoJunta: "",
@@ -90,17 +78,17 @@ export class FormGrupoPopupComponent implements OnInit {
 
   submit() {
     this.grupoAfiliadoForm.value.usuarioResponsable.nombreCompleto = `${this.grupoAfiliadoForm.value.usuarioResponsable.apellido}, ${this.grupoAfiliadoForm.value.usuarioResponsable.nombres}`;
-
+    this.btnSave = false;
     if (this.data.title !== "Modificar datos del lote") {
       this.afiliadoService
         .postGrupo(this.grupoAfiliadoForm.value)
         .subscribe(async (res: any) => {
-          console.log(res);
           if (res.ok) {
             await Swal.fire({
               icon: "success",
               title: "Ok...",
-              text: "El grupo de afiliación, fue creado con exito",
+              text: `El grupo de afiliación nro:${res.loteNro} , fue creado con exito `,
+              timer: 3000,
             });
             this.grupoAfiliadoForm.reset();
             this.dialogRef.close(res.data);

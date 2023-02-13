@@ -10,6 +10,13 @@ export const AfiliacionRoutes: Routes = [
     path: "",
     children: [
       {
+        path: "lotes",
+        component: TablaGruposComponent,
+        data: {
+          title: "Andministración de  Lotes y Afiliciación",
+        },
+      },
+      {
         path: "analitica",
         component: MenuPrincipalComponent,
         data: {
@@ -18,26 +25,12 @@ export const AfiliacionRoutes: Routes = [
       },
 
       {
-        path: "lotes",
-        component: TablaGruposComponent,
-        data: {
-          title: "Andministración de  Lotes y Afiliciación",
-        },
-      },
-      {
         path: "junta",
         component: TablaInfoJuntaComponent,
         data: {
           title: "Juntas",
         },
       },
-      /* {
-        path: "planillas",
-        component: TablaPlanillasComponent,
-        data: {
-          title: "Planillas",
-        },
-      }, */
       {
         path: "listados",
         component: ListadosComponent,
@@ -50,6 +43,13 @@ export const AfiliacionRoutes: Routes = [
           },
         },
       },
+      /* {
+        path: "planillas",
+        component: TablaPlanillasComponent,
+        data: {
+          title: "Planillas",
+        },
+      }, */
     ],
   },
 ];

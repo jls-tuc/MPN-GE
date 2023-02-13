@@ -29,6 +29,7 @@ export class PopUpFormAfiliaComponent implements OnInit {
   user$: Observable<UserModel>;
   usurioLog: any;
   sexo: string[] = ["F", "M", "O"];
+  estadosCiviles: string[] = ["soltero", "casado", "viudo", "divorciado"];
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
   datosPadronNqn: {};
@@ -74,13 +75,14 @@ export class PopUpFormAfiliaComponent implements OnInit {
         [
           Validators.required,
           Validators.pattern("^[0-9]*$"),
-          Validators.minLength(8),
+          Validators.minLength(7),
         ],
       ],
       sexo: [data ? data.genero : "", [Validators.required]],
     });
   }
   buildSecondForm(dataPadron?) {
+    console.log(dataPadron);
     this.secondFormGroup = this.fb.group({
       nombre: [dataPadron ? dataPadron.nombre : ""],
       apellido: [dataPadron ? dataPadron.apellido : ""],
@@ -98,8 +100,14 @@ export class PopUpFormAfiliaComponent implements OnInit {
       fechaBaja: "",
       obserBaja: "",
       ultDomicilio: this.fb.group({
-        distritoElec: [dataPadron ? dataPadron.distritoElec : ""],
-        partidoDepto: [dataPadron ? dataPadron.partidoDepto : ""],
+        distritoElec: [
+          dataPadron
+            ? `${dataPadron.codCircuito} - ${dataPadron.circuito}`
+            : "",
+        ],
+        partidoDepto: [
+          dataPadron ? `${dataPadron.codSeccion} - ${dataPadron.seccion}` : "",
+        ],
         cuartelPedania: [dataPadron ? dataPadron.cuartelPedania : ""],
         localidad: [dataPadron ? dataPadron.localidad : ""],
         calle: [dataPadron ? dataPadron.calle : ""],
@@ -109,7 +117,11 @@ export class PopUpFormAfiliaComponent implements OnInit {
       }),
       domicilioPostal: this.fb.group({
         barrio: [dataPadron ? dataPadron.barrio : ""],
-        circuito: [dataPadron ? dataPadron.circuito : ""],
+        circuito: [
+          dataPadron
+            ? `${dataPadron.codCircuito} - ${dataPadron.circuito}`
+            : "",
+        ],
         localidad: [dataPadron ? dataPadron.localidad : ""],
         calle: [dataPadron ? dataPadron.calle : ""],
         nro: [dataPadron ? dataPadron.nro : ""],

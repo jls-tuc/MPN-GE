@@ -53,8 +53,9 @@ export class TablaGruposComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    let usuario: any = this.authServ.user;
-    this.usuarioRol = usuario.role;
+    this.userLog$ = this.authServ.currentUserSubject.asObservable();
+    let usuario: any = this.userLog$;
+    this.usuarioRol = usuario.source._value.role;
 
     this.cargarGrupos();
     this.getGrupo$().subscribe((lot) => {
