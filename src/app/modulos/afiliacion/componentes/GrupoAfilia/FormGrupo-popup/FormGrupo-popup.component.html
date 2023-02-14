@@ -16,7 +16,8 @@
           <div class="pb-16">
             <mat-form-field class="full-width">
               <mat-select formControlName="usuarioResponsable" placeholder="Seleccione un usuario">
-                <mat-option *ngFor="let usr of usuarios" [value]="usr.datosPersonales">{{
+
+                <mat-option *ngFor="let usr of usuarios " [value]="usr.datosPersonales">{{
                   usr.datosPersonales?.apellido |titlecase}} {{usr.datosPersonales?.nombres |titlecase}} </mat-option>
               </mat-select>
             </mat-form-field>
@@ -111,7 +112,14 @@
       </div>
 
 
-
+      <ng-container *ngIf="guardar">
+        <div class="loader" style="margin-top:10px">
+          <div class="spinner">
+            <div class="double-bounce1 mat-bg-primary" style="background: #fcc02e"></div>
+            <div class="double-bounce2 mat-bg-accent" style="background: #03a9f4"></div>
+          </div>
+        </div>
+      </ng-container>
 
 
 
@@ -126,6 +134,9 @@
       <button mat-button color="warn" type="button" (click)="dialogRef.close(false)"
         style="margin-left: 10px">Cancelar</button>
 
+
+
     </form>
   </mat-card-content>
+
 </mat-card>

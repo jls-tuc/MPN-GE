@@ -17,7 +17,10 @@ import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
 import { Router } from "@angular/router";
 import { JwtAuthService } from "app/shared/services/auth/jwt-auth.service";
-import { generarPlanilla } from "../../../planillaPdf/planillaPdf";
+import {
+  generarInfoLote,
+  generarPlanilla,
+} from "../../../planillaPdf/planillaPdf";
 import { PopUpFormAfiliaComponent } from "../pop-up-form-afilia/formPopUpafilia.component";
 import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";
@@ -117,6 +120,12 @@ export class PlanillasAfiliacionComponent implements AfterViewInit {
       }
       this.dialogRef.close();
     });
+  }
+
+  async planillaPresentacionPDF(value?) {
+    let docImp = generarInfoLote(value);
+
+    pdfMake.createPdf(docImp).open();
   }
 
   async generarPdf(planilla: IPlanillaAfilia) {

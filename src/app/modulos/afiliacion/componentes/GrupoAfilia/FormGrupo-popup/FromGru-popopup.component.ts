@@ -1,6 +1,11 @@
 import { Component, OnInit, Inject, ChangeDetectorRef } from "@angular/core";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
-import { FormBuilder, Validators, FormGroup } from "@angular/forms";
+import {
+  FormBuilder,
+  Validators,
+  FormGroup,
+  FormControl,
+} from "@angular/forms";
 import { Router } from "@angular/router";
 import { AfiliacionService } from "app/modulos/afiliacion/services/afiliacion.service";
 import Swal from "sweetalert2";
@@ -18,7 +23,9 @@ export class FormGrupoPopupComponent implements OnInit {
   localidades: any[] = [];
   events: string[] = [];
   estado: string[] = ["activo", "cerrado", "pausado"];
+  guardar: boolean;
   btnSave: boolean = true;
+
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     public dialogRef: MatDialogRef<FormGrupoPopupComponent>,
@@ -79,50 +86,55 @@ export class FormGrupoPopupComponent implements OnInit {
   submit() {
     this.grupoAfiliadoForm.value.usuarioResponsable.nombreCompleto = `${this.grupoAfiliadoForm.value.usuarioResponsable.apellido}, ${this.grupoAfiliadoForm.value.usuarioResponsable.nombres}`;
     this.btnSave = false;
-    if (this.data.title !== "Modificar datos del lote") {
-      this.afiliadoService
-        .postGrupo(this.grupoAfiliadoForm.value)
-        .subscribe(async (res: any) => {
-          if (res.ok) {
-            await Swal.fire({
-              icon: "success",
-              title: "Ok...",
-              text: `El grupo de afiliación nro:${res.loteNro} , fue creado con exito `,
-              timer: 3000,
-            });
-            this.grupoAfiliadoForm.reset();
-            this.dialogRef.close(res.data);
-          } else {
-            await Swal.fire({
-              icon: "error",
-              title: "Oop...",
-              text: "Verificar el estado de la conexión",
-            });
-            this.dialogRef.close();
-          }
-        });
-    } else {
-      this.afiliadoService
-        .updGrupo(this.grupoAfiliadoForm.value, this.data.payload.data._id)
-        .subscribe(async (res: any) => {
-          if (res.ok) {
-            await Swal.fire({
-              icon: "success",
-              title: "Ok...",
-              text: "Los datos, fueron modificados con exito",
-            });
-            this.grupoAfiliadoForm.reset(res.data);
-            this.dialogRef.close(res.data);
-          } else {
-            await Swal.fire({
-              icon: "error",
-              title: "Oop...",
-              text: "Verificar el estado de la conexión",
-            });
-            this.dialogRef.close();
-          }
-        });
-    }
+    this.guardar = true;
+    setTimeout(() => {
+      if (this.data.title !== "Modificar datos del lote") {
+        this.afiliadoService
+          .postGrupo(this.grupoAfiliadoForm.value)
+          .subscribe(async (res: any) => {
+            this.guardar = false;
+            if (res.ok) {
+              await Swal.fire({
+                icon: "success",
+                title: "Ok...",
+                text: `El grupo de afiliación nro:${res.loteNro} , fue creado con exito `,
+                timer: 3000,
+              });
+              this.grupoAfiliadoForm.reset();
+              this.dialogRef.close(res.data);
+            } else {
+              await Swal.fire({
+                icon: "error",
+                title: "Oop...",
+                text: "Verificar el estado de la conexión",
+              });
+              this.dialogRef.close();
+            }
+          });
+      } else {
+        this.afiliadoService
+          .updGrupo(this.grupoAfiliadoForm.value, this.data.payload.data._id)
+          .subscribe(async (res: any) => {
+            this.guardar = false;
+            if (res.ok) {
+              await Swal.fire({
+                icon: "success",
+                title: "Ok...",
+                text: "Los datos, fueron modificados con exito",
+              });
+              this.grupoAfiliadoForm.reset(res.data);
+              this.dialogRef.close(res.data);
+            } else {
+              await Swal.fire({
+                icon: "error",
+                title: "Oop...",
+                text: "Verificar el estado de la conexión",
+              });
+              this.dialogRef.close();
+            }
+          });
+      }
+    }, 2000);
   }
 
   cargarlocalidades = () => {

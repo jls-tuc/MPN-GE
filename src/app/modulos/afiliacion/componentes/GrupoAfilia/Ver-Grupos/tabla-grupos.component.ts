@@ -87,6 +87,7 @@ export class TablaGruposComponent implements OnInit {
       this.router.navigate(["/afiliacion/lotes"]);
     });
   }
+  // VER LAS PLANILLAS CARGADAS EN EL LOTE
   openDialogPlanillas(planillas?) {
     const dialogoRef: MatDialogRef<any> = this.dialog.open(
       PlanillasAfiliacionComponent,
