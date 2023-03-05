@@ -74,6 +74,7 @@ export class AfiliacionService {
   }
 
   presentacionLte(value: {}, _id: string, op: string) {
+    console.log(_id);
     let data: any = {};
     data.upd = value;
     data.op = op;

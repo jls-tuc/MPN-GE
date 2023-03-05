@@ -222,7 +222,6 @@ export class JwtAuthService implements OnDestroy {
       const authData = window.sessionStorage.getItem("foto");
       return authData;
     } catch (error) {
-      console.error(error);
       return undefined;
     }
   }

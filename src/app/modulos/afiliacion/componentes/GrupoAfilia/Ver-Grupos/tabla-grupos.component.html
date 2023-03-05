@@ -85,7 +85,8 @@
                             Agregar
                             planilla de Afiliado
                         </button>
-                        <button *ngIf="grp.planillas.length" mat-menu-item (click)="openDialogPlanillas(grp.planillas)">
+                        <button *ngIf="grp.planillas.length" mat-menu-item
+                            (click)="openDialogPlanillas(grp.planillas,grp.numero,grp.datosJusElc.fechaIngresoJunta)">
                             <mat-icon>
                                 <span class="material-symbols-outlined">
                                     list
