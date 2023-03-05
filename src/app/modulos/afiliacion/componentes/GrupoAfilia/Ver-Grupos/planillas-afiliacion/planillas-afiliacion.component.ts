@@ -121,9 +121,9 @@ export class PlanillasAfiliacionComponent implements AfterViewInit {
       this.dialogRef.close();
     });
   }
-
+  //ver planillas presentas!!!!
   async planillaPresentacionPDF(value?) {
-    let docImp = generarInfoLote(value);
+    let docImp = generarInfoLote(value, this.data.nroLte, this.data.fechaPres);
 
     pdfMake.createPdf(docImp).open();
   }

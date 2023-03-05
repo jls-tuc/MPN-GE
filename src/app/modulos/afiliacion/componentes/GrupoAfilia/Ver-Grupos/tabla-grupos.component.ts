@@ -88,14 +88,14 @@ export class TablaGruposComponent implements OnInit {
     });
   }
   // VER LAS PLANILLAS CARGADAS EN EL LOTE
-  openDialogPlanillas(planillas?) {
+  openDialogPlanillas(planillas?, nroLte?, fechaPres?) {
     const dialogoRef: MatDialogRef<any> = this.dialog.open(
       PlanillasAfiliacionComponent,
       {
         width: "100%",
         height: "80%",
         disableClose: false,
-        data: { planillas },
+        data: { planillas, nroLte, fechaPres },
       }
     );
     dialogoRef.afterClosed().subscribe((res) => {
@@ -244,18 +244,20 @@ export class TablaGruposComponent implements OnInit {
           fechaIngresoJunta: fechaPresentacion,
         };
         let op = "presentar";
+
         this.afiliadoService
           .presentacionLte(value, row._id, op)
           .subscribe(async (res: any) => {
+            console.log(res);
             if (res.ok) {
               await Swal.fire({
                 position: "top-end",
                 icon: "success",
                 title: "Información cargada con exito!",
                 showConfirmButton: false,
-                timer: 1500,
+                timer: 2000,
               });
-              this.items$.next(res.data);
+              this.grupos$.next(res.data);
             } else {
               await Swal.fire({
                 position: "top-end",

@@ -52,7 +52,8 @@ export class Signin2Component implements OnInit {
           this.router.navigateByUrl("elecciones/referentes");
         } else if (
           resp.role === "user-afilia" ||
-          resp.role === "user-adminafilia"
+          resp.role === "user-adminafilia" ||
+          resp.role === "admin"
         ) {
           this.router.navigate(["afiliacion/analitica"]);
         } else {

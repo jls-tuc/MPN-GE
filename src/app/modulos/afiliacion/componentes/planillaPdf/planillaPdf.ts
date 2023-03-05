@@ -375,7 +375,7 @@ export const generarPlanilla = (planilla?: any, margen?: any) => {
   };
 };
 
-export const generarInfoLote = (data?) => {
+export const generarInfoLote = (data?, nroLte?, fechaP?) => {
   return {
     pageSize: "A4",
     pageOrientation: "portrait",
@@ -388,38 +388,58 @@ export const generarInfoLote = (data?) => {
             width: 100,
             height: 36,
           },
-          {
-            text: "Nro.Lote:",
-            bold: false,
-            fontSize: 12,
-            alignment: "center",
-          },
+        ],
+      },
+      {
+        columns: [
           {
             text: "",
-            bold: false,
-            fontSize: 12,
-            alignment: "center",
+            alignment: "left",
+            width: 150,
+            height: 10,
           },
           {
-            text: "",
+            text: nroLte ? `Nro.Lote:${nroLte}` : `"Nro.Lote:''`,
             bold: false,
-            fontSize: 12,
-            alignment: "center",
+            fontSize: 10,
+            alignment: "left",
+          },
+        ],
+        margin: [0, -40, 0, 3],
+      },
+      {
+        columns: [
+          {
+            text: "",
+            alignment: "left",
+            width: 150,
+            height: 10,
+          },
+          {
+            text: "Referente: JUNTA DE GOBIERNO BETIANA PANES 4/7",
+            bold: false,
+            fontSize: 10,
+            alignment: "left",
+          },
+        ],
+        margin: [0, 0, 0, 3],
+      },
+      {
+        columns: [
+          {
+            text: "",
+            alignment: "left",
+            width: 150,
+            height: 10,
+          },
+          {
+            text: fechaP ? `Fecha Pres:${fechaP}` : `"Fecha Pres:''`,
+            bold: false,
+            fontSize: 10,
+            alignment: "left",
           },
         ],
         margin: [0, 0, 0, 10],
-      },
-      {
-        text: "Referente: JUNTA DE GOBIERNO BETIANA PANES 4/7",
-        bold: false,
-        fontSize: 12,
-        alignment: "center",
-      },
-      {
-        text: "Fecha Pres:",
-        bold: false,
-        fontSize: 12,
-        alignment: "center",
       },
 
       getRegistrosObject(
@@ -446,6 +466,7 @@ export const generarInfoLote = (data?) => {
             alignment: "right",
           },
         ],
+        margin: [0, 10, 0, 3],
       },
       {
         text: `MOVIMIENTO POPULAR NEUQUÍNO`,

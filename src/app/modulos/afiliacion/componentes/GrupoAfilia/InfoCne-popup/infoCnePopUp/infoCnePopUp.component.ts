@@ -12,9 +12,7 @@ export class InfoCnePopUpComponent implements OnInit {
     public dialogRef: MatDialogRef<InfoCnePopUpComponent>
   ) {}
 
-  ngOnInit() {
-    console.log(this.data);
-  }
+  ngOnInit() {}
 
   cerrar() {
     this.dialogRef.close();

@@ -7,7 +7,7 @@ export const environment = {
   production: false,
   apiMapBox:
     "pk.eyJ1IjoicGFzbzIwMjEiLCJhIjoiY2tza3lkOXE2MHI5bjJucjF5eXhsZWFidiJ9.VljBVv7sRdmNI2nCfw6PAw",
-  apiURL: "http://localhost:3001/api",
+  apiURL: "http://localhost:3000/api",
   //apiURL: "http://181.209.23.177:3000/api",
 
   //apiURL: "http://localhost:8000/api",
