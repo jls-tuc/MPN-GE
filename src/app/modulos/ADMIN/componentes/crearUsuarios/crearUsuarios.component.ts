@@ -8,8 +8,8 @@ import Swal from "sweetalert2";
 import { avatar } from "../../avatarBase64";
 import { AdminServiceService } from "../../services/adminService.service";
 import { Observable } from "rxjs";
-import { filter, map, startWith} from "rxjs/operators";
-import { FormControl} from "@angular/forms";
+import { filter, map, startWith } from "rxjs/operators";
+import { FormControl } from "@angular/forms";
 
 @Component({
   selector: "app-crearUsuarios",
@@ -64,7 +64,7 @@ export class CrearUsuariosComponent implements OnInit {
   options: string[] = ["Sam", "Varun", "Jasmine"];
   seccionales: any[] = [];
   filteredOptions;
-  //filteredSeccional;
+  filteredSeccional;
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     public dialogRef: MatDialogRef<CrearUsuariosComponent>,
@@ -79,13 +79,13 @@ export class CrearUsuariosComponent implements OnInit {
   }
 
   ngOnInit() {
-/*     this.filteredOptions = this.myControl.valueChanges.pipe(
-      startWith(''),
-      map(value => this._filter(value || '')),
-    ); */
+    /*     this.filteredOptions = this.myControl.valueChanges.pipe(
+          startWith(''),
+          map(value => this._filter(value || '')),
+        ); */
     this.obtProvLoc();
     this.obtLocalidades();
-    //this.obtSeccionales();
+    this.obtSeccionales();
 
   }
 
@@ -119,32 +119,28 @@ export class CrearUsuariosComponent implements OnInit {
       idReferente: [{ value: "", disabled: true }],
       localidad2: [""]
     });
-    this.secondFormGroup.get('localidad2').valueChanges.subscribe( response => {
+    this.secondFormGroup.get('localidad2').valueChanges.subscribe(response => {
       console.log('Data is ', response);
       this.filterData(response);
     })
-/*     this.secondFormGroup.get('seccional').valueChanges.subscribe( response => {
+    this.secondFormGroup.get('seccional').valueChanges.subscribe(response => {
       console.log('Data is ', response);
       this.filterSeccional(response);
     })
- */
 
   }
 
-  filterData(enteredData){
+  filterData(enteredData) {
     this.filteredOptions = this.options.filter(item => {
       return item.toLowerCase().indexOf(enteredData.toLowerCase()) > -1
     })
   }
 
-/*   filterSeccional(enteredData) {
-    console.log(enteredData);
+  filterSeccional(enteredData) {
     this.filteredSeccional = this.seccionales.filter(item => {
-      console.log(item.seccional);
-      return item.seccional.toLowerCase().indexOf(enteredData.toLowerCase()) > -1
-      
+      return item.toLowerCase().indexOf(enteredData.toLowerCase()) > -1
     })
-  } */
+  }
 
   obtProvLoc() {
     this.provLocService.getProvLocalidades().subscribe((data: any) => {
@@ -155,19 +151,19 @@ export class CrearUsuariosComponent implements OnInit {
     });
   }
 
-/*   obtSeccionales() {
+  obtSeccionales() {
     this.adminService.obtenerSeccionales().subscribe((res: any) => {
-      this.seccionales = res.data;
-      console.log("Seccionales: ", this.seccionales);
-      this.filteredSeccional = res.data;
+      const seccionalesTemp: string[] = res.data.map(item => item.seccional);
+      this.seccionales = seccionalesTemp;
+      this.filteredSeccional = seccionalesTemp;
     });
-  } */
+  }
 
-  obtLocalidades () {
+  obtLocalidades() {
     this.provLocService.getLocalidades().subscribe((data: any) => {
       this.options = data;
       this.filteredOptions = data;
-     });
+    });
   }
 
   provSelect(e?: any) {
@@ -192,9 +188,8 @@ export class CrearUsuariosComponent implements OnInit {
           this.secondFormGroup.reset();
           this.cargando = false;
         } else {
-          const params: {} = `documento=${
-            this.secondFormGroup.get("dni").value
-          }&sexo=${this.secondFormGroup.get("sexo").value}`;
+          const params: {} = `documento=${this.secondFormGroup.get("dni").value
+            }&sexo=${this.secondFormGroup.get("sexo").value}`;
 
           this.personaPadron
             .getPadronNqn(params)

@@ -121,49 +121,30 @@
             </mat-select>
           </mat-form-field>
         </div>
- -->        
-<!--         <div class="pb-16">
+ -->
+        <div class="pb-16">
           <mat-form-field appearance="outline">
             <mat-label
               >Seleccione la seccional, en la cual va a trabajar.</mat-label
             >
             <input
-            type="text"
-            placeholder="Seccional"
-            matInput
-            formControlName="seccional"
-            [matAutocomplete]="auto"
-          />
-            <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-              <mat-option
-                *ngFor="let seccional of seccionales"
-                [value]="seccional.seccional"
-              >
-                {{ seccional.seccional | titlecase }}</mat-option
-              >
-            </mat-autocomplete>
-          </mat-form-field>
-        </div> -->
-        <div class="pb-16">
-          <mat-form-field class="example-full-width" appearance="fill">
-            <mat-label>Localidades todas</mat-label>
-            <input
               type="text"
-              placeholder="Pick one"
-              aria-label="Number"
+              placeholder="Seccional"
               matInput
-              formControlName="localidad2"
+              formControlName="seccional"
               [matAutocomplete]="auto"
             />
             <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
               <mat-option
-                *ngFor="let item of filteredOptions"
-                [value]="item"
+                *ngFor="let seccional of filteredSeccional"
+                [value]="seccional"
               >
-                {{ item }}
-              </mat-option>
+                {{ seccional | titlecase}}</mat-option
+              >
             </mat-autocomplete>
           </mat-form-field>
+        </div>
+        <div>
         </div>
       </div>
     </div>
@@ -173,17 +154,17 @@
         Salir
       </button>
       <span fxFlex="8px"></span>
-      
+
       <button
-      mat-raised-button
-      color="primary"
-      [disabled]="!secondFormGroup.valid"
-      (click)="guardar()"
+        mat-raised-button
+        color="primary"
+        [disabled]="!secondFormGroup.valid"
+        (click)="guardar()"
       >
-      Guardar
-    </button>
-    <span fxFlex="8px"></span>
-  </div>
-</form>
-{{localidades}}
+        Guardar
+      </button>
+      <span fxFlex="8px"></span>
+    </div>
+  </form>
+  {{ localidades }}
 </mat-card>
