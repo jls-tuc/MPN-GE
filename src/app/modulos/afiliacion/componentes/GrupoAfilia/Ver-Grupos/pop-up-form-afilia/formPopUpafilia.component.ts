@@ -37,8 +37,10 @@ export class PopUpFormAfiliaComponent implements OnInit {
   cargando: boolean = false;
   localidades: any[] = [];
   ocultarBusqueda = false;
+  showSaveBtn = true;
   cargar_datos: boolean = false;
   buscar_datos: boolean = true;
+  public filteredLocalidades;
   cargarRef: boolean = false;
   ocultarPaso: boolean = false;
   opVer: boolean = false;
@@ -56,7 +58,8 @@ export class PopUpFormAfiliaComponent implements OnInit {
   ) {
     this.user$ = this.auth.currentUserSubject.asObservable();
     this.usurioLog = this.user$;
-    this.obtProvLoc();
+    //this.obtProvLoc();
+    this.obtLocalidades();
     this.cargarFormAfiliacion();
 
     this.buildSecondForm();
@@ -132,7 +135,12 @@ export class PopUpFormAfiliaComponent implements OnInit {
         contacto: [dataPadron ? dataPadron.contacto : ""],
         observaciones: [dataPadron ? dataPadron.observaciones : ""],
       }),
+
     });
+    this.secondFormGroup.get('ultDomicilio.localidad').valueChanges.subscribe(response => {
+      console.log('Data is ', response);
+      this.filterData(response);
+    })
   }
   buscarDatos(values?) {
     this.cargando = true;
@@ -191,6 +199,7 @@ export class PopUpFormAfiliaComponent implements OnInit {
             });
 
             this.dialogRef.close(resp.data);
+            this.showSaveBtn = false;
           } else {
             Swal.fire({
               position: "top-end",
@@ -217,6 +226,18 @@ export class PopUpFormAfiliaComponent implements OnInit {
   obtProvLoc() {
     this.provLocService.getLocalidades().subscribe((data: any) => {
       this.localidades = data.data;
+    });
+  }
+
+  filterData(enteredData) {
+    this.filteredLocalidades = this.localidades.filter(item => {
+      return item.toLowerCase().indexOf(enteredData.toLowerCase()) > -1
+    })
+  }
+  obtLocalidades() {
+    this.provLocService.getLocalidadesAsString().subscribe((data: any) => {
+      this.localidades = data;
+      this.filteredLocalidades = data;
     });
   }
   verPlanilla(planilla) {

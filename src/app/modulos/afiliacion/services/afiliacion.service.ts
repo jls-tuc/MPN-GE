@@ -132,6 +132,38 @@ export class AfiliacionService {
     let excelBuffer = XLSX.write(wb, { bookType: "xlsx", type: "array" });
     this.saveAsExcelFile(excelBuffer, nombreHoja);
   };
+  getExportacionExcel2 = async (
+    data1?: any[],
+    data2?: any[],
+    headerData?: any,
+    nombreColumnas?: string[],
+    nombreHoja?: any
+  ) => {
+    /* console.log('datos', datos) */
+    console.log(data1, data2);
+    //let ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(data1, {header: nombreColumnas, skipHeader: false});
+    let ws: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(headerData);
+    XLSX.utils.sheet_add_aoa(ws, [["FEMENINO"]], {origin: -1});
+    if (data1.length) {
+      XLSX.utils.sheet_add_json(ws, data1, {header: nombreColumnas, skipHeader: false, origin: -1});
+    }
+    else {
+      XLSX.utils.sheet_add_aoa(ws, [["SIN DATOS"]], {origin: -1});
+    }
+    XLSX.utils.sheet_add_aoa(ws, [["MASCULINO"]], {origin: `A${data1.length+5}`});
+    if (data2.length) {
+      XLSX.utils.sheet_add_json(ws, data2, {header: nombreColumnas, origin: `A${data1.length+6}`});
+    }
+    else {
+      XLSX.utils.sheet_add_aoa(ws, [["SIN DATOS"]], {origin: -1});
+    }
+    let wb: XLSX.WorkBook = {
+      Sheets: { Empadronados: ws },
+      SheetNames: ["Empadronados"],
+    };
+    let excelBuffer = XLSX.write(wb, { bookType: "xlsx", type: "array" });
+    this.saveAsExcelFile(excelBuffer, nombreHoja);
+  };
   saveAsExcelFile(buffer: any, fileName: string) {
     const data: Blob = new Blob([buffer], { type: EXCEL_TYPE });
     FileSaver.saveAs(
