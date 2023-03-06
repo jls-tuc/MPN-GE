@@ -25,6 +25,7 @@ import { PopUpFormAfiliaComponent } from "../pop-up-form-afilia/formPopUpafilia.
 import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";
 import { IPlanillaAfilia } from "app/modulos/afiliacion/interface/planillaAfilia";
+import { AfiliacionService } from "app/modulos/afiliacion/services/afiliacion.service";
 
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 export interface planillaData {
@@ -74,6 +75,7 @@ export class PlanillasAfiliacionComponent implements AfterViewInit {
     @Optional() @Inject(MAT_DIALOG_DATA) public data: any,
     public dialog: MatDialog,
     private auth: JwtAuthService,
+    private afiService: AfiliacionService,
     private cdr: ChangeDetectorRef,
     private router: Router
   ) {
@@ -126,6 +128,25 @@ export class PlanillasAfiliacionComponent implements AfterViewInit {
     let docImp = generarInfoLote(value, this.data.nroLte, this.data.fechaPres);
 
     pdfMake.createPdf(docImp).open();
+  }
+
+  async descargarPlanillasXLS(dataPlanilla?) {
+    console.log(dataPlanilla);
+    const datosProc = dataPlanilla.map( item => ({
+      DNI: item.documento.toUpperCase(),
+      APELLIDO: item.apellido.toUpperCase(),
+      NOMBRE: item.nombre.toUpperCase(),
+      GENERO: item.genero.toUpperCase(),
+      FECHA_AFILIA: item.fechaAfilia,
+      FORM_RENUNCIA: ""
+    }));
+    let listaMasculino = datosProc.filter(item => item.GENERO === 'M').sort((a,b) => a.DNI - b.DNI);
+    listaMasculino = listaMasculino.map((item, index) => ({NRO:index+1, ...item}));
+    let listaFemenino = datosProc.filter(item => item.GENERO === 'F').sort((a,b) => a.DNI - b.DNI);
+    listaFemenino = listaFemenino.map((item, index) => ({NRO:index+1, ...item}));
+
+    const columnas: string[] = ["NRO", "DNI", "APELLIDO", "NOMBRE", "FECHA_AFILIA", "FORM_RENUNCIA"]
+    const afiliacionXLS = this.afiService.getExportacionExcel2(listaMasculino, listaFemenino, columnas, `LOTE ${this.data.nroLte}`);
   }
 
   async generarPdf(planilla: IPlanillaAfilia) {
