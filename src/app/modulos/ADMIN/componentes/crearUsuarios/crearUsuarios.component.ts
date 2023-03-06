@@ -52,8 +52,7 @@ export class CrearUsuariosComponent implements OnInit {
   usuarioRol: any = {};
   public provLoc: any[] = [];
   localidades: any[] = [];
-  loc: any[] = [];
-
+  loc: any[] = [];  
   public provincia: any[] = [];
   public ocultarBusqueda = false;
   public cargar_datos: boolean = false;
@@ -159,7 +158,7 @@ export class CrearUsuariosComponent implements OnInit {
   }
 
   obtLocalidades() {
-    this.provLocService.getLocalidades().subscribe((data: any) => {
+    this.provLocService.getLocalidadesAsString().subscribe((data: any) => {
       this.localidades = data;
       this.filteredLocalidades = data;
       console.log(this.localidades);
