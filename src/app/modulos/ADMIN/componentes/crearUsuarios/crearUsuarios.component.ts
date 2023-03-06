@@ -61,10 +61,9 @@ export class CrearUsuariosComponent implements OnInit {
   public cargarRef: boolean = false;
   public ocultarPaso: boolean = false;
   myControl = new FormControl('');
-  options: string[] = ["Sam", "Varun", "Jasmine"];
   seccionales: any[] = [];
-  filteredOptions;
-  filteredSeccional;
+  public filteredLocalidades;
+  public filteredSeccional;
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     public dialogRef: MatDialogRef<CrearUsuariosComponent>,
@@ -79,10 +78,6 @@ export class CrearUsuariosComponent implements OnInit {
   }
 
   ngOnInit() {
-    /*     this.filteredOptions = this.myControl.valueChanges.pipe(
-          startWith(''),
-          map(value => this._filter(value || '')),
-        ); */
     this.obtProvLoc();
     this.obtLocalidades();
     this.obtSeccionales();
@@ -119,7 +114,7 @@ export class CrearUsuariosComponent implements OnInit {
       idReferente: [{ value: "", disabled: true }],
       localidad2: [""]
     });
-    this.secondFormGroup.get('localidad2').valueChanges.subscribe(response => {
+    this.secondFormGroup.get('localidad').valueChanges.subscribe(response => {
       console.log('Data is ', response);
       this.filterData(response);
     })
@@ -131,7 +126,7 @@ export class CrearUsuariosComponent implements OnInit {
   }
 
   filterData(enteredData) {
-    this.filteredOptions = this.options.filter(item => {
+    this.filteredLocalidades = this.localidades.filter(item => {
       return item.toLowerCase().indexOf(enteredData.toLowerCase()) > -1
     })
   }
@@ -153,16 +148,21 @@ export class CrearUsuariosComponent implements OnInit {
 
   obtSeccionales() {
     this.adminService.obtenerSeccionales().subscribe((res: any) => {
-      const seccionalesTemp: string[] = res.data.map(item => item.seccional);
-      this.seccionales = seccionalesTemp;
-      this.filteredSeccional = seccionalesTemp;
+      this.loc = res.data;
+      this.seccionales = [
+        ...new Set(this.loc.map(item => item.seccional)),
+      ];
+      this.filteredSeccional = [
+        ...new Set(this.loc.map(item => item.seccional)),
+      ];
     });
   }
 
   obtLocalidades() {
     this.provLocService.getLocalidades().subscribe((data: any) => {
-      this.options = data;
-      this.filteredOptions = data;
+      this.localidades = data;
+      this.filteredLocalidades = data;
+      console.log(this.localidades);
     });
   }
 
