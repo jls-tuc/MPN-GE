@@ -26,6 +26,7 @@ import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";
 import { IPlanillaAfilia } from "app/modulos/afiliacion/interface/planillaAfilia";
 import { AfiliacionService } from "app/modulos/afiliacion/services/afiliacion.service";
+import moment from "moment";
 
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 export interface planillaData {
@@ -141,12 +142,21 @@ export class PlanillasAfiliacionComponent implements AfterViewInit {
       FORM_RENUNCIA: ""
     }));
     let listaMasculino = datosProc.filter(item => item.GENERO === 'M').sort((a,b) => a.DNI - b.DNI);
-    listaMasculino = listaMasculino.map((item, index) => ({NRO:index+1, ...item}));
+    listaMasculino = listaMasculino.map((item, index) => {
+      const newItem = {NRO: index+1, ...item};
+      delete newItem.GENERO;
+      return newItem;
+    });
     let listaFemenino = datosProc.filter(item => item.GENERO === 'F').sort((a,b) => a.DNI - b.DNI);
-    listaFemenino = listaFemenino.map((item, index) => ({NRO:index+1, ...item}));
+    listaFemenino = listaFemenino.map((item, index) => {
+      const newItem = {NRO: index+1, ...item};
+      delete newItem.GENERO;
+      return newItem;
+    });
 
     const columnas: string[] = ["NRO", "DNI", "APELLIDO", "NOMBRE", "FECHA_AFILIA", "FORM_RENUNCIA"]
-    const afiliacionXLS = this.afiService.getExportacionExcel2(listaMasculino, listaFemenino, columnas, `LOTE ${this.data.nroLte}`);
+    const header = [["NOMINA FICHAS DE AFILIACION MOVIMIENTO POPULAR NEUQUINO"]];
+    this.afiService.getExportacionExcel2(listaFemenino, listaMasculino, header,columnas, `LOTE ${this.data.nroLte}`);
   }
 
   async generarPdf(planilla: IPlanillaAfilia) {
