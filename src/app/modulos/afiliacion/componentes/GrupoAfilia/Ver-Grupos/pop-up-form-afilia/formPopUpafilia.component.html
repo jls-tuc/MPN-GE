@@ -217,12 +217,21 @@
                                     <div class="col">
                                         <mat-form-field class="sepa" appearance="fill">
                                             <mat-label>Ciudad, Pueblo o Localidad</mat-label>
-                                            <mat-select formControlName="localidad">
-                                                <mat-option *ngFor="let localidad of localidades"
-                                                    [value]="localidad.nombre" [readonly]='editar'>
-                                                    {{localidad.nombre | titlecase}}
-                                                </mat-option>
-                                            </mat-select>
+                                            <input
+                                            type="text"
+                                            placeholder="Localidad"
+                                            matInput
+                                            formControlName="localidad"
+                                            [matAutocomplete]="autoLoc"
+                                          />
+                                          <mat-autocomplete autoActiveFirstOption #autoLoc="matAutocomplete">
+                                            <mat-option
+                                              *ngFor="let item of filteredLocalidades"
+                                              [value]="item"
+                                            >
+                                              {{ item }}</mat-option
+                                            >
+                                          </mat-autocomplete>
                                         </mat-form-field>
                                     </div>
                                 </div>
@@ -366,7 +375,7 @@
                                     <span fxFlex="8px"></span>
 
                                     <button *ngIf="!opVer" mat-raised-button color="primary"
-                                        [disabled]="!firstFormGroup.valid " (click)="guardar(secondFormGroup.value)">
+                                        [disabled]="!firstFormGroup.valid && showSaveBtn " (click)="guardar(secondFormGroup.value)">
                                         <mat-icon>save</mat-icon>
                                         Guardar
                                     </button>
