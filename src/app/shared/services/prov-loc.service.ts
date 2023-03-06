@@ -16,6 +16,10 @@ export class ProvLocService {
   }
 
   getLocalidades() {
+    return this.http.get(URLLoc);
+  }
+
+  getLocalidadesAsString() {
     return this.http.get(URLLoc)
       .pipe(
         map((response: any) => response.data.map(item => item['nombre']))
