@@ -7,8 +7,7 @@ import { ProvLocService } from "app/shared/services/prov-loc.service";
 import Swal from "sweetalert2";
 import { avatar } from "../../avatarBase64";
 import { AdminServiceService } from "../../services/adminService.service";
-import { Observable } from "rxjs";
-import { filter, map, startWith } from "rxjs/operators";
+
 import { FormControl } from "@angular/forms";
 
 @Component({
@@ -60,7 +59,7 @@ export class CrearUsuariosComponent implements OnInit {
   public buscar_datos: boolean = true;
   public cargarRef: boolean = false;
   public ocultarPaso: boolean = false;
-  myControl = new FormControl('');
+  myControl = new FormControl("");
   seccionales: any[] = [];
   public filteredLocalidades;
   public filteredSeccional;
@@ -81,7 +80,6 @@ export class CrearUsuariosComponent implements OnInit {
     this.obtProvLoc();
     this.obtLocalidades();
     this.obtSeccionales();
-
   }
 
   dataPForm(data?) {
@@ -112,29 +110,26 @@ export class CrearUsuariosComponent implements OnInit {
       lastLogin: [""],
       role: ["", [Validators.required]],
       idReferente: [{ value: "", disabled: true }],
-      localidad2: [""]
+      localidad2: [""],
     });
-    this.secondFormGroup.get('localidad').valueChanges.subscribe(response => {
-      console.log('Data is ', response);
+    this.secondFormGroup.get("localidad").valueChanges.subscribe((response) => {
       this.filterData(response);
-    })
-    this.secondFormGroup.get('seccional').valueChanges.subscribe(response => {
-      console.log('Data is ', response);
+    });
+    this.secondFormGroup.get("seccional").valueChanges.subscribe((response) => {
       this.filterSeccional(response);
-    })
-
+    });
   }
 
   filterData(enteredData) {
-    this.filteredLocalidades = this.localidades.filter(item => {
-      return item.toLowerCase().indexOf(enteredData.toLowerCase()) > -1
-    })
+    this.filteredLocalidades = this.localidades.filter((item) => {
+      return item.toLowerCase().indexOf(enteredData.toLowerCase()) > -1;
+    });
   }
 
   filterSeccional(enteredData) {
-    this.filteredSeccional = this.seccionales.filter(item => {
-      return item.toLowerCase().indexOf(enteredData.toLowerCase()) > -1
-    })
+    this.filteredSeccional = this.seccionales.filter((item) => {
+      return item.toLowerCase().indexOf(enteredData.toLowerCase()) > -1;
+    });
   }
 
   obtProvLoc() {
@@ -149,11 +144,9 @@ export class CrearUsuariosComponent implements OnInit {
   obtSeccionales() {
     this.adminService.obtenerSeccionales().subscribe((res: any) => {
       this.loc = res.data;
-      this.seccionales = [
-        ...new Set(this.loc.map(item => item.seccional)),
-      ];
+      this.seccionales = [...new Set(this.loc.map((item) => item.seccional))];
       this.filteredSeccional = [
-        ...new Set(this.loc.map(item => item.seccional)),
+        ...new Set(this.loc.map((item) => item.seccional)),
       ];
     });
   }
@@ -162,7 +155,6 @@ export class CrearUsuariosComponent implements OnInit {
     this.provLocService.getLocalidades().subscribe((data: any) => {
       this.localidades = data;
       this.filteredLocalidades = data;
-      console.log(this.localidades);
     });
   }
 
@@ -173,6 +165,7 @@ export class CrearUsuariosComponent implements OnInit {
     this.ngOnInit();
     this.cdr.detectChanges();
   }
+
   async buscarDNI() {
     this.cargando = true;
     this.adminService
@@ -188,12 +181,15 @@ export class CrearUsuariosComponent implements OnInit {
           this.secondFormGroup.reset();
           this.cargando = false;
         } else {
-          const params: {} = `documento=${this.secondFormGroup.get("dni").value
-            }&sexo=${this.secondFormGroup.get("sexo").value}`;
+          const params = {
+            dni: this.secondFormGroup.get("dni").value,
+            sexo: this.secondFormGroup.get("sexo").value,
+          };
 
           this.personaPadron
-            .getPadronNqn(params)
+            .getPadronNqnValue(params)
             .subscribe(async (data: any) => {
+              console.log(data);
               if (data.ok) {
                 this.cargando = false;
                 this.ocultarBusqueda = true;
@@ -243,7 +239,6 @@ export class CrearUsuariosComponent implements OnInit {
         areaResponsable: "",
       },
     };
-
     this.adminService
       .crearUsr(this.usuarioForm)
       .subscribe(async (data: any) => {

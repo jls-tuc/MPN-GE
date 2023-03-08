@@ -8,7 +8,6 @@
                     <div class="mb-1-5">
                         <ng-template matStepLabel>Ingrese el número de documento</ng-template>
                     </div>
-
                     <ng-container *ngIf='!ocultarBusqueda'>
                         <div class='row justify-content-center'>
                             <div class="col-6">
@@ -215,7 +214,21 @@
                                 </div>
                                 <div class='row'>
                                     <div class="col">
+
                                         <mat-form-field class="sepa" appearance="fill">
+                                            <mat-label>Ciudad, Pueblo o Localidad</mat-label>
+                                            <input type="text" placeholder="Localidad" matInput
+                                                formControlName="localidad" [matAutocomplete]="autoLoc" />
+                                            <mat-autocomplete autoActiveFirstOption #autoLoc="matAutocomplete">
+                                                <mat-option *ngFor="let item of filteredLocalidades" [value]="item">
+                                                    {{ item }}</mat-option>
+                                            </mat-autocomplete>
+                                        </mat-form-field>
+
+
+
+
+                                        <!--    <mat-form-field class="sepa" appearance="fill">
                                             <mat-label>Ciudad, Pueblo o Localidad</mat-label>
                                             <mat-select formControlName="localidad">
                                                 <mat-option *ngFor="let localidad of localidades"
@@ -223,7 +236,7 @@
                                                     {{localidad.nombre | titlecase}}
                                                 </mat-option>
                                             </mat-select>
-                                        </mat-form-field>
+                                        </mat-form-field> -->
                                     </div>
                                 </div>
                                 <div class='row'>
@@ -366,14 +379,15 @@
                                     <span fxFlex="8px"></span>
 
                                     <button *ngIf="!opVer" mat-raised-button color="primary"
-                                        [disabled]="!firstFormGroup.valid " (click)="guardar(secondFormGroup.value)">
+                                        [disabled]="!firstFormGroup.valid ||this.guardarBtn"
+                                        (click)="guardar(secondFormGroup.value)">
                                         <mat-icon>save</mat-icon>
                                         Guardar
                                     </button>
 
 
                                     <button *ngIf="opVer" mat-raised-button color="primary"
-                                        [disabled]="!firstFormGroup.valid " (click)='activarForm()'>
+                                        [disabled]="!firstFormGroup.valid  " (click)='activarForm()'>
                                         <mat-icon>edit</mat-icon>
                                         Editar
                                     </button>
@@ -384,6 +398,17 @@
                                         <mat-icon>chevron_left</mat-icon>
                                         Volver
                                     </button>
+                                    <span fxFlex="10px"></span>
+                                    <ng-container *ngIf='cargando===true'>
+                                        <div class="loader">
+                                            <div class="spinner">
+                                                <div class="double-bounce1 mat-bg-primary" style="background: #fcc02e">
+                                                </div>
+                                                <div class="double-bounce2 mat-bg-accent" style="background: #03a9f4">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </ng-container>
                                 </div>
                             </div>
                         </mat-step>
