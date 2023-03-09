@@ -18,3 +18,56 @@ th {
 .example-disabled {
   display: inline-block;
 }
+
+
+// imprimir
+
+.imprimir-lotes{
+  background-color: transparent;
+  color: #2196F3;
+  width: auto;
+  height: auto;
+  justify-content: end !important;
+  align-items: end !important;
+
+}
+
+
+// titulo
+
+@keyframes titulo-animacion{
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  100%{
+    opacity:1;
+    transform: translate(0);
+  }
+}
+
+.titulo{
+  animation: titulo-animacion 1s ease-in-out;
+  border-radius: 3px;
+  background-color: #536DFE;
+  margin: 10px;
+  padding: 10px;
+  font-size: 25px;
+  color: white;
+  text-align: center !important;
+  letter-spacing: normal;
+}
+
+
+// mat-paginator
+
+.mat-paginator{
+  animation: titulo-animacion 1.5s ease-in-out;
+  border-radius: 6px;
+  margin: 20px;
+  padding: 20px;
+  font-size: 15px;
+  color: grey;
+  letter-spacing: normal;
+  text-align: justify;
+}
