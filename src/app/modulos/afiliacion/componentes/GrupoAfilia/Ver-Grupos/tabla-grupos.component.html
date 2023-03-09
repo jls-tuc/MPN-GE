@@ -1,62 +1,108 @@
 <mat-card *ngIf="cargarBarra">
 
-    <mat-card-actions>
+    <mat-card-actions class="contenedor-lotes">
+        <div class="columna-lotes">
+            <button *ngIf="!buscarLte" mat-button (click)="filtLte()" matTooltip="Buscar lote por Nro Lote." fontIcon="search" class="boton-lotes-buscar">
+                Buscar <mat-icon>search</mat-icon></button>
+                <input *ngIf="buscarLte"[(ngModel)]='nroLte' placeholder="Ingrese el Nro." type="text" name="text" class="input" id="nroLte" class="m-4">
+        <div class="contenedor-lotes">
+        <button *ngIf="btnVolver" mat-button (click)="volver()" matTooltip="Volver al panel anterior" class="boton-lotes-buscar mat-card-actions">
+        <mat-icon>backspace</mat-icon>    Volver</button>
+        <button *ngIf="nroLte" mat-button (click)="cargar()" matTooltip="Buscar" fontIcon="search" color="deep-purple" class="boton-lotes-buscar mat-card-actions">
+                Buscar <mat-icon>search</mat-icon></button>
+    </div>
+    </div>
 
-        <button *ngIf="oclAnterior " class="m-4" mat-raised-button color="primary" (click)="anterior()">
-            <mat-icon><span class="material-symbols-outlined">
-                    <span class="material-symbols-outlined">
-                        chevron_left
-                    </span>
-                </span></mat-icon>Anterior
-        </button>
-        <button mat-raised-button *ngIf="!buscarLte && lotes.length > 6" class="m-4" color="primary"
-            (click)="siguiente()">
-            <mat-icon><span class="material-symbols-outlined">
-                    <span class="material-symbols-outlined">
-                        navigate_next
-                    </span>
-                </span></mat-icon>Siguiente
-        </button>
+    <div class="columna-lotes">
+     <mat-chip-option class='mat-sm-chip'> <mat-icon> pin_drop </mat-icon> Lotes en total:. {{totalLotes}}</mat-chip-option>
+    </div>
 
-        <button class="m-4" mat-raised-button color="accent" *ngIf="btnVolver" (click)="volver()"
+        <button *ngIf="oclAnterior && !buscarLte" mat-button (click)="anterior()" matTooltip="Anterior pagina de lotes." class="boton-izquierda boton-lotes">
+        <mat-icon>skip_previous</mat-icon>    Anterior</button>
+        <button *ngIf="!buscarLte && lotes.length > 6" mat-button (click)="siguiente()" matTooltip="Siguiente pagina de lotes." class="boton-lotes">
+            Siguiente <mat-icon>skip_next</mat-icon></button>
+
+    </mat-card-actions>
+
+
+
+
+    <!-- <button class="m-4" mat-raised-button color="accent" *ngIf="btnVolver" (click)="volver()"
             matTooltip="Volver al panel anterior">
             <mat-icon><span class="material-symbols-outlined">
                     <span class="material-symbols-outlined">
                         chevron_left
                     </span>
                 </span></mat-icon>Volver
-        </button>
-        <input *ngIf="buscarLte" [(ngModel)]='nroLte' placeholder="Ingrese el Nro." type="input" id="nroLte"
+        </button> -->
+
+    <!-- <input *ngIf="buscarLte" [(ngModel)]='nroLte' placeholder="Ingrese el Nro." type="input" id="nroLte"
             class="m-4">
         <button mat-icon-button color="primary" aria-label="Example icon button with a vertical three dot icon"
             *ngIf="nroLte" (click)="cargar()">
             <mat-icon matTooltip="Buscar">search</mat-icon>
-        </button>
+        </button> -->
 
-    </mat-card-actions>
-    <mat-chip class='mat-sm-chip' style="color: rgba(76, 15, 197, 0.89)">
-        Lotes en total:. {{totalLotes}}</mat-chip>
-
-
-
-    <mat-card-actions align="end">
-
-        <button mat-raised-button color="accent" *ngIf="!buscarLte" (click)="filtLte()"
+    <!-- <button mat-raised-button color="accent" *ngIf="!buscarLte" (click)="filtLte()"
             matTooltip="Buscar lote por Nro.">
             <mat-icon><span class="material-symbols-outlined">
                     search
-                </span></mat-icon>Buscar Lote
+                </span></mat-icon>Buscar Lote -->
 
-        </button>
+        <!-- <button *ngIf="oclAnterior " class="m-4" mat-raised-button color="primary" (click)="anterior()">
+            <mat-icon><span class="material-symbols-outlined">
+                    <span class="material-symbols-outlined">
+                        chevron_left
+                    </span>
+                </span></mat-icon>Anterior
+        </button> -->
+
+        <!-- <button mat-raised-button *ngIf="!buscarLte && lotes.length > 6" class="arrow-wrapper arrow boton-lotes boton-lotes-siguiente" color=""
+            (click)="siguiente()">
+            <mat-icon><span class="material-symbols-outlined">
+                    <span class="material-symbols-outlined">
+                        navigate_next
+                    </span>
+                </span></mat-icon>Siguiente
+        </button> -->
+
+
+        <!-- <button class="btnVolver" (click)="volver()" matTooltip="Volver al panel anterior">
+            Volver
+            <div class="arrow-wrapper">
+                <div class="arrow"></div>
+            </div>
+        </button> -->
+
+        <!-- <button *ngIf="!buscarLte && lotes.length > 6" class="boton-lotes" (click)="siguiente()">
+            Siguiente
+            <div class="arrow-wrapper">
+                <div class="arrow"></div>
+            </div>
+        </button> -->
+
+
+        
+
+        
+
+
+           
+
+
+        
+
+        <!-- </button>
         <button *ngIf="this.usuarioRol=== 'user-adminafilia'" mat-raised-button color="primary"
             (click)="openPopUp({}, true)">
             <mat-icon matTooltip="Agregar un Lote">add</mat-icon>{{"Crear" | translate
             }}
             {{"Lote" | translate }}
 
-        </button>
+        </button> -->
 
-    </mat-card-actions>
+
+
     <mat-card-footer>
         <mat-progress-bar *ngIf="!cargando" mode="indeterminate"></mat-progress-bar>
     </mat-card-footer>
