@@ -23,12 +23,14 @@ th {
 // imprimir
 
 .imprimir-lotes{
-  background-color: transparent;
+  background: transparent !important;
   color: #2196F3;
   width: auto;
   height: auto;
   justify-content: end !important;
   align-items: end !important;
+  border: none !important;
+
 
 }
 
@@ -49,7 +51,7 @@ th {
 .titulo{
   animation: titulo-animacion 1s ease-in-out;
   border-radius: 3px;
-  background-color: #536DFE;
+  background-color: #1976D2;
   margin: 10px;
   padding: 10px;
   font-size: 25px;
@@ -69,5 +71,8 @@ th {
   font-size: 15px;
   color: grey;
   letter-spacing: normal;
-  text-align: justify;
+  text-align: center;
 }
+
+//mat-button
+
