@@ -1,6 +1,6 @@
 <mat-card class="p-3">
     <mat-card-title class="">
-        <div class="card-title-text text-center">
+        <div class="titulo text-center">
             <span>Información sobre el Padrón Electoral Provincial y del Partido</span>
         </div>
         <mat-divider></mat-divider>
@@ -12,7 +12,7 @@
             </div>
             <div>
                 <div>
-                    <div class="row justify-content-center">
+                    <div class="row m5 justify-content-center">
                         <div class="col-6 text-center">
                             <mat-form-field appearance="fill">
                                 <mat-label>Nro. Documento</mat-label>
@@ -30,7 +30,7 @@
                                 <label>Seleccione Sexo</label>
                                 <div class="radio-inline">
                                     <mat-radio-group aria-labelledby="example-radio-group-label"
-                                        class="example-full-width" appearance="fill" formControlName="sexo">
+                                        class="example-full-width" color="primary" appearance="fill" formControlName="sexo">
                                         <mat-radio-button class="pr-1 mb-1-5" *ngFor="let s of sexo" [value]="s"
                                             [class.is-invalid]='sexoNoValido'>
                                             {{s}}
@@ -48,15 +48,10 @@
             </div>
             <div class="  row justify-content-center">
                 <div class="col-4 text-center">
-                    <button class="buttons" mat-raised-button color="accent" type="button"
-                        (click)="closeWindows()">Cancelar</button>
-                    <button class="buttons" [disabled]="!itemForm.valid " mat-raised-button color="primary"
-                        type="button" (click)="validarDNI()" color="primary">Buscar</button>
-
-
+                    <button class="buttons" [disabled]="!itemForm.valid " mat-raised-button type="button" (click)="validarDNI()" >Buscar</button>
+                    <!-- <button class="buttons-cancelar" mat-raised-button type="button" (click)="closeWindows()">Cancelar</button> -->
                 </div>
             </div>
-
         </form>
     </div>
 </mat-card>
