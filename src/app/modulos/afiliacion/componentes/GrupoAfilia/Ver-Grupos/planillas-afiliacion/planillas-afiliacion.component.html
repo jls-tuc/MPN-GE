@@ -7,23 +7,23 @@
     <input matInput (keyup)="applyFilter($event)" placeholder="Ingrese un valor..." #input>
 </mat-form-field>
 <div>
-    <div matTooltip="Imprimir reporte del lote." class="example-disabled">
-        <button mat-icon-button color="blue" aria-label="Example icon button with a heart icon"
-            (click)="planillaPresentacionPDF(dataSource.data)">
-            <mat-icon class="imprimir-lotes">local_printshop</mat-icon> Imprimir reporte del Lote
 
-        </button>
-
-    </div>
-
-    <div matTooltip="Descargar planilla excel" class="example-disabled">
-        <button mat-icon-button color="warn" aria-label="Example icon button with a heart icon"
-            (click)="descargarPlanillasXLS(dataSource.data)">
-            <mat-icon>description</mat-icon>
-
-        </button>
-
-    </div>
+    <div class="contenedor-lotes">
+        <div class="columna-lotes">
+          <div class="botones">
+            <div class="imprimir-pdf" matTooltip="Imprimir reporte del lote">
+              <button mat-icon-button color="blue" aria-label="Example icon button with a heart icon" (click)="planillaPresentacionPDF(dataSource.data)">
+                <mat-icon class="imprimir-lotes">local_printshop</mat-icon> Imprimir reporte del Lote
+              </button>
+            </div>
+            <div class="imprimir-xls" matTooltip="Descargar planilla excel">
+              <button mat-icon-button color="blue" aria-label="EXample icon button with a heart icon" (click)="descargarPlanillasXLS(dataSource.data)">
+                <mat-icon class="imprimir-lotes">description</mat-icon> Descargar planilla Excel
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
 
     <div class="card-body">
 
@@ -62,7 +62,7 @@
                 <th class="texto-derecha" mat-header-cell *matHeaderCellDef> Opciones </th>
                 <td class="texto-derecha pl-2" mat-cell *matCellDef="let planillas"
                     style="margin-left: 10%; margin-right: 10%; margin-top: 20%; margin-bottom: 20%;">
-                    <button mat-icon-button mat-sm-button color="primary" matTooltip="Imprimir" class="mr-1" (click)="generarPdf(planillas)">
+                    <button mat-icon-button mat-sm-button color="primary" matTooltip="Imprimir" class="" (click)="generarPdf(planillas)">
                         <mat-icon class="imprimir-lotes">print_icon</mat-icon>
                     </button>
                     <span fxFlex="5px"></span>

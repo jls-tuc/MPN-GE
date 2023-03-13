@@ -27,13 +27,18 @@ th {
   color: #2196F3;
   width: auto;
   height: auto;
-  justify-content: end !important;
-  align-items: end !important;
   border: none !important;
-
-
 }
 
+.imprimir-pdf button,
+.imprimir-xls button{
+  width:180px;
+}
+
+.imprimir-pdf mat-icon,
+.imprimir-xls mat-icon{
+  font-size:16px
+}
 
 // titulo
 
@@ -74,5 +79,21 @@ th {
   text-align: center;
 }
 
-//mat-button
+
+.columna-lotes{
+  flex:1;
+  flex-basis: 0;
+  margin: auto;
+}
+
+.contenedor-lotes{
+  display: flex;
+}
+
+
+.botones {
+  display: flex;
+  justify-content: space-between;
+  max-width: 400px;
+}
 
