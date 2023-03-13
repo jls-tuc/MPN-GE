@@ -43,6 +43,8 @@ export class PopUpFormAfiliaComponent implements OnInit {
   ocultarPaso: boolean = false;
   opVer: boolean = false;
   editar: boolean = false;
+  guardarBtn: boolean = false;
+  public filteredLocalidades;
   constructor(
     @Optional() public dialogRef: MatDialogRef<PopUpFormAfiliaComponent>,
     @Optional() @Inject(MAT_DIALOG_DATA) public data: any,
@@ -61,7 +63,6 @@ export class PopUpFormAfiliaComponent implements OnInit {
 
     this.buildSecondForm();
     if (this.data.title === "Ver planilla") {
-      console.log("this.data.value", this.data.value);
       this.verPlanilla(this.data.value);
     }
   }
@@ -82,7 +83,6 @@ export class PopUpFormAfiliaComponent implements OnInit {
     });
   }
   buildSecondForm(dataPadron?) {
-    console.log(dataPadron);
     this.secondFormGroup = this.fb.group({
       nombre: [dataPadron ? dataPadron.nombre : ""],
       apellido: [dataPadron ? dataPadron.apellido : ""],
@@ -133,6 +133,17 @@ export class PopUpFormAfiliaComponent implements OnInit {
         observaciones: [dataPadron ? dataPadron.observaciones : ""],
       }),
     });
+
+    this.secondFormGroup
+      .get("ultDomicilio.localidad")
+      .valueChanges.subscribe((response) => {
+        this.filterData(response);
+      });
+    this.secondFormGroup
+      .get("domicilioPostal.localidad")
+      .valueChanges.subscribe((response) => {
+        this.filterData(response);
+      });
   }
   buscarDatos(values?) {
     this.cargando = true;
@@ -161,6 +172,7 @@ export class PopUpFormAfiliaComponent implements OnInit {
     });
   }
   guardar(values) {
+    this.guardarBtn = true;
     this.cargando = true;
     setTimeout(() => {
       this.afiliadoService.postPlanilla(values, this.data.nroLote).subscribe(
@@ -216,7 +228,8 @@ export class PopUpFormAfiliaComponent implements OnInit {
   }
   obtProvLoc() {
     this.provLocService.getLocalidades().subscribe((data: any) => {
-      this.localidades = data.data;
+      this.localidades = data;
+      this.filteredLocalidades = data;
     });
   }
   verPlanilla(planilla) {
@@ -471,5 +484,11 @@ export class PopUpFormAfiliaComponent implements OnInit {
         }
       );
     }, 2000);
+  }
+
+  filterData(enteredData) {
+    this.filteredLocalidades = this.localidades.filter((item) => {
+      return item.toLowerCase().indexOf(enteredData.toLowerCase()) > -1;
+    });
   }
 }

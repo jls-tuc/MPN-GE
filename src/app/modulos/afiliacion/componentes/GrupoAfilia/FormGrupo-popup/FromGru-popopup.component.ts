@@ -9,6 +9,7 @@ import {
 import { Router } from "@angular/router";
 import { AfiliacionService } from "app/modulos/afiliacion/services/afiliacion.service";
 import Swal from "sweetalert2";
+import { ProvLocService } from "app/shared/services/prov-loc.service";
 
 @Component({
   selector: "app-form-grupo-popup",
@@ -25,14 +26,15 @@ export class FormGrupoPopupComponent implements OnInit {
   estado: string[] = ["activo", "cerrado", "pausado"];
   guardar: boolean;
   btnSave: boolean = true;
-
+  public filteredLocalidades;
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     public dialogRef: MatDialogRef<FormGrupoPopupComponent>,
     private fb: FormBuilder,
     private cdr: ChangeDetectorRef,
     private router: Router,
-    private afiliadoService: AfiliacionService
+    private afiliadoService: AfiliacionService,
+    private provLocService: ProvLocService
   ) {
     this.numero = this.data.payload.totalLote + 1;
 
@@ -81,8 +83,18 @@ export class FormGrupoPopupComponent implements OnInit {
       ],
       fechaFinAfiliacion: [data ? data.fechaFinAfiliacion : ""],
     });
+    this.grupoAfiliadoForm
+      .get("lugarAfiliacion.localidad")
+      .valueChanges.subscribe((response) => {
+        console.log("Data is ", response);
+        this.filterData(response);
+      });
   }
-
+  filterData(enteredData) {
+    this.filteredLocalidades = this.localidades.filter((item) => {
+      return item.toLowerCase().indexOf(enteredData.toLowerCase()) > -1;
+    });
+  }
   submit() {
     this.grupoAfiliadoForm.value.usuarioResponsable.nombreCompleto = `${this.grupoAfiliadoForm.value.usuarioResponsable.apellido}, ${this.grupoAfiliadoForm.value.usuarioResponsable.nombres}`;
     this.btnSave = false;
@@ -138,13 +150,15 @@ export class FormGrupoPopupComponent implements OnInit {
   }
 
   cargarlocalidades = () => {
-    this.afiliadoService.getAllLocaNqn().subscribe((resp: any) => {
-      this.localidades = resp.data;
+    this.provLocService.getLocalidades().subscribe((data: any) => {
+      this.localidades = data;
+      this.filteredLocalidades = data;
     });
   };
   cargarUsuarios = () => {
     this.afiliadoService.getAllUsuarios().subscribe((res: any) => {
-      this.usuarios = res.usr;
+      let usuarios = res.usr.filter((us) => us.role !== "admin");
+      this.usuarios = usuarios;
     });
   };
 }
