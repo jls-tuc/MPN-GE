@@ -151,11 +151,11 @@ export class PlanillaComponent implements OnInit {
 
   buscarDatos() {
     this.cargando = true;
-    const params: {} = `documento=${
-      this.firstFormGroup.get("dni").value
-    }&sexo=${this.firstFormGroup.get("sexo").value}`;
+    const params = {
+      dni: this.firstFormGroup.get("dni").value,
+    };
 
-    this.padronService.getPadronNqn(params).subscribe((res: any) => {
+    this.padronService.getPadronNqnValue(params).subscribe((res: any) => {
       if (res.ok) {
         this.cargando = false;
         this.ocultarBusqueda = true;

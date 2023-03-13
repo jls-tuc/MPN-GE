@@ -20,6 +20,15 @@
 
     </div>
 
+    <div matTooltip="Descargar planilla excel" class="example-disabled">
+        <button mat-icon-button color="warn" aria-label="Example icon button with a heart icon"
+            (click)="descargarPlanillasXLS(dataSource.data)">
+            <mat-icon>description</mat-icon>
+
+        </button>
+
+    </div>
+
     <div class="card-body">
 
         <table mat-table [dataSource]="dataSource" matSort>

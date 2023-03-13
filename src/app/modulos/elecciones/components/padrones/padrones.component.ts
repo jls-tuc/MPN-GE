@@ -60,11 +60,14 @@ export class PadronesComponent implements OnInit {
   }
   async validarDNI() {
     (this.padronPart = false), (this.padronNac = false);
-    const params: {} = `documento=${this.itemForm.get("dni").value}&sexo=${
-      this.itemForm.get("sexo").value
-    }`;
+    const doc = `documento=${this.itemForm.get("dni").value}`;
+    const params = {
+      dni: this.itemForm.get("dni").value,
+      sexo: this.itemForm.get("sexo").value,
+    };
+
     await this.padronService
-      .getPadronNqn(params)
+      .getPadronNqnValue(params)
       .subscribe(async (res: any) => {
         this.resPadronNac = {
           padronNac: "si",
@@ -84,7 +87,7 @@ export class PadronesComponent implements OnInit {
         };
         this.padronNac = true;
 
-        await this.padronService.getAfiliado(params).subscribe((res: any) => {
+        await this.padronService.getAfiliado(doc).subscribe((res: any) => {
           if (res.ok) {
             this.resPadronPar = {
               padronPart: "si",
