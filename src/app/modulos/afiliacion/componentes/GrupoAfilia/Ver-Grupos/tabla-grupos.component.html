@@ -1,27 +1,63 @@
 <mat-card *ngIf="cargarBarra">
 
-    <mat-card-actions class="contenedor-lotes">
-        <div class="columna-lotes">
-            <button *ngIf="!buscarLte" mat-button (click)="filtLte()" matTooltip="Buscar lote por Nro Lote." fontIcon="search" class="boton-lotes-buscar">
-                Buscar <mat-icon>search</mat-icon></button>
-                <input *ngIf="buscarLte"[(ngModel)]='nroLte' placeholder="Ingrese el Nro." type="text" name="text" class="input" id="nroLte" class="m-4">
-        <div class="contenedor-lotes">
-        <button *ngIf="btnVolver" mat-button (click)="volver()" matTooltip="Volver al panel anterior" class="boton-lotes-buscar mat-card-actions">
-        <mat-icon>backspace</mat-icon>    Volver</button>
-        <button *ngIf="nroLte" mat-button (click)="cargar()" matTooltip="Buscar" fontIcon="search" color="deep-purple" class="boton-lotes-buscar mat-card-actions">
-                Buscar <mat-icon>search</mat-icon></button>
-    </div>
-    </div>
+    <mat-card-actions>
+        <div class="container">
+            <div class="row">
+                <!-- Columna 1 -->
+                <div class="col-4">
+                    <div class="row">
+                        <div class="col-2">
+                            <button *ngIf="!buscarLte" mat-button (click)="filtLte()" matTooltip="Buscar lote por Nro Lote." fontIcon="search" class="boton-bus-vol">
+                                Buscar <mat-icon>search</mat-icon>
+                            </button>
+                            <button *ngIf="btnVolver" mat-button (click)="volver()" matTooltip="Volver al panel anterior" class="boton-bus-vol">
+                                <mat-icon>backspace</mat-icon> Volver
+                            </button>
+                        </div>
 
-    <div class="columna-lotes">
-     <mat-chip-option class='mat-sm-chip'> <mat-icon> pin_drop </mat-icon> Lotes en total:. {{totalLotes}}</mat-chip-option>
-    </div>
+                        <div class="col-6 pt-1 d-flex justify-content-center align-items-center">
+                            <input *ngIf="buscarLte" [(ngModel)]='nroLte' placeholder="Ingrese el Nro." type="text" name="text" style="width:150px; height: 30px;" class="input form-control" id="nroLte">
+                        </div>
 
-        <button *ngIf="oclAnterior && !buscarLte" mat-button (click)="anterior()" matTooltip="Anterior pagina de lotes." class="boton-izquierda boton-lotes">
-        <mat-icon>skip_previous</mat-icon>    Anterior</button>
-        <button *ngIf="!buscarLte && lotes.length > 6" mat-button (click)="siguiente()" matTooltip="Siguiente pagina de lotes." class="boton-lotes">
-            Siguiente <mat-icon>skip_next</mat-icon></button>
+                        <div class="col-4 d-flex justify-content-left align-items-left">
+                            <button *ngIf="nroLte" mat-button (click)="cargar()" matTooltip="Buscar lote por Nro Lote" class="boton-bus-vol">
+                                Buscar <mat-icon>search</mat-icon>
+                            </button>
+                        </div>
 
+                    </div>
+                </div>
+
+                <!-- Columna 2 -->
+                <div class="col-4">
+                    <div class="row">
+                        <div class="col-6 d-flex justify-content-center align-items-center">
+                            <button *ngIf="this.usuarioRol=== 'user-adminafilia'" mat-button (click)="openPopUp({}, true)" class="boton-crear-lote">
+                                <mat-icon matTooltip="Agregar un Lote">add</mat-icon>{{"Crear"}} {{"Lote"}} </button>
+                        </div>
+                        <div class="col-6 d-flex justify-content-center align-items-center pt-2">
+                            <mat-chip-option class='mat-sm-chip'> <mat-icon> pin_drop </mat-icon> Lotes en total:. {{totalLotes}}</mat-chip-option>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Columna 3 -->
+                <div class="col-4 text-center">
+                    <div class="row" style="justify-content: flex-end !important;">
+                        <div class="col-4 text-right">
+                            <button *ngIf="oclAnterior && !buscarLte" mat-button (click)="anterior()" matTooltip="Anterior pagina de lotes." class="boton-sig-ant">
+                                <mat-icon>skip_previous</mat-icon>    Anterior
+                                </button>
+                            </div>
+                            <div class="col-4 text-left">
+                                <button *ngIf="!buscarLte && lotes.length > 6" mat-button (click)="siguiente()" matTooltip="Siguiente pagina de lotes." class="boton-sig-ant">
+                                    Siguiente <mat-icon>skip_next</mat-icon>
+                                </button>
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </mat-card-actions>
 
     <mat-card-footer>

@@ -18,96 +18,56 @@ mat-sm-chip {
 }
 
 
-
-
-
 // DISEÑO BOTONES
 
-
-.boton-lotes {
-  margin: 0.7rem auto;
-  display: flex;
-  background-color: #1d5fb7;
-  color: white;
-  cursor: pointer;
-  border: none;
-  font-size: 0.9rem;
-  padding: 5px;
-  border-radius: 6px;
-  letter-spacing:normal;
-}
-
-.boton-lotes {
-  transition: background .8s ease-out;
-  background: #1d5fb7 radial-gradient(circle, transparent 1%, #00aad3 1%) center/15000%;
-}
-
-.boton-lotes:active {
-  background-color: #00aad3;
-  background-size: 100%;
-  transition: background 0s;
-}
-
-.boton-lotes-buscar {
-  margin: 0.7rem auto;
-  display: flex;
-  background-color: #673AB7;
-  color: white;
-  cursor: pointer;
-  border: none;
-  font-size: 0.9rem;
-  padding: 5px;
-  border-radius: 6px;
-  letter-spacing: normal;
-}
-
-
-.boton-lotes-buscar {
-  transition: background .8s ease-out;
-  background: #2196F3 radial-gradient(circle, transparent 1%, #1976D2 1%) center/15000%;
-  margin: auto;
-}
-
-.boton-lotes-buscar:active {
-  background-color: #1976D2;
-  background-size: 100%;
-  transition: background 0s;
-}
-
-.contenedor-lotes{
-  display: flex;
-}
-
-.columna-lotes{
-  flex:1;
-  flex-basis: 0;
-  margin: auto;
-}
-
-.mat-card-actions {
+.boton-sig-ant{
   display: flex;
   justify-content: space-between;
+  font-size: 0.9rem;
+  padding: 5px;
+  cursor: pointer;
+  border-radius: 6px;
+  letter-spacing: normal;
+  color: #ffffff;
+  background-color: #1d5fb7;
 }
 
-.mat-button:first-child {
-  margin-right: 10px;
+.boton-bus-vol{
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  padding: 5px;
+  cursor: pointer;
+  border-radius: 6px;
+  letter-spacing: normal;
+  color: #ffffff;
+  background-color: #194d90;
 }
 
-.mat-sm-chip{
-  background-color: transparent;
-  color: #0d53ccd3;
-  font-size: 20px;
-  justify-content: center;
+.boton-crear-lote{
+  display: flex;
+  justify-content: center !important;
+  font-size: 0.9rem;
+  padding: 5px;
+  cursor: pointer;
+  border-radius: 6px;
+  letter-spacing: normal;
+  color: #ffffff;
+  background-color: #194d90;
 }
+
+ .mat-sm-chip{
+   background-color: transparent;
+   color: #0d53ccd3;
+   font-size: 1.05rem;
+   justify-content: center;
+ }
 
 
 // Diseño Input
 
 input {
-  width: 75%;
-  max-width: 150px;
-  height: 30px;
-  padding: 10px;
+  width: 100%;
   border-radius: 6px;
   border: 1.75px solid lightgrey;
   outline: none;
@@ -127,4 +87,6 @@ input:active {
 input:focus {
   border: 2.5px solid #1976D2;
 }
+
+
 
