@@ -29,33 +29,40 @@
                 </div>
 
                 <!-- Columna 2 -->
+
                 <div class="col-4">
                     <div class="row">
-                        <div class="col-6 d-flex justify-content-center align-items-center">
-                            <button *ngIf="this.usuarioRol=== 'user-adminafilia'" mat-button (click)="openPopUp({}, true)" class="boton-crear-lote">
-                                <mat-icon matTooltip="Agregar un Lote">add</mat-icon>{{"Crear"}} {{"Lote"}} </button>
-                        </div>
-                        <div class="col-6 d-flex justify-content-center align-items-center pt-2">
-                            <mat-chip-option class='mat-sm-chip'> <mat-icon> pin_drop </mat-icon> Lotes en total:. {{totalLotes}}</mat-chip-option>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Columna 3 -->
-                <div class="col-4 text-center">
-                    <div class="row" style="justify-content: flex-end !important;">
-                        <div class="col-3 text-right">
+                        <div class="col-3 d-flex justify-content-center align-items-center">
                             <button *ngIf="oclAnterior && !buscarLte" mat-button (click)="anterior()" matTooltip="Anterior pagina de lotes." class="boton-sig-ant">
                                 <mat-icon>skip_previous</mat-icon>    Anterior
                                 </button>
                             </div>
-                            <div class="col-3 text-left">
+
+                            <div class="col-6 d-flex justify-content-center align-items-center pt-2">
+                                <mat-chip-option class='mat-sm-chip'> <mat-icon> pin_drop </mat-icon> Lotes en total:. {{totalLotes}}</mat-chip-option>
+                                </div>
+
+                            <div class="col-3 d-flex justify-content-center align-items-center">
                                 <button *ngIf="!buscarLte && lotes.length > 6" mat-button (click)="siguiente()" matTooltip="Siguiente pagina de lotes." class="boton-sig-ant">
                                     Siguiente <mat-icon>skip_next</mat-icon>
                                 </button>
                             </div>
+                        </div>
+                    </div>
+
+            <!--  -->
+
+                <!-- Columna 3 -->
+                <div class="col-4 text-center">
+                    <div class="row" style="justify-content: flex-end !important;">
+                        <div class="col-6 d-flex justify-content-center align-items-center">
+                            <button *ngIf="this.usuarioRol=== 'user-adminafilia'" mat-button (click)="openPopUp({}, true)" class="boton-crear-lote">
+                                <mat-icon matTooltip="Agregar un Lote">add</mat-icon>{{"Crear"}} {{"Lote"}} </button>
+                        </div>
                     </div>
                 </div>
+
+                <!--  -->
             </div>
         </div>
     </mat-card-actions>
