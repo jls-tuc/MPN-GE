@@ -44,12 +44,12 @@
                 <!-- Columna 3 -->
                 <div class="col-4 text-center">
                     <div class="row" style="justify-content: flex-end !important;">
-                        <div class="col-4 text-right">
+                        <div class="col-3 text-right">
                             <button *ngIf="oclAnterior && !buscarLte" mat-button (click)="anterior()" matTooltip="Anterior pagina de lotes." class="boton-sig-ant">
                                 <mat-icon>skip_previous</mat-icon>    Anterior
                                 </button>
                             </div>
-                            <div class="col-4 text-left">
+                            <div class="col-3 text-left">
                                 <button *ngIf="!buscarLte && lotes.length > 6" mat-button (click)="siguiente()" matTooltip="Siguiente pagina de lotes." class="boton-sig-ant">
                                     Siguiente <mat-icon>skip_next</mat-icon>
                                 </button>
