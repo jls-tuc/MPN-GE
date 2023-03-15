@@ -1,9 +1,5 @@
-<div class="card-header flex-wrap border-0 pt-6 pb-0">
-    <div class="card-title">
-        <h3 class="card-label">Planillas Cargadas en el Lote
-
-        </h3>
-    </div>
+<div>
+        <h3 class="titulo">PLANILLAS CARGADAS EN EL LOTE</h3>
 </div>
 
 <mat-form-field appearance="standard">
@@ -11,14 +7,23 @@
     <input matInput (keyup)="applyFilter($event)" placeholder="Ingrese un valor..." #input>
 </mat-form-field>
 <div>
-    <div matTooltip="Imprimir reporte del lote." class="example-disabled">
-        <button mat-icon-button color="warn" aria-label="Example icon button with a heart icon"
-            (click)="planillaPresentacionPDF(dataSource.data)">
-            <mat-icon>print</mat-icon>
 
-        </button>
-
-    </div>
+    <div class="contenedor-lotes">
+        <div class="columna-lotes">
+          <div class="botones">
+            <div class="imprimir-pdf" matTooltip="Imprimir reporte del lote">
+              <button mat-icon-button color="blue" aria-label="Example icon button with a heart icon" (click)="planillaPresentacionPDF(dataSource.data)">
+                <mat-icon class="imprimir-lotes">local_printshop</mat-icon> Imprimir reporte del Lote
+              </button>
+            </div>
+            <div class="imprimir-xls" matTooltip="Descargar planilla excel">
+              <button mat-icon-button color="blue" aria-label="EXample icon button with a heart icon" (click)="descargarPlanillasXLS(dataSource.data)">
+                <mat-icon class="imprimir-lotes">description</mat-icon> Descargar planilla Excel
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
 
     <div class="card-body">
 
@@ -57,12 +62,12 @@
                 <th class="texto-derecha" mat-header-cell *matHeaderCellDef> Opciones </th>
                 <td class="texto-derecha pl-2" mat-cell *matCellDef="let planillas"
                     style="margin-left: 10%; margin-right: 10%; margin-top: 20%; margin-bottom: 20%;">
-                    <button mat-icon-button mat-sm-button color="primary" class="mr-1" (click)="generarPdf(planillas)">
-                        <mat-icon>print_icon</mat-icon>
+                    <button mat-icon-button mat-sm-button color="primary" matTooltip="Imprimir" class="" (click)="generarPdf(planillas)">
+                        <mat-icon class="imprimir-lotes">print_icon</mat-icon>
                     </button>
                     <span fxFlex="5px"></span>
-                    <button mat-icon-button mat-sm-button color="warn" (click)="verPlanilla(planillas)">
-                        <mat-icon>preview</mat-icon>
+                    <button mat-icon-button mat-sm-button matTooltip="Preview" color="cyan" (click)="verPlanilla(planillas)">
+                        <mat-icon>visibility</mat-icon>
                     </button>
                 </td>
             </ng-container>
@@ -73,5 +78,5 @@
             <tr mat-header-row *matHeaderRowDef="listaColumnas"></tr>
             <tr mat-row *matRowDef="let row; columns: listaColumnas;" class="table-row"></tr>
         </table>
-        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons></mat-paginator>
+        <mat-paginator class="mat-paginator" [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons></mat-paginator>
     </div>

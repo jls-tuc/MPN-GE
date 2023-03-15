@@ -10,10 +10,10 @@ const apiURL = environment.apiURL;
 export class PadronesService {
   constructor(private http: HttpClient) {}
 
-  getPadronNqn(data) {
+  /* getPadronNqn(data) {
     let url = `${apiURL}/padronNqn`;
     return this.http.get(url + `/?${data}`);
-  }
+  } */
   getPadronNqnValue(data) {
     console.log(data);
     let url = `${apiURL}/padronNqn`;

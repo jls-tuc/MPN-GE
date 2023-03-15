@@ -7,12 +7,7 @@
     <form [formGroup]="grupoAfiliadoForm" (ngSubmit)="submit()" autocomplete="off">
       <div fxLayout="row wrap">
         <div fxFlex="100" fxFlex.gt-xs="50" class="pr-16">
-          <!-- <div class="pb-16">
-            <mat-form-field class="full-width">
-              <input type="text" matInput name="numero" formControlName="numero" placeholder="Nro Lte." soloNumeros
-                [max]='9999'>
-            </mat-form-field>
-          </div> -->
+
           <div class="pb-16">
             <mat-form-field class="full-width">
               <mat-select formControlName="usuarioResponsable" placeholder="Seleccione un usuario">
@@ -26,10 +21,13 @@
             <div formGroupName="lugarAfiliacion">
 
               <mat-form-field class="full-width">
-                <mat-select formControlName="localidad" placeholder="Seleccione una Localidad">
-                  <mat-option *ngFor="let loc of localidades" [value]="loc.nombre">{{ loc.nombre |titlecase}}
-                  </mat-option>
-                </mat-select>
+                <mat-label>Seleccione localidad</mat-label>
+                <input type="text" placeholder="Localidad" matInput formControlName="localidad"
+                  [matAutocomplete]="autoLoc" />
+                <mat-autocomplete autoActiveFirstOption #autoLoc="matAutocomplete">
+                  <mat-option *ngFor="let item of filteredLocalidades" [value]="item">
+                    {{ item }}</mat-option>
+                </mat-autocomplete>
               </mat-form-field>
 
             </div>

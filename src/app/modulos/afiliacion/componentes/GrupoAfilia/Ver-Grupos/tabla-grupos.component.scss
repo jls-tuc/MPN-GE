@@ -1,5 +1,6 @@
 .icon-blue {
-  color: rgba(24, 100, 231, 0.828);
+  color: rgba(13, 83, 204, 0.828);
+
 }
 
 nav {
@@ -7,8 +8,85 @@ nav {
   display: block;
   position: relative;
   padding: 16px;
-  border-radius: 4px;
+  border-radius: 6px;
 }
 mat-sm-chip {
   max-width: 200px;
+  display: flex;
+  flex-direction: column;
+  flex-basis: auto;
 }
+
+
+// DISEÑO BOTONES
+
+.boton-sig-ant{
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  padding: 5px;
+  cursor: pointer;
+  border-radius: 6px;
+  letter-spacing: normal;
+  color: #ffffff;
+  background-color: #1d5fb7;
+}
+
+.boton-bus-vol{
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  padding: 5px;
+  cursor: pointer;
+  border-radius: 6px;
+  letter-spacing: normal;
+  color: #ffffff;
+  background-color: #194d90;
+}
+
+.boton-crear-lote{
+  display: flex;
+  justify-content: center !important;
+  font-size: 0.9rem;
+  padding: 5px;
+  cursor: pointer;
+  border-radius: 6px;
+  letter-spacing: normal;
+  color: #ffffff;
+  background-color: #194d90;
+}
+
+ .mat-sm-chip{
+   background-color: transparent;
+   color: #0d53ccd3;
+   font-size: 1.05rem;
+   justify-content: center;
+ }
+
+
+// Diseño Input
+
+input {
+  width: 100%;
+  border-radius: 6px;
+  border: 1.75px solid lightgrey;
+  outline: none;
+  transition: all 0.2s cubic-bezier(0.19, 1, 0.22, 1);
+  box-shadow: 0px 0px 20px -18px;
+}
+
+input:hover {
+  border: 2.5px solid lightgrey;
+  box-shadow: 0px 0px 20px -17px;
+}
+
+input:active {
+  transform: scale(0.95);
+}
+
+input:focus {
+  border: 2.5px solid #1976D2;
+}
+
+
+
